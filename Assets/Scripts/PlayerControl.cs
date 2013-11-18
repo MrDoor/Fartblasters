@@ -11,7 +11,8 @@ public class PlayerControl : MonoBehaviour
 	private float pullFraction	= 0.0f;
 
 	// Launch
-	public float maxLaunchForce			= 5000.0f;
+	public float maxLaunchForce			= 7000.0f;
+	public float minLaunchForce			= 3000.0f;
 	public float maxJuiceUsedPerLaunch	= 10;
 	public float launchesAvailable		= 10;
 
@@ -198,7 +199,7 @@ public class PlayerControl : MonoBehaviour
 	public void Launch( Transform transform )
 	{
 		float pullPercent = GetPullFraction();
-		float launchForce = maxLaunchForce * pullPercent;
+		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
 		float juiceToUse = maxJuiceUsedPerLaunch * pullPercent;
 
 		if( juiceToUse > currentLaunchJuice )
