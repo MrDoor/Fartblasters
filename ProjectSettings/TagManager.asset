@@ -4,10 +4,17 @@
 TagManager:
   tags:
   - Block
-  - Pickup
-  - Enemy
   - 
-  - Ground
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - DefaultBlock
+  - SlipperyBlock
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -20,9 +27,9 @@ TagManager:
   User Layer 8: Player
   User Layer 9: Enemies
   User Layer 10: Pickups
-  User Layer 11: Block
-  User Layer 12: 
-  User Layer 13: 
+  User Layer 11: DefaultBlock
+  User Layer 12: SlipperyBlock
+  User Layer 13: BouncyBlock
   User Layer 14: 
   User Layer 15: 
   User Layer 16: 

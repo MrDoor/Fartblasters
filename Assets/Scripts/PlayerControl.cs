@@ -21,6 +21,7 @@ public class PlayerControl : MonoBehaviour
 	private float currentLaunchJuice	= 0.0f;	
 	private bool launchAllowed			= false;
 	private Vector2 launchDir;
+	private bool bouncyBlockHitLast		= false;
 
 	// Player 
 	private Transform groundCheck;
@@ -39,12 +40,24 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		onGround = Physics2D.Linecast( transform.position, groundCheck.position, 1 << LayerMask.NameToLayer( "Block" ) );
+		int layerMask = 1 << LayerMask.NameToLayer( "DefaultBlock" ) | 1 << LayerMask.NameToLayer( "SlipperyBlock" );
+		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
+
+		// TODO: Find a way to do this that doesn't involve two line casts
+		layerMask = 1 << LayerMask.NameToLayer( "BouncyBlock" ); 
+		if( Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) )
+		{
+			bouncyBlockHitLast = true;
+		}
+		else if( onGround )
+		{
+			bouncyBlockHitLast = false;
+		}
 	
 		// Player is only allowed to launch if they're resting on a block
 		// TODO: Will probably have to add more checks to set launch allowed
 		//		 Does he need to be at rest as well?
-		if( onGround && currentLaunchJuice > 0.0f )
+		if( ( onGround || bouncyBlockHitLast ) && currentLaunchJuice > 0.0f )
 		{
 			SetLaunchAllowed( true );
 		}
