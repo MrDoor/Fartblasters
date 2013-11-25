@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
 
 	private int maxLineVerts	= 2;
 	private float pullFraction	= 0.0f;
+	private float juiceToUse	= 0.0f;
 
 	// Launch
 	public float maxLaunchForce			= 7000.0f;
@@ -38,7 +39,7 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		onGround = true; //Physics2D.Linecast( transform.position, groundCheck.position, 1 << LayerMask.NameToLayer( "Block" ) );
+		onGround = Physics2D.Linecast( transform.position, groundCheck.position, 1 << LayerMask.NameToLayer( "Block" ) );
 	
 		// Player is only allowed to launch if they're resting on a block
 		// TODO: Will probably have to add more checks to set launch allowed
@@ -88,7 +89,7 @@ public class PlayerControl : MonoBehaviour
 	
 	void OnGUI()
 	{
-		GUI.Label( new Rect( 0, 0, 1000, 200 ), currentLaunchJuice.ToString() );
+
 	}
 
 
@@ -99,7 +100,8 @@ public class PlayerControl : MonoBehaviour
 
 	public LineRenderer PullLineInit( Transform myTransform )
 	{
-		pullFraction = 0.0f;
+		pullFraction	= 0.0f;
+		juiceToUse		= 0.0f;
 		
 		LineRenderer pullLine = null;
 		Transform pullContainer = myTransform.FindChild( "pullContainer" );
@@ -115,7 +117,8 @@ public class PlayerControl : MonoBehaviour
 	
 	public void PullLineReset()
 	{
-		pullFraction = 0.0f;
+		pullFraction	= 0.0f;
+		juiceToUse		= 0.0f;
 	}
 	
 	public Vector3 GetPullDirection( Vector3 playerPos )
@@ -145,15 +148,17 @@ public class PlayerControl : MonoBehaviour
 		Vector3 pullDir = GetPullDirection( playerPos );
 		
 		float pullDist = pullDir.magnitude;
-		float lineLength = 0;
+		float lineLength = 0.0f;
 		Vector3 launchDir = new Vector3( 0.0f, 0.0f, 0.0f );
-		pullFraction = 0;
+		pullFraction = 0.0f;
+		juiceToUse = 0.0f;
 		
 		if( pullDist >= minLineLength )
 		{
 			launchDir = pullDir / pullDist;
 			lineLength = Mathf.Min( pullDist, maxLineLength );			
 			pullFraction = ( lineLength - minLineLength ) / ( maxLineLength - minLineLength );
+			juiceToUse = maxJuiceUsedPerLaunch * pullFraction;
 			pullEndPoint = playerPos - ( launchDir * lineLength );
 		}
 		
@@ -195,12 +200,26 @@ public class PlayerControl : MonoBehaviour
 	{
 		return launchAllowed;
 	}
+
+	public float GetMaxLaunchJuice()
+	{
+		return maxLaunchJuice;
+	}
+
+	public float GetCurrentLaunchJuice()
+	{
+		return currentLaunchJuice;
+	}
+
+	public float GetJuiceToUse()
+	{
+		return juiceToUse;
+	}
 	
 	public void Launch( Transform transform )
 	{
 		float pullPercent = GetPullFraction();
 		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
-		float juiceToUse = maxJuiceUsedPerLaunch * pullPercent;
 
 		if( juiceToUse > currentLaunchJuice )
 		{
@@ -208,6 +227,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		currentLaunchJuice -= juiceToUse;
+		juiceToUse = 0.0f;
 
 		// TODO: assert if not transform.rigidbody2D
 		transform.rigidbody2D.AddForce( launchDir * launchForce );
