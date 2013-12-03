@@ -37,10 +37,16 @@ public class PlayerControl : MonoBehaviour
 
 	private Animator playerAnimator;
 	private bool facingRight	= true;
-	private bool movingRight	= true;
 	private float lastXPos		= 0.0f;
 	private bool showTestAnim	= false;
 
+	private enum Direction
+	{
+		Left,
+		None,
+		Right
+	};	
+	private Direction movingDir	= Direction.Right;
 
 	void Awake()
 	{
@@ -88,11 +94,15 @@ public class PlayerControl : MonoBehaviour
 
 		if( lastXPos < transform.position.x )
 		{
-			movingRight = true;
+			movingDir = Direction.Right;
 		}
 		else if( lastXPos > transform.position.x )
 		{
-			movingRight = false;
+			movingDir = Direction.Left;
+		}
+		else
+		{
+			movingDir = Direction.None;
 		}
 		lastXPos = transform.position.x;
 	}
@@ -357,14 +367,14 @@ public class PlayerControl : MonoBehaviour
 		{
 			if( Animation_GetFacingRight() )
 			{
-				if( !movingRight )
+				if( movingDir == Direction.Left )
 				{
 					Animation_FlipHorizontal( false );
 				}
 			}
 			else
 			{
-				if( movingRight )
+				if( movingDir == Direction.Right )
 				{
 					Animation_FlipHorizontal( true );
 				}
