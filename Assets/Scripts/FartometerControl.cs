@@ -48,9 +48,9 @@ public class FartometerControl : MonoBehaviour
 
 	void Update () 
 	{
-		float currentLaunchJuice = playerControlRef.GetCurrentLaunchJuice();
-		float fillPercent = ( currentLaunchJuice - playerControlRef.GetJuiceToUse() ) / playerControlRef.GetMaxLaunchJuice();
-		float backFillPercent = currentLaunchJuice / playerControlRef.GetMaxLaunchJuice();
+		float currentLaunchJuice	= playerControlRef.Launch_GetCurrentJuice();
+		float fillPercent			= ( currentLaunchJuice - playerControlRef.Launch_GetPotentialJuice() ) / playerControlRef.Launch_GetMaxJuice();
+		float backFillPercent		= currentLaunchJuice / playerControlRef.Launch_GetMaxJuice();
 
 		if( currentLaunchJuice <= 0.0f )
 		{

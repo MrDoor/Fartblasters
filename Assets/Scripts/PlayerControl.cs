@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
 
 	private int maxLineVerts	= 2;
 	private float pullFraction	= 0.0f;
+	private float pullDist		= 0.0f;
 	private float juiceToUse	= 0.0f;
 
 	// Launch
@@ -20,21 +21,30 @@ public class PlayerControl : MonoBehaviour
 	private float maxLaunchJuice		= 0.0f;
 	private float currentLaunchJuice	= 0.0f;	
 	private bool launchAllowed			= false;
-	private Vector2 launchDir;
 	private bool bouncyBlockHitLast		= false;
+	private Vector2 launchDir;
 
 	// Player 
 	private Transform groundCheck;
 	private LineRenderer pullLine;
 
 	// Control
-	private bool onGround = false;
+	private bool onGround	= false;
+	private bool isMoving	= false;
+
+	// Animation
+	private Animator playerAnimator;
+	private bool facingRight	= true;
+	private bool movingRight	= true;
+	private float lastXPos		= 0.0f;
+
 
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
-		pullLine = PullLineInit( transform );
-		LaunchInit();
+		pullLine = PullLine_Init( transform );
+		Launch_Init();
+		Animation_Init();
 	}
 
 	void Update () 
@@ -53,22 +63,35 @@ public class PlayerControl : MonoBehaviour
 		{
 			bouncyBlockHitLast = false;
 		}
-	
+		
+		Animation_Update( onGround );
+
 		// Player is only allowed to launch if they're resting on a block
 		// TODO: Will probably have to add more checks to set launch allowed
 		//		 Does he need to be at rest as well?
 		if( ( onGround || bouncyBlockHitLast ) && currentLaunchJuice > 0.0f )
 		{
-			SetLaunchAllowed( true );
+			Launch_SetAllowed( true );
 		}
 		else
 		{
-			SetLaunchAllowed( false );
+			Launch_SetAllowed( false );
 		}
 	}
 
 	void FixedUpdate()
 	{
+		isMoving = ( transform.rigidbody2D.velocity.sqrMagnitude >= 0.01f || transform.rigidbody2D.angularVelocity >= 0.01f );
+
+		if( lastXPos < transform.position.x )
+		{
+			movingRight = true;
+		}
+		else if( lastXPos > transform.position.x )
+		{
+			movingRight = false;
+		}
+		lastXPos = transform.position.x;
 	}
 	
 	void OnMouseUp()
@@ -77,8 +100,8 @@ public class PlayerControl : MonoBehaviour
 		{
 			Launch( transform );
 
-			LaunchReset();
-			PullLineReset();
+			Launch_Reset();
+			PullLine_Reset();
 
 			pullLine.SetPosition( 0, transform.position );
 			pullLine.SetPosition( 1, transform.position );
@@ -94,7 +117,7 @@ public class PlayerControl : MonoBehaviour
 		{
 			pullLine.SetPosition( 0, transform.position );
 
-			Vector3 pullEndPoint = GetPullEndPoint( transform.position );
+			Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
 			pullLine.SetPosition( 1, pullEndPoint );
 		}
 	}
@@ -106,15 +129,14 @@ public class PlayerControl : MonoBehaviour
 	}
 
 
-
-
 	// Pull Line Control
 	// -------------------------------------------------------------------------------------
 
-	public LineRenderer PullLineInit( Transform myTransform )
+	public LineRenderer PullLine_Init( Transform myTransform )
 	{
 		pullFraction	= 0.0f;
 		juiceToUse		= 0.0f;
+		pullDist		= 0.0f;
 		
 		LineRenderer pullLine = null;
 		Transform pullContainer = myTransform.FindChild( "pullContainer" );
@@ -128,17 +150,18 @@ public class PlayerControl : MonoBehaviour
 		return pullLine;
 	}
 	
-	public void PullLineReset()
+	public void PullLine_Reset()
 	{
 		pullFraction	= 0.0f;
 		juiceToUse		= 0.0f;
+		pullDist		= 0.0f;
 	}
 	
-	public Vector3 GetPullDirection( Vector3 playerPos )
+	public Vector3 PullLine_GetDirection( Vector3 playerPos )
 	{
 		Vector3 pullDir = new Vector3( 0, 0, 0 );
 		
-		if( GetLaunchAllowed() )
+		if( Launch_GetAllowed() )
 		{
 			Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 			playerPos.z = 0.0f;
@@ -149,89 +172,92 @@ public class PlayerControl : MonoBehaviour
 		return pullDir;
 	}
 	
-	public float GetPullFraction()
+	public float PullLine_GetFraction()
 	{
 		return pullFraction;
 	}
 	
-	public Vector3 GetPullEndPoint( Vector3 playerPos )
+	public Vector3 PullLine_GetEndPoint( Vector3 playerPos )
 	{
-		Vector3 pullEndPoint = playerPos;
-		
-		Vector3 pullDir = GetPullDirection( playerPos );
-		
-		float pullDist = pullDir.magnitude;
-		float lineLength = 0.0f;
-		Vector3 launchDir = new Vector3( 0.0f, 0.0f, 0.0f );
-		pullFraction = 0.0f;
-		juiceToUse = 0.0f;
+		Vector3 pullEndPoint	= playerPos;		
+		Vector3 pullDir			= PullLine_GetDirection( playerPos );
+		float lineLength		= 0.0f;
+		Vector3 launchDir		= new Vector3( 0.0f, 0.0f, 0.0f );
+
+		pullFraction	= 0.0f;
+		juiceToUse		= 0.0f;
+		pullDist		= pullDir.magnitude;
 		
 		if( pullDist >= minLineLength )
 		{
-			launchDir = pullDir / pullDist;
-			lineLength = Mathf.Min( pullDist, maxLineLength );			
-			pullFraction = ( lineLength - minLineLength ) / ( maxLineLength - minLineLength );
-			juiceToUse = maxJuiceUsedPerLaunch * pullFraction;
-			pullEndPoint = playerPos - ( launchDir * lineLength );
+			launchDir		= pullDir / pullDist;
+			lineLength		= Mathf.Min( pullDist, maxLineLength );			
+			pullFraction	= ( lineLength - minLineLength ) / ( maxLineLength - minLineLength );
+			juiceToUse		= maxJuiceUsedPerLaunch * pullFraction;
+			pullEndPoint	= playerPos - ( launchDir * lineLength );
 		}
 		
-		SetLaunchDir( new Vector2( launchDir.x, launchDir.y ) );
+		Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
 		
 		return pullEndPoint;
 	}
 
+	public bool PullLine_IsHolding()
+	{
+		return pullDist >= minLineLength;
+	}
 
 
 	// Launch Control
 	// -------------------------------------------------------------------------------------
 	
-	public void LaunchInit()
+	public void Launch_Init()
 	{
-		launchAllowed = false;
-		launchDir.Set( 0.0f, 0.0f );
-		maxLaunchJuice = maxJuiceUsedPerLaunch * launchesAvailable;
-		currentLaunchJuice = maxLaunchJuice;
-	}
-	
-	public void LaunchReset()
-	{
-		launchAllowed = false;
+		launchAllowed		= false;
+		maxLaunchJuice		= maxJuiceUsedPerLaunch * launchesAvailable;
+		currentLaunchJuice	= maxLaunchJuice;
 		launchDir.Set( 0.0f, 0.0f );
 	}
 	
-	public void SetLaunchDir( Vector2 direction )
+	public void Launch_Reset()
+	{
+		launchAllowed	= false;
+		launchDir.Set( 0.0f, 0.0f );
+	}
+	
+	public void Launch_SetDir( Vector2 direction )
 	{
 		launchDir = direction;
 	}
 	
-	public void SetLaunchAllowed( bool isAllowed )
+	public void Launch_SetAllowed( bool isAllowed )
 	{
 		launchAllowed = isAllowed;
 	}
 	
-	public bool GetLaunchAllowed()
+	public bool Launch_GetAllowed()
 	{
 		return launchAllowed;
 	}
 
-	public float GetMaxLaunchJuice()
+	public float Launch_GetMaxJuice()
 	{
 		return maxLaunchJuice;
 	}
 
-	public float GetCurrentLaunchJuice()
+	public float Launch_GetCurrentJuice()
 	{
 		return currentLaunchJuice;
 	}
 
-	public float GetJuiceToUse()
+	public float Launch_GetPotentialJuice()
 	{
 		return juiceToUse;
 	}
 	
 	public void Launch( Transform transform )
 	{
-		float pullPercent = GetPullFraction();
+		float pullPercent = PullLine_GetFraction();
 		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
 
 		if( juiceToUse > currentLaunchJuice )
@@ -242,7 +268,65 @@ public class PlayerControl : MonoBehaviour
 		currentLaunchJuice -= juiceToUse;
 		juiceToUse = 0.0f;
 
+		Launch_SetAllowed( false );
+
 		// TODO: assert if not transform.rigidbody2D
 		transform.rigidbody2D.AddForce( launchDir * launchForce );
+	}
+
+
+	// Animation Control
+	// -------------------------------------------------------------------------------------
+
+	public void Animation_Init()
+	{
+		playerAnimator	= transform.Find( "body" ).GetComponent( "Animator" ) as Animator;
+		lastXPos		= transform.position.x;
+	}
+
+	public void Animation_Update( bool onGround )
+	{
+		bool isHolding = PullLine_IsHolding();
+
+		if( isMoving && !isHolding )
+		{
+			playerAnimator.Play( "Squint" );
+		}
+		else if( isHolding )
+		{
+			playerAnimator.Play( "HoldingItIn" );
+		}
+		else if( onGround )
+		{
+			playerAnimator.Play( "Idle" );
+		}
+
+		Animation_UpdateFacingDir();
+	}
+
+	public void Animation_UpdateFacingDir()
+	{
+
+
+		if( facingRight )
+		{
+			if( !movingRight )
+			{
+				Vector3 newLocalScale = transform.localScale;
+				newLocalScale.x *= -1.0f;
+				transform.localScale = newLocalScale;
+				facingRight = false;
+			}
+		}
+		else
+		{
+			if( movingRight )
+			{
+				Vector3 newLocalScale = transform.localScale;
+				newLocalScale.x *= -1.0f;
+				transform.localScale = newLocalScale;
+				facingRight = true;
+			}
+		}
 	}
 }
