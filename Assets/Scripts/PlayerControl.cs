@@ -304,28 +304,60 @@ public class PlayerControl : MonoBehaviour
 		Animation_UpdateFacingDir();
 	}
 
+	public void Animation_SetFacingRight( bool isFacingRight )
+	{
+		facingRight = isFacingRight;
+	}
+
+	public bool Animation_GetFacingRight()
+	{
+		return facingRight;
+	}
+
+	public void Animation_FlipHorizontal( bool isFacingRight )
+	{
+		Vector3 newLocalScale = transform.localScale;
+		newLocalScale.x *= -1;
+		transform.localScale = newLocalScale;
+		Animation_SetFacingRight( isFacingRight );
+	}
+
 	public void Animation_UpdateFacingDir()
 	{
-
-
-		if( facingRight )
+		if( PullLine_IsHolding() )
 		{
-			if( !movingRight )
+			Vector3 pullDir = PullLine_GetDirection( transform.position );
+
+			if( Animation_GetFacingRight() )
 			{
-				Vector3 newLocalScale = transform.localScale;
-				newLocalScale.x *= -1.0f;
-				transform.localScale = newLocalScale;
-				facingRight = false;
+				if( pullDir.x < 0 )
+				{
+					Animation_FlipHorizontal( false );
+				}
+			}
+			else
+			{
+				if( pullDir.x > 0 )
+				{
+					Animation_FlipHorizontal( true );
+				}
 			}
 		}
 		else
 		{
-			if( movingRight )
+			if( Animation_GetFacingRight() )
 			{
-				Vector3 newLocalScale = transform.localScale;
-				newLocalScale.x *= -1.0f;
-				transform.localScale = newLocalScale;
-				facingRight = true;
+				if( !movingRight )
+				{
+					Animation_FlipHorizontal( false );
+				}
+			}
+			else
+			{
+				if( movingRight )
+				{
+					Animation_FlipHorizontal( true );
+				}
 			}
 		}
 	}
