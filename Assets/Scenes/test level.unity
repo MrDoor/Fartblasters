@@ -10447,6 +10447,7 @@ MonoBehaviour:
   minLaunchForce: 3000
   maxJuiceUsedPerLaunch: 10
   launchesAvailable: 10
+  testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
 --- !u!4 &1080646377
 Transform:
   m_ObjectHideFlags: 0

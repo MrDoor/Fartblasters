@@ -33,10 +33,13 @@ public class PlayerControl : MonoBehaviour
 	private bool isMoving	= false;
 
 	// Animation
+	public AnimationClip testAnimation;
+
 	private Animator playerAnimator;
 	private bool facingRight	= true;
 	private bool movingRight	= true;
 	private float lastXPos		= 0.0f;
+	private bool showTestAnim	= false;
 
 
 	void Awake()
@@ -105,7 +108,6 @@ public class PlayerControl : MonoBehaviour
 
 			pullLine.SetPosition( 0, transform.position );
 			pullLine.SetPosition( 1, transform.position );
-
 		}
 	}
 
@@ -121,7 +123,6 @@ public class PlayerControl : MonoBehaviour
 			pullLine.SetPosition( 1, pullEndPoint );
 		}
 	}
-
 	
 	void OnGUI()
 	{
@@ -286,19 +287,28 @@ public class PlayerControl : MonoBehaviour
 
 	public void Animation_Update( bool onGround )
 	{
-		bool isHolding = PullLine_IsHolding();
+		if( !string.IsNullOrEmpty( testAnimation.name ) && Input.GetButton( "Test Anim" ) )
+		{
+			// TODO: Add check to make sure the Animator HAS an animation with this name
+			//		 Put in debug warning about the Animator state has a different name than this one.
+			playerAnimator.Play( testAnimation.name );
+		}
+		else
+		{
+			bool isHolding = PullLine_IsHolding();
 
-		if( isMoving && !isHolding )
-		{
-			playerAnimator.Play( "Squint" );
-		}
-		else if( isHolding )
-		{
-			playerAnimator.Play( "HoldingItIn" );
-		}
-		else if( onGround )
-		{
-			playerAnimator.Play( "Idle" );
+			if( isMoving && !isHolding )
+			{
+				playerAnimator.Play( "Squint" );
+			}
+			else if( isHolding )
+			{
+				playerAnimator.Play( "HoldingItIn" );
+			}
+			else if( onGround )
+			{
+				playerAnimator.Play( "Idle" );
+			}
 		}
 
 		Animation_UpdateFacingDir();
