@@ -39,8 +39,8 @@ public class FartometerControl : MonoBehaviour
 		float height	= width * ( 256 / 96.0f );
 
 		backgroundRect	= new Rect( left, top, width, height );
-		cropRect		= new Rect( left, top + cropTopOffset, width, height );
-		backCropRect	= new Rect( left, top + cropTopOffset, width, height );
+		cropRect		= new Rect( left, top + cropTopOffset, width, height * fillScale );//z
+		backCropRect	= new Rect( left, top + cropTopOffset, width, height * fillScale);//z
 		fillRect		= new Rect( 0, 0, width, height * fillScale );
 		backFillRect	= new Rect( 0, 0, width, height * fillScale );
 		capRect			= new Rect( 0, 0, width, ( width / 6.0f ) );
@@ -59,7 +59,7 @@ public class FartometerControl : MonoBehaviour
 		}
 
 		// set default fills
-		cropRect		= new Rect( backgroundRect.x, backgroundRect.y + cropTopOffset, backgroundRect.width, backgroundRect.height );
+		cropRect		= new Rect( backgroundRect.x, backgroundRect.y + cropTopOffset, backgroundRect.width, backgroundRect.height * fillScale);//
 		backCropRect	= cropRect;
 		fillRect		= new Rect( 0, -cropTopOffset, backgroundRect.width, backgroundRect.height * fillScale );
 		backFillRect	= fillRect;
