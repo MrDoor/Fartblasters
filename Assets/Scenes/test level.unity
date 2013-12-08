@@ -10447,7 +10447,7 @@ MonoBehaviour:
   minLaunchForce: 3000
   maxJuiceUsedPerLaunch: 10
   launchesAvailable: 10
-  testAnimation: {fileID: 7400000, guid: 19b632877786b3342918cbd7d44d215a, type: 2}
+  testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
 --- !u!4 &1080646377
 Transform:
   m_ObjectHideFlags: 0
@@ -21227,7 +21227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e904e044b01ac4e934422cd9bf6acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControlRef: {fileID: 1080646376}
 --- !u!1001 &2045577125
 Prefab:
   m_ObjectHideFlags: 0
