@@ -16,6 +16,29 @@ public class StickyCollision : MonoBehaviour {
 	
 	void OnCollisionEnter2D(Collision2D coll)
 	{		
-		//my idea was junk need more time to tinker
+		try
+		{
+			Vector3 temp = this.transform.position;
+			if(coll.transform.position.y > this.transform.position.y)
+			{
+				temp.y += this.renderer.bounds.size.y;
+			}
+			else
+			{
+				temp.y -= this.renderer.bounds.size.y;
+			}			
+			
+			coll.transform.position = temp ;
+			coll.transform.rigidbody2D.gravityScale = 0;
+			coll.transform.rigidbody2D.velocity = Vector2.zero;
+			//playerControlRef.Animation_Update(true);
+			playerControlRef.setIsStuck(true);		
+		}
+		catch(UnityException ex)
+		{
+			Debug.Log("Error: " + ex.Message);
+		}
 	}
+	
+	
 }

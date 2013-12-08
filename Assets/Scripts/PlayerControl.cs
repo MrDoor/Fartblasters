@@ -31,6 +31,7 @@ public class PlayerControl : MonoBehaviour
 	// Control
 	private bool onGround	= false;
 	private bool isMoving	= false;
+	private bool isStuck	= false;
 
 	// Animation
 	public AnimationClip testAnimation;
@@ -47,6 +48,12 @@ public class PlayerControl : MonoBehaviour
 		Right
 	};	
 	private Direction movingDir	= Direction.Right;
+	
+	//Didn't know where to put this
+	public void setIsStuck(bool stuck)
+	{
+		this.isStuck = stuck;
+	}
 
 	void Awake()
 	{
@@ -54,6 +61,7 @@ public class PlayerControl : MonoBehaviour
 		pullLine = PullLine_Init( transform );
 		Launch_Init();
 		Animation_Init();
+		isStuck = false;
 	}
 
 	void Update () 
@@ -61,6 +69,10 @@ public class PlayerControl : MonoBehaviour
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
 		int layerMask = 1 << LayerMask.NameToLayer( "DefaultBlock" ) | 1 << LayerMask.NameToLayer( "SlipperyBlock" );
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
+		if(!onGround)
+		{
+			onGround = isStuck;
+		}
 
 		// TODO: Find a way to do this that doesn't involve two line casts
 		layerMask = 1 << LayerMask.NameToLayer( "BouncyBlock" ); 
@@ -109,6 +121,9 @@ public class PlayerControl : MonoBehaviour
 	
 	void OnMouseUp()
 	{
+		//added for sticky block testing
+		if(this.transform.rigidbody2D.gravityScale == 0) {this.transform.rigidbody2D.gravityScale = 1;}
+		
 		if( pullLine != null )
 		{
 			Launch( transform );
