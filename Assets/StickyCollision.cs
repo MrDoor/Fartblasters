@@ -31,7 +31,6 @@ public class StickyCollision : MonoBehaviour {
 			coll.transform.position = temp ;
 			coll.transform.rigidbody2D.gravityScale = 0;
 			coll.transform.rigidbody2D.velocity = Vector2.zero;
-			//playerControlRef.Animation_Update(true);
 			playerControlRef.setIsStuck(true);		
 		}
 		catch(UnityException ex)
