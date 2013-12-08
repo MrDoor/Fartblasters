@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour
 
 	// Launch
 	public float maxLaunchForce			= 7000.0f;
-	public float minLaunchForce			= 3000.0f;
+	public float minLaunchForce			= 2000.0f;
 	public float maxJuiceUsedPerLaunch	= 10;
 	public float launchesAvailable		= 10;
 
@@ -396,4 +396,33 @@ public class PlayerControl : MonoBehaviour
 			}
 		}
 	}
+	
+	// PickUp Control
+	// -------------------------------------------------------------------------------------
+	
+	void OnTriggerEnter2D(Collider2D obj)
+	{
+		Debug.Log ("Food Eaten!");
+		//Just temporary.  I'm sure there is a better way to do this
+		float pickupJuice = 0.0f;
+		if(obj.gameObject.name == "Jalupeno")
+		{
+			pickupJuice += 5f;
+		}
+		else if(obj.gameObject.name == "Broccoli")
+		{
+			pickupJuice += 25f;
+		}		
+		if(pickupJuice < 100)
+		{
+			currentLaunchJuice += pickupJuice;
+		}
+		else
+		{
+			currentLaunchJuice = 100.0f;
+		}
+		
+		Destroy (obj.gameObject);	
+	}
+	
 }

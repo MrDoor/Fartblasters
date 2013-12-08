@@ -19,7 +19,19 @@ public class StickyCollision : MonoBehaviour {
 		try
 		{
 			Vector3 temp = this.transform.position;
-			if(coll.transform.position.y > this.transform.position.y)
+			Debug.Log (this.transform.rotation.z);
+			if(this.transform.rotation.z > 0)
+			{
+				if(coll.transform.position.x > this.transform.position.x)
+				{
+					temp.x += this.renderer.bounds.size.x;
+				}
+				else
+				{
+					temp.x -= this.renderer.bounds.size.x;
+				}
+			}			
+			else if(coll.transform.position.y > this.transform.position.y)
 			{
 				temp.y += this.renderer.bounds.size.y;
 			}
