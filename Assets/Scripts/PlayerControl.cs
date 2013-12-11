@@ -53,6 +53,12 @@ public class PlayerControl : MonoBehaviour
 	public void setIsStuck(bool stuck)
 	{
 		this.isStuck = stuck;
+		//This is a silly loop for a test
+		//it is only a test
+		for(int i=0;i< 25;i++)
+		{
+			Debug.Log ("Did this work the " + (i+1) + " time?");
+		}
 	}
 
 	void Awake()
