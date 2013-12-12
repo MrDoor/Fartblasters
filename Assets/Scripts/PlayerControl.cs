@@ -53,6 +53,12 @@ public class PlayerControl : MonoBehaviour
 	public void setIsStuck(bool stuck)
 	{
 		this.isStuck = stuck;
+		float stuckTime = 0.0f;
+		float maxStuckTime = 10.0f;
+		if( stuckTime >= maxStuckTime )
+		{
+			stuckTime = 0.0f;
+		}
 	}
 
 	void Awake()
