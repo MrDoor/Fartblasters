@@ -53,6 +53,20 @@ public class PlayerControl : MonoBehaviour
 	public void setIsStuck(bool stuck)
 	{
 		this.isStuck = stuck;
+<<<<<<< HEAD
+		float stuckTime = 0.0f;
+		float maxStuckTime = 10.0f;
+		if( stuckTime >= maxStuckTime )
+		{
+			stuckTime = 0.0f;
+=======
+		//This is a silly loop for a test
+		//it is only a test
+		for(int i=0;i< 25;i++)
+		{
+			Debug.Log ("Did this work the " + (i+1) + " time?");
+>>>>>>> 2445343f0e303286a0c8c1db7d0b2eb337765910
+		}
 	}
 
 	void Awake()
@@ -405,7 +419,7 @@ public class PlayerControl : MonoBehaviour
 		Debug.Log ("Food Eaten!");
 		//Just temporary.  I'm sure there is a better way to do this
 		float pickupJuice = 0.0f;
-		if(obj.gameObject.name == "Jalapeno")
+		if(obj.gameObject.name == "Jalupeno")
 		{
 			pickupJuice += 5f;
 		}
