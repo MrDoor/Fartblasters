@@ -212,7 +212,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortingLayerID: 3210385691
-  m_Sprite: {fileID: 21300000, guid: 12245cf1769313a418f3c7f181da5e02, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c23133a6cfff444282a8ccbe7802726, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &11771091
 BoxCollider2D:
@@ -4948,7 +4948,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortingLayerID: 3210385691
-  m_Sprite: {fileID: 21300000, guid: 12245cf1769313a418f3c7f181da5e02, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c23133a6cfff444282a8ccbe7802726, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &516351182
 BoxCollider2D:
