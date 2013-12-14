@@ -30,10 +30,10 @@ TagManager:
   User Layer 11: DefaultBlock
   User Layer 12: SlipperyBlock
   User Layer 13: BouncyBlock
-  User Layer 14: 
-  User Layer 15: 
-  User Layer 16: 
-  User Layer 17: 
+  User Layer 14: StickyBlock
+  User Layer 15: TeleportBlock1
+  User Layer 16: TeleportBlock2
+  User Layer 17: StopBlock
   User Layer 18: 
   User Layer 19: 
   User Layer 20: 
