@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Teleporter : MonoBehaviour {
+public class Teleport : MonoBehaviour {
+	
 	public PlayerControl playerControlRef;
 	public static float nextTeleport;
 	// Use this for initialization

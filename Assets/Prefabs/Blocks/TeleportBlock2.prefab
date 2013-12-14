@@ -11,8 +11,8 @@ GameObject:
   - 61: {fileID: 6100000}
   - 212: {fileID: 21200000}
   - 114: {fileID: 11400000}
-  m_Layer: 10
-  m_Name: Jalupeno 1
+  m_Layer: 0
+  m_Name: TeleportBlock2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.12805724, y: -1.33323598, z: -.0500488281}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: .1960686, y: .745900095, z: -.0500488281}
+  m_LocalScale: {x: 1, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!61 &6100000
@@ -36,9 +36,9 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_Material: {fileID: 6200000, guid: 97a03eba3cd7fe54cbbaa4869db348c1, type: 2}
+  m_Material: {fileID: 6200000, guid: f1ec4fe5f9fc56a4fb9a66ea212d3250, type: 2}
   m_IsTrigger: 0
-  m_Size: {x: .699999988, y: .699999988}
+  m_Size: {x: .400000006, y: .300000012}
   m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -48,10 +48,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
+  m_Script: {fileID: 11500000, guid: c73c5d10040cc7b4190393a9deed8baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControlRef: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -73,8 +72,8 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortingLayerID: 3210385691
-  m_Sprite: {fileID: 21300000, guid: 32df88ab2f6c8b14cab6c8c2818c3598, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9bf39b56f624d1645abf7aae1936d71b, type: 3}
+  m_Color: {r: .333333343, g: 1, b: .333333343, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
