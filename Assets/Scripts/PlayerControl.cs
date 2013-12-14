@@ -104,19 +104,22 @@ public class PlayerControl : MonoBehaviour
 	{
 		isMoving = ( transform.rigidbody2D.velocity.sqrMagnitude >= 0.01f || transform.rigidbody2D.angularVelocity >= 0.01f );
 
-		if( lastXPos < transform.position.x )
+		if( isMoving )
 		{
-			movingDir = Direction.Right;
+			if( lastXPos < transform.position.x )
+			{
+				movingDir = Direction.Right;
+			}
+			else if( lastXPos > transform.position.x )
+			{
+				movingDir = Direction.Left;
+			}
+			else
+			{
+				movingDir = Direction.None;
+			}
+			lastXPos = transform.position.x;
 		}
-		else if( lastXPos > transform.position.x )
-		{
-			movingDir = Direction.Left;
-		}
-		else
-		{
-			movingDir = Direction.None;
-		}
-		lastXPos = transform.position.x;
 	}
 	
 	void OnMouseUp()
