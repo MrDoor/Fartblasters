@@ -43,11 +43,21 @@ public class PlayerControl : MonoBehaviour
 
 	private enum Direction
 	{
-		Left,
-		None,
-		Right
+		LEFT,
+		NONE,
+		RIGHT
 	};	
-	private Direction movingDir	= Direction.Right;
+	private Direction movingDir	= Direction.RIGHT;
+
+	// These are hard coded to the values of the layers in the editor
+	// Have to update by hand if they change
+	const int BLOCKLAYER_DEFAULT	= 1 << 11;
+	const int BLOCKLAYER_SLIPPERY	= 1 << 12;
+	const int BLOCKLAYER_BOUNCY		= 1 << 13;
+	const int BLOCKLAYER_STICKY		= 1 << 14;
+	const int BLOCKLAYER_TELEPORT1	= 1 << 15;
+	const int BLOCKLAYER_TELEPORT2	= 1 << 16;
+	const int BLOCKLAYER_STOP		= 1 << 17;
 	
 	//Didn't know where to put this
 	public void setIsStuck(bool stuck)
@@ -67,7 +77,7 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = 1 << LayerMask.NameToLayer( "DefaultBlock" ) | 1 << LayerMask.NameToLayer( "SlipperyBlock" );
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if(!onGround)
 		{
@@ -75,7 +85,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		// TODO: Find a way to do this that doesn't involve two line casts
-		layerMask = 1 << LayerMask.NameToLayer( "BouncyBlock" ); 
+		layerMask = BLOCKLAYER_BOUNCY; 
 		if( Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) )
 		{
 			bouncyBlockHitLast = true;
@@ -108,15 +118,15 @@ public class PlayerControl : MonoBehaviour
 		{
 			if( lastXPos < transform.position.x )
 			{
-				movingDir = Direction.Right;
+				movingDir = Direction.RIGHT;
 			}
 			else if( lastXPos > transform.position.x )
 			{
-				movingDir = Direction.Left;
+				movingDir = Direction.LEFT;
 			}
 			else
 			{
-				movingDir = Direction.None;
+				movingDir = Direction.NONE;
 			}
 			lastXPos = transform.position.x;
 		}
@@ -385,14 +395,14 @@ public class PlayerControl : MonoBehaviour
 		{
 			if( Animation_GetFacingRight() )
 			{
-				if( movingDir == Direction.Left )
+				if( movingDir == Direction.LEFT )
 				{
 					Animation_FlipHorizontal( false );
 				}
 			}
 			else
 			{
-				if( movingDir == Direction.Right )
+				if( movingDir == Direction.RIGHT )
 				{
 					Animation_FlipHorizontal( true );
 				}
