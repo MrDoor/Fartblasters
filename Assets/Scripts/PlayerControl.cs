@@ -65,6 +65,7 @@ public class PlayerControl : MonoBehaviour
 	const int BLOCKLAYER_TELEPORT1	= 1 << 15;
 	const int BLOCKLAYER_TELEPORT2	= 1 << 16;
 	const int BLOCKLAYER_STOP		= 1 << 17;
+	const int BLOCKLAYER_MAGNET		= 1 << 18;
 	
 
 
@@ -80,7 +81,7 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP;
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if( !onGround )
 		{

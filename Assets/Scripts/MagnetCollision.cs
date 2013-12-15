@@ -4,9 +4,8 @@ using System.Collections;
 public class MagnetCollision : MonoBehaviour {
 	
 	public Transform startMarker;
-	public Transform endMarker;
 	public Vector3 endMark;
-	public float speed = 1.0f;
+	public float speed = 2.0f;
 	private float startTime;
 	private float journeyLength;
 	public Transform target;
@@ -15,6 +14,10 @@ public class MagnetCollision : MonoBehaviour {
 	public float nextMagnetPull;
 	// Use this for initialization
 	void Start () {		
+		//added a magnetic field randomizer just for funzies
+		CircleCollider2D magnetRange = (CircleCollider2D)this.transform.collider2D;		
+		magnetRange.radius += Random.Range(5, 30) * .01f;
+		Debug.Log("radius: " + magnetRange.radius);
 	}
 	
 	// Update is called once per frame
@@ -31,11 +34,10 @@ public class MagnetCollision : MonoBehaviour {
 				stuck ();
 				inMagnet = false;
 				nextMagnetPull = Time.time + 3;
-				GameObject.Find("Player").transform.rigidbody2D.gravityScale = 0;
-				GameObject.Find("Player").transform.rigidbody2D.velocity = Vector2.zero;
+				GameObject.Find ("Player").SendMessage("SetIsStuck", true);
 			}	
 			else{
-				Debug.Log("Journey Length: " + journeyLength + " | endMarker.position: " + endMarker.position.ToString());
+				Debug.Log("Journey Length: " + journeyLength + " | endMarker.position: " + endMark.ToString());
 			}
 		}
 	}
@@ -43,29 +45,37 @@ public class MagnetCollision : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D obj)
 	{		
 		Debug.Log("Trigger Enter");
-		if(inMagnet || nextMagnetPull > Time.time)
+		if(obj.name.Equals("Player"))
 		{
-			return;
-		}
-		try
-		{
-			Vector3 tempEnd = GameObject.Find ("LeftMagnetPosition").transform.position;
-			tempEnd.x += GameObject.Find("LeftMagnetPosition").transform.parent.renderer.bounds.size.x;
-			endMark = tempEnd;
-			GameObject tempRef = GameObject.Find("Player");
-			target = tempRef.transform;
-			inMagnet = true;
-			startMarker = tempRef.transform;		
-			endMarker = GameObject.Find("LeftMagnetPosition").transform.parent.transform;			
-			startTime = Time.time;
-			journeyLength = Vector3.Distance(startMarker.position, endMarker.position);		
-		}
-		catch(UnityException ex)
-		{
-			Debug.LogError("Error: " + ex);
+			PlayerControl pControl = obj.GetComponent<PlayerControl>();
+			if(pControl)
+			{
+				if(!inMagnet && nextMagnetPull < Time.time)
+				{
+					try
+					{
+						//Vector3 tempEnd = GameObject.Find ("LeftMagnetPosition").transform.position;
+						Vector3 tempEnd = this.transform.position;
+						tempEnd.y -= this.renderer.bounds.size.y;
+						endMark = tempEnd;						
+						target = pControl.transform;
+						inMagnet = true;
+						startMarker = pControl.transform;				
+						startTime = Time.time;				
+						pControl.transform.rigidbody2D.gravityScale = 0;
+						pControl.transform.rigidbody2D.velocity = Vector2.zero;
+						journeyLength = Vector3.Distance(startMarker.position, endMark);		
+					}
+					catch(UnityException ex)
+					{
+						Debug.LogError("Error: " + ex);
+					}
+				}
+			}
 		}
 	}
 	
+	/*
 	void OnCollisionEnter2D(Collision2D coll)
 	{		
 		Debug.Log ("Collision Enter");
@@ -101,10 +111,11 @@ public class MagnetCollision : MonoBehaviour {
 			Debug.LogError("Error: " + ex);
 		}
 	}
+	*/
 	
 	void stuck()
 	{		
-		GameObject.Find ("Player").SendMessage("setIsStuck", true);				
+						
 		Debug.Log("Message Sent");
 	}
 }
