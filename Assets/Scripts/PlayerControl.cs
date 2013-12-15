@@ -402,27 +402,33 @@ public class PlayerControl : MonoBehaviour
 	
 	void OnTriggerEnter2D(Collider2D obj)
 	{
-		Debug.Log ("Food Eaten!");
-		//Just temporary.  I'm sure there is a better way to do this
-		float pickupJuice = 0.0f;
-		if(obj.gameObject.name == "Jalapeno")
+		if(obj.tag.Equals("PickUp"))
 		{
-			pickupJuice += 5f;
+			//Just temporary.  I'm sure there is a better way to do this
+			float pickupJuice = 0.0f;
+			if(obj.gameObject.name == "Jalapeno")
+			{
+				pickupJuice += 5f;
+			}
+			else if(obj.gameObject.name == "Broccoli")
+			{
+				pickupJuice += 25f;
+			}		
+			if(pickupJuice < 100)
+			{
+				currentLaunchJuice += pickupJuice;
+			}
+			else
+			{
+				currentLaunchJuice = 100.0f;
+			}
+			
+			Destroy (obj.gameObject);	
 		}
-		else if(obj.gameObject.name == "Broccoli")
+		else if(obj.tag.Equals("Magnet"))
 		{
-			pickupJuice += 25f;
-		}		
-		if(pickupJuice < 100)
-		{
-			currentLaunchJuice += pickupJuice;
-		}
-		else
-		{
-			currentLaunchJuice = 100.0f;
-		}
-		
-		Destroy (obj.gameObject);	
+			Debug.Log ("Trigger!");
+		}	
 	}
 	
 }
