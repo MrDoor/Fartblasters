@@ -13,8 +13,10 @@ TagManager:
   - 
   - 
   - 
-  - DefaultBlock
-  - SlipperyBlock
+  - 
+  - 
+  - 
+  - 
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

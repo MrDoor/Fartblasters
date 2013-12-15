@@ -25,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4009614, y: -2.42553091, z: -.0500488281}
+  m_LocalPosition: {x: 4.48958588, y: 4.62938118, z: -.0500489995}
   m_LocalScale: {x: 1.83010006, y: 1.83010006, z: 6.10033989}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControlRef: {fileID: 0}
+  pickupJuice: 5
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -3,6 +3,13 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour 
 {
+	// Player Control
+	private Transform groundCheck;
+	private LineRenderer pullLine;
+	private bool onGround	= false;
+	private bool isMoving	= false;
+	private bool isStuck	= false;
+
 	// Pull Line	
 	public float maxLineLength = 3.0f;
 	public float minLineLength = 0.6f;	
@@ -24,15 +31,6 @@ public class PlayerControl : MonoBehaviour
 	private bool bouncyBlockHitLast		= false;
 	private Vector2 launchDir;
 
-	// Player 
-	private Transform groundCheck;
-	private LineRenderer pullLine;
-
-	// Control
-	private bool onGround	= false;
-	private bool isMoving	= false;
-	private bool isStuck	= false;
-
 	// Animation
 	public AnimationClip testAnimation;
 
@@ -40,6 +38,16 @@ public class PlayerControl : MonoBehaviour
 	private bool facingRight	= true;
 	private float lastXPos		= 0.0f;
 	private bool showTestAnim	= false;
+	private Direction movingDir	= Direction.RIGHT;
+
+	// Debug
+	public GameObject debugSpawnFoodObj;
+
+	private int maxDebugFood			= 3;
+	private int debugFoodCount			= 0;
+	private float debugFoodDestroyTime	= 3.0f;
+
+
 
 	private enum Direction
 	{
@@ -47,7 +55,6 @@ public class PlayerControl : MonoBehaviour
 		NONE,
 		RIGHT
 	};	
-	private Direction movingDir	= Direction.RIGHT;
 
 	// These are hard coded to the values of the layers in the editor
 	// Have to update by hand if they change
@@ -59,11 +66,7 @@ public class PlayerControl : MonoBehaviour
 	const int BLOCKLAYER_TELEPORT2	= 1 << 16;
 	const int BLOCKLAYER_STOP		= 1 << 17;
 	
-	//Didn't know where to put this
-	public void setIsStuck(bool stuck)
-	{
-		this.isStuck = stuck;
-	}
+
 
 	void Awake()
 	{
@@ -79,7 +82,7 @@ public class PlayerControl : MonoBehaviour
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
 		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
-		if(!onGround)
+		if( !onGround )
 		{
 			onGround = isStuck;
 		}
@@ -96,18 +99,10 @@ public class PlayerControl : MonoBehaviour
 		}
 		
 		Animation_Update( onGround );
+		Launch_Update( onGround, bouncyBlockHitLast );
 
-		// Player is only allowed to launch if they're resting on a block
-		// TODO: Will probably have to add more checks to set launch allowed
-		//		 Does he need to be at rest as well?
-		if( ( onGround || bouncyBlockHitLast ) && currentLaunchJuice > 0.0f )
-		{
-			Launch_SetAllowed( true );
-		}
-		else
-		{
-			Launch_SetAllowed( false );
-		}
+		// TODO: Put in a check to only allow this in debug
+		Debug_CheckSpawnFood();
 	}
 
 	void FixedUpdate()
@@ -165,6 +160,39 @@ public class PlayerControl : MonoBehaviour
 	void OnGUI()
 	{
 
+	}
+	
+	
+	// Player Control
+	// -------------------------------------------------------------------------------------
+	public bool GetOnGround()
+	{
+		return onGround;
+	}
+
+	public void SetOnGround( bool isOnGround )
+	{
+		onGround = isOnGround;
+	}
+
+	public bool GetIsMoving()
+	{
+		return isMoving;
+	}
+	
+	public void SetIsMoving( bool moving )
+	{
+		isMoving = moving;
+	}
+
+	public bool GetIsStuck()
+	{
+		return isStuck;
+	}
+
+	public void SetIsStuck( bool stuck )
+	{
+		isStuck = stuck;
 	}
 
 
@@ -263,7 +291,22 @@ public class PlayerControl : MonoBehaviour
 		launchAllowed	= false;
 		launchDir.Set( 0.0f, 0.0f );
 	}
-	
+
+	public void Launch_Update( bool onGround, bool bouncyBlockHitLast )
+	{
+		// Player is only allowed to launch if they're resting on a block
+		// TODO: Will probably have to add more checks to set launch allowed
+		//		 Does he need to be at rest as well?
+		if( ( onGround || bouncyBlockHitLast ) && Launch_GetCurrentJuice() > 0.0f )
+		{
+			Launch_SetAllowed( true );
+		}
+		else
+		{
+			Launch_SetAllowed( false );
+		}
+	}
+
 	public void Launch_SetDir( Vector2 direction )
 	{
 		launchDir = direction;
@@ -287,6 +330,14 @@ public class PlayerControl : MonoBehaviour
 	public float Launch_GetCurrentJuice()
 	{
 		return currentLaunchJuice;
+	}
+
+	public void Launch_IncCurrentJuice( float amount )
+	{
+		if( amount > 0.0f && currentLaunchJuice < maxLaunchJuice )
+		{
+			currentLaunchJuice = Mathf.Min( maxLaunchJuice, currentLaunchJuice + amount );
+		}
 	}
 
 	public float Launch_GetPotentialJuice()
@@ -409,33 +460,69 @@ public class PlayerControl : MonoBehaviour
 			}
 		}
 	}
+
 	
-	// PickUp Control
+	// Misc Debug (add new stuff above this)
 	// -------------------------------------------------------------------------------------
-	
-	void OnTriggerEnter2D(Collider2D obj)
+	private void Debug_CheckSpawnFood()
 	{
-		Debug.Log ("Food Eaten!");
-		//Just temporary.  I'm sure there is a better way to do this
-		float pickupJuice = 0.0f;
-		if(obj.gameObject.name == "Jalapeno")
+		if( Input.GetButtonDown( "Debug Spawn Food" ) )
 		{
-			pickupJuice += 5f;
+			Debug_SpawnFood();
 		}
-		else if(obj.gameObject.name == "Broccoli")
+	}
+
+	private void Debug_SpawnFood()
+	{
+		if( debugSpawnFoodObj )
 		{
-			pickupJuice += 25f;
-		}		
-		if(pickupJuice < 100)
-		{
-			currentLaunchJuice += pickupJuice;
+			if( debugFoodCount < maxDebugFood )
+			{
+				float foodYOffset	= 1.5f;
+				Vector3 newFoodPos	= transform.position;
+				newFoodPos.y += foodYOffset;
+
+				GameObject newFood = (GameObject)Instantiate( debugSpawnFoodObj, newFoodPos, Quaternion.identity );
+				Debug_IncFoodCount();
+
+				Destroy_Self( newFood, debugFoodDestroyTime );
+			}
+			else
+			{
+				Debug.Log( "Debug Food Count: " + debugFoodCount );
+			}
 		}
 		else
 		{
-			currentLaunchJuice = 100.0f;
+			Debug.Log( "Pressed Space but no prefab was set to Debug Spawn Food." );
 		}
-		
-		Destroy (obj.gameObject);	
 	}
-	
+
+	public void Debug_DecFoodCount()
+	{
+		debugFoodCount--;
+	}
+
+	public void Debug_IncFoodCount()
+	{
+		debugFoodCount++;
+	}
+
+	public void Destroy_Self( GameObject go, float delayTime )
+	{
+		StartCoroutine( Destroy_Now( go, delayTime ) );
+	}
+
+	public IEnumerator Destroy_Now( GameObject go, float delayTime )
+	{
+		yield return new WaitForSeconds( delayTime );
+		if( go )
+		{
+			if( go.name.Contains( "(Clone)" ) )
+			{
+				Debug_DecFoodCount();
+			}
+			Destroy( go );
+		}
+	}
 }
