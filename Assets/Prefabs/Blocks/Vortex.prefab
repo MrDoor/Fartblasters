@@ -51,6 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2581b218c98c648977e82276697161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startMarker: {fileID: 0}
+  endMark: {x: 0, y: 0, z: 0}
+  speed: 3
+  target: {fileID: 0}
+  smooth: 5
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -73,7 +78,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 563374873
   m_Sprite: {fileID: 21300000, guid: 9bf39b56f624d1645abf7aae1936d71b, type: 3}
-  m_Color: {r: 1, g: .620588243, b: .0514705777, a: 1}
+  m_Color: {r: 1, g: .619607866, b: .0509803928, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
