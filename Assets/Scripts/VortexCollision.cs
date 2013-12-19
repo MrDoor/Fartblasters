@@ -3,13 +3,14 @@ using System.Collections;
 
 public class VortexCollision : MonoBehaviour {
 	
-	public Transform startMarker;
-	public Vector3 endMark;
-	public float speed = 3.0f;
+	//private Transform startMarker;
+	private Vector3 startMark;
+	private Vector3 endMark;
+	private float speed = 3.0f;
 	private float startTime;
 	private float journeyLength;
-	public Transform target;
-	public float smooth = 5.0F;
+	private Transform target;
+	//private float smooth = 5.0F;
 	private float timeToLaunch = 0.0f;
 	private float timeToReLaunch = 0.0f;
 	private bool canLaunch = false;
@@ -33,9 +34,12 @@ public class VortexCollision : MonoBehaviour {
 		}
 		else if(pControl && pControl.GetInVortex())
 		{
-			float distCovered = (Time.time - startTime) * speed;
-			float fracJourney = distCovered / journeyLength;
-			target.transform.position = Vector3.Lerp(startMarker.position, endMark, fracJourney);
+			if(target && this.transform.position == endMark)
+			{
+				float distCovered = (Time.time - startTime) * speed;
+				float fracJourney = distCovered / journeyLength;
+				target.transform.position = Vector3.Lerp(startMark, endMark, fracJourney);
+			}
 		}
 			
 	}
@@ -56,11 +60,12 @@ public class VortexCollision : MonoBehaviour {
 						tempEnd = this.collider2D.transform.position;
 						endMark = tempEnd;						
 						target = pControl.transform;
-						startMarker = pControl.transform;				
+						//startMarker = pControl.transform;
+						startMark = pControl.transform.position;				
 						startTime = Time.time;				
 						pControl.transform.rigidbody2D.gravityScale = 0;
 						pControl.transform.rigidbody2D.velocity = Vector2.zero;
-						journeyLength = Vector3.Distance(startMarker.position, endMark);
+						journeyLength = Vector3.Distance(startMark, endMark);
 						pControl.SendMessage("SetInVortex", true);
 						timeToLaunch = Time.time + 3.0f;
 						canLaunch = true;
@@ -92,6 +97,8 @@ public class VortexCollision : MonoBehaviour {
 			direction *= -1;
 		}
 		Debug.Log("direction: " + direction.ToString() + " force: " + force + " direction*force = " + (direction * force));
+		endMark = Vector3.zero;
+		startMark = Vector3.zero;
 		GameObject.Find ("Player").transform.rigidbody2D.AddForce(direction * force);
 	}
 }
