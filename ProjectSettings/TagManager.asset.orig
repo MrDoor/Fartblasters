@@ -4,19 +4,26 @@
 TagManager:
   tags:
   - Block
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+<<<<<<< HEAD
+  - 
+  - 
+  - 
+  - 
+=======
+  - DefaultBlock
+  - SlipperyBlock
   - PickUp
   - Magnet
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+>>>>>>> 7278028d750f393e0419cd99dfbd977eb16a60ce
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -59,11 +66,11 @@ TagManager:
     userID: 1
     uniqueID: 3826374579
     locked: 0
-  - name: Foreground
+  - name: Character
     userID: 2
     uniqueID: 3210385691
     locked: 0
-  - name: Character
+  - name: Foreground
     userID: 3
     uniqueID: 563374873
     locked: 0

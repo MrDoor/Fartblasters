@@ -7,7 +7,7 @@ public class CollectFood : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D obj )
 	{
-		Debug.Log ("Food Eaten!");
+		Debug.Log( "Food Eaten!" );
 
 		if( obj.name == "Player" )
 		{

@@ -5,16 +5,17 @@ public class PlayerControl : MonoBehaviour
 {
 	// Player Control
 	private Transform groundCheck;
-	private LineRenderer pullLine;
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
 
 	// Pull Line	
-	public float maxLineLength = 3.0f;
+	public float maxLineLength = 1.5f;
 	public float minLineLength = 0.6f;	
 
-	private int maxLineVerts	= 2;
+	private const int maxLineVerts	= 2;
+	private const int maxFartClouds	= 6;
+	private Transform[] fartClouds;
 	private float pullFraction	= 0.0f;
 	private float pullDist		= 0.0f;
 	private float juiceToUse	= 0.0f;
@@ -33,11 +34,11 @@ public class PlayerControl : MonoBehaviour
 
 	// Animation
 	public AnimationClip testAnimation;
+	public bool showTestAnim	= true;
 
 	private Animator playerAnimator;
 	private bool facingRight	= true;
 	private float lastXPos		= 0.0f;
-	private bool showTestAnim	= false;
 	private Direction movingDir	= Direction.RIGHT;
 
 	// Debug
@@ -71,7 +72,7 @@ public class PlayerControl : MonoBehaviour
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
-		pullLine = PullLine_Init( transform );
+		PullLine_Init( transform );
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
@@ -132,29 +133,17 @@ public class PlayerControl : MonoBehaviour
 		//added for sticky block testing
 		if(this.transform.rigidbody2D.gravityScale == 0) {this.transform.rigidbody2D.gravityScale = 1;}
 		
-		if( pullLine != null )
-		{
-			Launch( transform );
+		Launch( transform );
 
-			Launch_Reset();
-			PullLine_Reset();
-
-			pullLine.SetPosition( 0, transform.position );
-			pullLine.SetPosition( 1, transform.position );
-		}
+		Launch_Reset();
+		PullLine_Reset();
 	}
 
 
 	void OnMouseDrag()
 	{
-		// TODO: use an assert here instead. there should always be a pullLine
-		if( pullLine )
-		{
-			pullLine.SetPosition( 0, transform.position );
-
-			Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
-			pullLine.SetPosition( 1, pullEndPoint );
-		}
+		Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
+		PullLine_PositionClouds( transform.position, pullEndPoint );
 	}
 	
 	void OnGUI()
@@ -199,22 +188,23 @@ public class PlayerControl : MonoBehaviour
 	// Pull Line Control
 	// -------------------------------------------------------------------------------------
 
-	public LineRenderer PullLine_Init( Transform myTransform )
+	public void PullLine_Init( Transform myTransform )
 	{
 		pullFraction	= 0.0f;
 		juiceToUse		= 0.0f;
 		pullDist		= 0.0f;
-		
-		LineRenderer pullLine = null;
+		fartClouds		= null;
+
 		Transform pullContainer = myTransform.FindChild( "pullContainer" );
 		// TODO: Change this to assert
 		if( pullContainer )
 		{
-			pullLine = pullContainer.GetComponent<LineRenderer>();
-			// TODO: put asset on pullLine here, too
-			pullLine.SetVertexCount( maxLineVerts );
+			fartClouds = new Transform[ maxFartClouds ];
+			for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
+			{
+				fartClouds[ cloudIndex ] = pullContainer.FindChild( "FartCloud" + cloudIndex ); 
+			}
 		}
-		return pullLine;
 	}
 	
 	public void PullLine_Reset()
@@ -222,6 +212,11 @@ public class PlayerControl : MonoBehaviour
 		pullFraction	= 0.0f;
 		juiceToUse		= 0.0f;
 		pullDist		= 0.0f;
+
+		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
+		{
+			fartClouds[ cloudIndex ].transform.position = transform.position; 
+		}
 	}
 	
 	public Vector3 PullLine_GetDirection( Vector3 playerPos )
@@ -272,6 +267,19 @@ public class PlayerControl : MonoBehaviour
 	public bool PullLine_IsHolding()
 	{
 		return pullDist >= minLineLength;
+	}
+
+	public void PullLine_PositionClouds( Vector3 playerPos, Vector3 pullEndPoint )
+	{
+		Vector3 direction = playerPos - pullEndPoint;
+		float stepDistance = 1.0f / maxFartClouds;
+
+		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
+		{
+			float stepAmount = ( cloudIndex * Mathf.Pow( ( stepDistance + 0.004f ), 1.05f ) );
+			Vector3 step = direction * stepAmount;
+			fartClouds[ maxFartClouds - cloudIndex - 1 ].transform.position = pullEndPoint + step; 
+		}
 	}
 
 
@@ -376,7 +384,7 @@ public class PlayerControl : MonoBehaviour
 
 	public void Animation_Update( bool onGround )
 	{
-		if( !string.IsNullOrEmpty( testAnimation.name ) && Input.GetButton( "Test Anim" ) )
+		if( showTestAnim && !string.IsNullOrEmpty( testAnimation.name ) && Input.GetButton( "Test Anim" ) )
 		{
 			// TODO: Add check to make sure the Animator HAS an animation with this name
 			//		 Put in debug warning about the Animator state has a different name than this one.
