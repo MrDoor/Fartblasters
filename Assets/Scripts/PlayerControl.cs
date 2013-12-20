@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
+	private bool inVortex 	= false;
 
 	// Pull Line	
 	public float maxLineLength = 1.5f;
@@ -66,6 +67,8 @@ public class PlayerControl : MonoBehaviour
 	const int BLOCKLAYER_TELEPORT1	= 1 << 15;
 	const int BLOCKLAYER_TELEPORT2	= 1 << 16;
 	const int BLOCKLAYER_STOP		= 1 << 17;
+	const int BLOCKLAYER_MAGNET		= 1 << 18;
+	const int BLOCKLAYER_VORTEX		= 1 << 19;
 	
 
 
@@ -81,7 +84,7 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP;
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if( !onGround )
 		{
@@ -131,7 +134,10 @@ public class PlayerControl : MonoBehaviour
 	void OnMouseUp()
 	{
 		//added for sticky block testing
-		if(this.transform.rigidbody2D.gravityScale == 0) {this.transform.rigidbody2D.gravityScale = 1;}
+		if(this.transform.rigidbody2D.gravityScale == 0) 
+		{
+			this.transform.rigidbody2D.gravityScale = 1;
+		}
 		
 		Launch( transform );
 
@@ -182,6 +188,16 @@ public class PlayerControl : MonoBehaviour
 	public void SetIsStuck( bool stuck )
 	{
 		isStuck = stuck;
+	}
+	
+	public bool GetInVortex()
+	{
+		return inVortex;
+	}
+	
+	public void SetInVortex(bool isInVortex)
+	{
+		inVortex = isInVortex;
 	}
 
 
@@ -394,7 +410,12 @@ public class PlayerControl : MonoBehaviour
 		{
 			bool isHolding = PullLine_IsHolding();
 
-			if( isMoving && !isHolding )
+			
+			if( inVortex )
+			{
+				playerAnimator.Play ("Vortex");
+			}
+			else if( isMoving && !isHolding )
 			{
 				playerAnimator.Play( "Squint" );
 			}
