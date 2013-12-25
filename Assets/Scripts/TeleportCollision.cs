@@ -18,6 +18,11 @@ public class TeleportCollision : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll)
 	{
 		//This only works if there is one of each block in the level... got it to work but will need to be modified to handle more than 2 teleport objects
+		if(!playerControlRef)
+		{
+			Debug.Log("Player Control Ref Not set!");
+			playerControlRef = (PlayerControl)GameObject.Find("Player").GetComponent<PlayerControl>();
+		}
 		
 		if(nextTeleport <= Time.time)
 		{	

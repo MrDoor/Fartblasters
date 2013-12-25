@@ -23,6 +23,10 @@ public class StickyCollision : MonoBehaviour {
 	{		
 		try
 		{
+			if(!playerControlRef)
+			{
+				playerControlRef = (PlayerControl)GameObject.Find("Player").GetComponent<PlayerControl>();
+			}
 			if(canLaunch)
 			{
 				Vector3 temp = this.transform.position;

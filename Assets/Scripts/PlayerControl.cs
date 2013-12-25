@@ -417,7 +417,7 @@ public class PlayerControl : MonoBehaviour
 			}
 			else if( isMoving && !isHolding )
 			{
-				playerAnimator.Play( "Squint" );
+				playerAnimator.Play( "flying" );
 			}
 			else if( isHolding )
 			{

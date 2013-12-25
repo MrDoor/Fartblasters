@@ -26,6 +26,7 @@ public class FartometerControl : MonoBehaviour
 	{
 		if( !playerControlRef )
 		{
+			playerControlRef = (PlayerControl)GameObject.Find("Player").GetComponent<PlayerControl>();
 			Debug.Log( "Fartometer Control reference to the Player Control script is unassigned." );
 		}
 
