@@ -7,8 +7,6 @@ public class CollectFood : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D obj )
 	{
-		Debug.Log( "Food Eaten!" );
-
 		if( obj.name == "Player" )
 		{
 			PlayerControl pControl = obj.GetComponent<PlayerControl>();
@@ -20,9 +18,34 @@ public class CollectFood : MonoBehaviour
 				{
 					pControl.Debug_DecFoodCount();
 				}
+				
+				checkFoodType(pControl);				
+				Debug.Log( "Food Checked!" );
 			}
 
 			Destroy( this.gameObject );	
+		}
+	}
+	
+	void checkFoodType(PlayerControl pControl)
+	{
+		if(this.gameObject.name.Equals("Jalapeno"))
+		{	
+			Vector2 boost = new Vector2();
+			if(pControl.Animation_GetFacingRight())
+			{
+				boost.x = 4000;
+			}
+			else
+			{
+				boost.x = -4000;
+			}
+			pControl.transform.rigidbody2D.AddForce(boost);			
+			Debug.Log( "Fart Boost!" );
+		}
+		else
+		{			
+			Debug.Log( this.gameObject.name );
 		}
 	}
 

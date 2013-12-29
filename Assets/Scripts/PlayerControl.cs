@@ -60,16 +60,16 @@ public class PlayerControl : MonoBehaviour
 
 	// These are hard coded to the values of the layers in the editor
 	// Have to update by hand if they change
-	const int BLOCKLAYER_DEFAULT	= 1 << 11;
-	const int BLOCKLAYER_SLIPPERY	= 1 << 12;
-	const int BLOCKLAYER_BOUNCY		= 1 << 13;
-	const int BLOCKLAYER_STICKY		= 1 << 14;
-	const int BLOCKLAYER_TELEPORT1	= 1 << 15;
-	const int BLOCKLAYER_TELEPORT2	= 1 << 16;
-	const int BLOCKLAYER_STOP		= 1 << 17;
-	const int BLOCKLAYER_MAGNET		= 1 << 18;
-	const int BLOCKLAYER_VORTEX		= 1 << 19;
-	
+	const int BLOCKLAYER_DEFAULT		= 1 << 11;
+	const int BLOCKLAYER_SLIPPERY		= 1 << 12;
+	const int BLOCKLAYER_BOUNCY			= 1 << 13;
+	const int BLOCKLAYER_STICKY			= 1 << 14;
+	const int BLOCKLAYER_TELEPORT1		= 1 << 15;
+	const int BLOCKLAYER_TELEPORT2		= 1 << 16;
+	const int BLOCKLAYER_STOP			= 1 << 17;
+	const int BLOCKLAYER_MAGNET			= 1 << 18;
+	const int BLOCKLAYER_VORTEX			= 1 << 19;
+	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
 
 
 	void Awake()
@@ -84,7 +84,7 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX;
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if( !onGround )
 		{
@@ -107,6 +107,25 @@ public class PlayerControl : MonoBehaviour
 
 		// TODO: Put in a check to only allow this in debug
 		Debug_CheckSpawnFood();
+		
+		if(Input.GetKeyDown("d") && onGround)
+		{
+			//added for sticky block testing
+			if(this.transform.rigidbody2D.gravityScale == 0) 
+			{
+				this.transform.rigidbody2D.gravityScale = 1;
+			}
+			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//schooch!
+		}
+		else if(Input.GetKeyDown("a") && onGround)
+		{
+			//added for sticky block testing
+			if(this.transform.rigidbody2D.gravityScale == 0) 
+			{
+				this.transform.rigidbody2D.gravityScale = 1;
+			}
+			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
+		}
 	}
 
 	void FixedUpdate()
