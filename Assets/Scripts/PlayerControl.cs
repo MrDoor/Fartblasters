@@ -70,6 +70,7 @@ public class PlayerControl : MonoBehaviour
 	const int BLOCKLAYER_MAGNET			= 1 << 18;
 	const int BLOCKLAYER_VORTEX			= 1 << 19;
 	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
+	const int BLOCKLAYER_MOVING			= 1 << 21;
 
 
 	void Awake()
@@ -84,7 +85,8 @@ public class PlayerControl : MonoBehaviour
 	void Update () 
 	{
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR;
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR 
+						| BLOCKLAYER_MOVING;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if( !onGround )
 		{
@@ -126,11 +128,18 @@ public class PlayerControl : MonoBehaviour
 			}
 			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
 		}
+		
+
 	}
 
 	void FixedUpdate()
 	{
 		isMoving = ( transform.rigidbody2D.velocity.sqrMagnitude >= 0.01f || transform.rigidbody2D.angularVelocity >= 0.01f );
+		
+		if(!onGround && collider2D.transform.parent != null)
+		{			
+			this.collider2D.transform.parent = null;
+		}
 
 		if( isMoving )
 		{
@@ -162,6 +171,8 @@ public class PlayerControl : MonoBehaviour
 
 		Launch_Reset();
 		PullLine_Reset();
+		
+		this.collider2D.transform.parent = null;
 	}
 
 

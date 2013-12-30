@@ -23,6 +23,7 @@ public class LackieSoldier : MonoBehaviour {
 	const int BLOCKLAYER_MAGNET			= 1 << 18;
 	const int BLOCKLAYER_VORTEX			= 1 << 19;
 	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
+	const int BLOCKLAYER_MOVING			= 1 << 21;
 	
 	private enum Direction
 	{
@@ -43,7 +44,8 @@ public class LackieSoldier : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR;
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR
+						| BLOCKLAYER_MOVING;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		
 		if(!onGround)
@@ -141,10 +143,12 @@ public class LackieSoldier : MonoBehaviour {
 					{
 						if(moveTo == Direction.LEFT)
 						{
+							MoveRight();
 							moveTo = Direction.RIGHT;
 						}
 						else
 						{
+							MoveLeft ();
 							moveTo = Direction.LEFT;
 						}
 						detectPause = Time.time + 2.0f;
