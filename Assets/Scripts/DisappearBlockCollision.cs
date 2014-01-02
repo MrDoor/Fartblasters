@@ -14,7 +14,7 @@ public class DisappearBlockCollision : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (disappearTime);
+		//Debug.Log (disappearTime);
 		if(visibleTrigger)
 		{	
 			if(visibleFlag)

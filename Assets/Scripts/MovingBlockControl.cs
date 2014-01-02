@@ -52,7 +52,7 @@ public class MovingBlockControl : MonoBehaviour {
 				CheckDirection();
 			}
 		}
-		Debug.Log (positionDifference + " | " + rightLeftSize + " | " + upDownSize);	
+		//Debug.Log (positionDifference + " | " + rightLeftSize + " | " + upDownSize);	
 		
 		Move ();
 	}
@@ -145,7 +145,7 @@ public class MovingBlockControl : MonoBehaviour {
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			if(pControl)
 			{				
-				Debug.Log(coll.transform.parent == null ? "No Parent to start with." : "Has a parent: " + coll.transform.parent.name);
+				//Debug.Log(coll.transform.parent == null ? "No Parent to start with." : "Has a parent: " + coll.transform.parent.name);
 				coll.transform.parent = this.transform;
 			}
 		}
@@ -160,7 +160,7 @@ public class MovingBlockControl : MonoBehaviour {
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			if(pControl)
 			{
-				Debug.Log("setting null");
+				//Debug.Log("setting null");
 				coll.transform.parent = null;
 			}
 		}
