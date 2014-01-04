@@ -119,6 +119,7 @@ public class PlayerControl : MonoBehaviour
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
 			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//schooch!
+			scoochPoot();		
 		}
 		else if(Input.GetKeyDown("a") && onGround)
 		{
@@ -128,9 +129,23 @@ public class PlayerControl : MonoBehaviour
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
 			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
+			scoochPoot();
+		}		
+	}
+	
+	void scoochPoot()
+	{	
+		try
+		{
+			if(!this.transform.Find ("body").audio.isPlaying)
+			{
+				this.transform.Find("body").audio.Play ();				
+			}
 		}
-		
-
+		catch(UnityException ue)
+		{
+			Debug.Log ("Error with getting body: " + ue.ToString());
+		}	
 	}
 
 	void FixedUpdate()
@@ -417,6 +432,13 @@ public class PlayerControl : MonoBehaviour
 
 		// TODO: assert if not transform.rigidbody2D
 		transform.rigidbody2D.AddForce( launchDir * launchForce );
+		
+		Debug.Log ("Fart sound play now! launchForce: " + launchForce + " | launchDir: " + launchDir.ToString());
+		if(launchDir != Vector2.zero)
+		{
+			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();
+			farts[(int)Random.Range(0, farts.Length)].Play ();
+		}
 	}
 
 
