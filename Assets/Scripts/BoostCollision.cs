@@ -1,31 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BoostCollision : MonoBehaviour {
-	public PlayerControl playerControlRef;
+public class BoostCollision : MonoBehaviour 
+{
 	const float FORCE = 10000f;
 	const float xAxis = -0.9f;
 	const float yAxis = 0.0f;
 
-	// Use this for initialization
-	void Start () {
-		}
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	void OnCollisionEnter2D(Collision2D coll)
+	void Start() 
 	{
-		try{
-			Vector2 boostDirection = new Vector2 ();
-			boostDirection.x = xAxis;
-			boostDirection.y = yAxis;
-			GameObject.Find ("Player").transform.rigidbody2D.AddForce(boostDirection * FORCE);
-			}
-		catch(UnityException ex)
+	}
+
+	void Update() 
+	{	
+	}
+
+	void OnTriggerEnter2D( Collider2D coll )
+	{
+		try
+		{
+			if( coll.gameObject.tag == "Player" )
 			{
-			Debug.Log ("Error: " + ex);
+				audio.PlayOneShot( audio.clip );
+
+				Vector2 boostDirection = new Vector2( xAxis, yAxis );
+				coll.gameObject.rigidbody2D.AddForce(boostDirection * FORCE);
 			}
+		}
+		catch( UnityException ex )
+		{
+			Debug.LogError("Error: " + ex);
+		}
 	}
 
 }
