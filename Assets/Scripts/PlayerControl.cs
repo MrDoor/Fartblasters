@@ -72,6 +72,7 @@ public class PlayerControl : MonoBehaviour
 	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
 	const int BLOCKLAYER_MOVING			= 1 << 21;
 	const int BLOCKLAYER_FALLING		= 1 << 22;
+	const int BLOCKLAYER_BOOST			= 1 << 23;
 
 
 	void Awake()
