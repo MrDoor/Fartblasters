@@ -19,7 +19,7 @@ public class BoostCollision : MonoBehaviour
 	{
 		try
 		{
-			if( coll.gameObject.tag == "Player" )
+			if( coll.tag == "Player" )
 			{
 				audio.PlayOneShot( audio.clip );
 

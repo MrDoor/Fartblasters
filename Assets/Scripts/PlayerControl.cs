@@ -600,7 +600,7 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds( delayTime );
 		if( go )
 		{
-			if( go.name.Contains( "(Clone)" ) )
+			if( Util.IsSpaceBarSpawnedFood( go ) )
 			{
 				Debug_DecFoodCount();
 			}

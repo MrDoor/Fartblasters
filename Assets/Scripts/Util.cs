@@ -16,4 +16,9 @@ public class Util
 			return newGameObject;
 		}
 	}
+
+	public static bool IsSpaceBarSpawnedFood( GameObject go )
+	{
+		return go.name.Contains( "_Grav" );
+	}
 }
