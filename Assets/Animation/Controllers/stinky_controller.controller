@@ -76,6 +76,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110240813
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: broccoli
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: 120834c8088f9d1479cb2b14c77875ac, type: 2}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: 390, y: 546, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110241101
 State:
   m_ObjectHideFlags: 3
@@ -136,6 +151,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110280719
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: jalapeno pulse
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: d32455f7e7c181a4993281fd567eb714, type: 2}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: 425, y: 611, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110289640
 State:
   m_ObjectHideFlags: 3
@@ -184,6 +214,8 @@ StateMachine:
   - {fileID: 110210365}
   - {fileID: 110241434}
   - {fileID: 110289640}
+  - {fileID: 110240813}
+  - {fileID: 110280719}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
