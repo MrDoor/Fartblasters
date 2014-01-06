@@ -1,52 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DisappearBlockCollision : MonoBehaviour {
+public class DisappearBlockCollision : MonoBehaviour 
+{
+	public float disappearTime	= 2.5f;
+	public float totalBlinkTime	= 1.0f;
+	public bool reappears		= true;
+	public float reappearTime	= 1.0f;
 
-	float disappearTime = 0.0f;
-	bool visibleTrigger = false;
-	bool visibleFlag = false;
-	
-	// Use this for initialization
-	void Start () {
-	
+	private float blinkTime		= 0.1f;
+	private bool startDisappear	= false;
+
+	void Start() 
+	{	
+		reappearTime += totalBlinkTime;
+	}
+
+	void Update() 
+	{		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		//Debug.Log (disappearTime);
-		if(visibleTrigger)
-		{	
-			if(visibleFlag)
-			{
-				visibleFlag = false;
-			}
-			else
-			{
-				visibleFlag = true;
-			}			
-			this.renderer.enabled = visibleFlag;
-		}
-		if(disappearTime != 0.0f && disappearTime <= Time.time)
-		{
-			this.gameObject.SetActive(false);
-		}
-	}
-	
-	void OnCollisionEnter2D(Collision2D coll)
+	void OnCollisionEnter2D( Collision2D coll )
 	{
-		if(coll.gameObject.name.Equals("Player"))
+		if( coll.gameObject.tag.Equals( "Player" ) )
 		{
-			PlayerControl pControl = (PlayerControl)coll.gameObject.GetComponent<PlayerControl>();
-			if(pControl)
+			if( !startDisappear )
 			{
-				if(disappearTime == 0.0f)
-				{
-					disappearTime = Time.time + 3.0f;
-					visibleTrigger = true;
-				}
+				StartCoroutine( Disappear() );
+				startDisappear = true;
 			}
 		}
-		
+	}
+
+	IEnumerator Disappear()
+	{
+		yield return new WaitForSeconds( disappearTime - totalBlinkTime );
+
+		int blinkCount = (int)( totalBlinkTime / blinkTime );
+		for( int blinkIndex = 0; blinkIndex < blinkCount; blinkIndex++ )
+		{
+			this.renderer.enabled = !this.renderer.enabled;
+			yield return new WaitForSeconds( blinkTime );
+		}
+		this.renderer.enabled = false;
+		this.gameObject.collider2D.enabled = false;
+
+		if( reappears )
+		{
+			StartCoroutine( Reappear() );
+		}
+	}
+
+	IEnumerator Reappear()
+	{
+		yield return new WaitForSeconds( reappearTime - totalBlinkTime );
+
+		int blinkCount = (int)( totalBlinkTime / blinkTime );
+		for( int blinkIndex = 0; blinkIndex < blinkCount; blinkIndex++ )
+		{
+			this.renderer.enabled = !this.renderer.enabled;
+			yield return new WaitForSeconds( blinkTime );
+		}
+
+		this.renderer.enabled = true;		
+		this.gameObject.collider2D.enabled = true;
+		startDisappear = false;
 	}
 }
