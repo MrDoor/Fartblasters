@@ -38,12 +38,22 @@ public class CollectFood : MonoBehaviour
 	void checkFoodType( PlayerControl pControl )
 	{
 		float destroyTime = 0.0f;
+
+		if( audio.clip )
+		{
+			audio.PlayOneShot( audio.clip );		
+			destroyTime = audio.clip.length;
+		}
+		else
+		{
+			Debug.Log( this.gameObject.name + ": Has no pickup sound set." );
+		}
+
 		if( this.gameObject.name.Equals("Jalapeno") )
 		{	
-			pControl.transform.rigidbody2D.AddForce( pControl.transform.rigidbody2D.velocity.normalized * 4000 );	
-			this.audio.Play();		
+			Rigidbody2D playerRB = pControl.transform.rigidbody2D;
+			playerRB.AddForce( playerRB.velocity.normalized * 4000 );	
 			this.transform.renderer.enabled = false;
-			destroyTime = audio.clip.length;
 			Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
 		}
 		else

@@ -173,6 +173,7 @@ GameObject:
   - 61: {fileID: 11771091}
   - 212: {fileID: 11771090}
   - 114: {fileID: 11771092}
+  - 82: {fileID: 11771093}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -240,6 +241,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupJuice: 25
+--- !u!82 &11771093
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1435938353}
+  m_GameObject: {fileID: 11771088}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &29800881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,7 +1454,7 @@ AudioSource:
   m_GameObject: {fileID: 131062066}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 321f47b514e29d548998b9456a991995, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4796,7 +4856,7 @@ AudioSource:
   m_GameObject: {fileID: 445506239}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 321f47b514e29d548998b9456a991995, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -5060,6 +5120,7 @@ GameObject:
   - 61: {fileID: 457241143}
   - 212: {fileID: 457241142}
   - 114: {fileID: 457241145}
+  - 82: {fileID: 457241146}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -5127,6 +5188,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupJuice: 25
+--- !u!82 &457241146
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 2052549225}
+  m_GameObject: {fileID: 457241141}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &457749036
 GameObject:
   m_ObjectHideFlags: 0
@@ -6470,7 +6590,7 @@ AudioSource:
   m_GameObject: {fileID: 580520823}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 321f47b514e29d548998b9456a991995, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -14952,7 +15072,7 @@ AudioSource:
   m_GameObject: {fileID: 1263672030}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 321f47b514e29d548998b9456a991995, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
