@@ -60,16 +60,19 @@ public class PlayerControl : MonoBehaviour
 
 	// These are hard coded to the values of the layers in the editor
 	// Have to update by hand if they change
-	const int BLOCKLAYER_DEFAULT	= 1 << 11;
-	const int BLOCKLAYER_SLIPPERY	= 1 << 12;
-	const int BLOCKLAYER_BOUNCY		= 1 << 13;
-	const int BLOCKLAYER_STICKY		= 1 << 14;
-	const int BLOCKLAYER_TELEPORT1	= 1 << 15;
-	const int BLOCKLAYER_TELEPORT2	= 1 << 16;
-	const int BLOCKLAYER_STOP		= 1 << 17;
-	const int BLOCKLAYER_MAGNET		= 1 << 18;
-	const int BLOCKLAYER_VORTEX		= 1 << 19;
-	
+	const int BLOCKLAYER_DEFAULT		= 1 << 11;
+	const int BLOCKLAYER_SLIPPERY		= 1 << 12;
+	const int BLOCKLAYER_BOUNCY			= 1 << 13;
+	const int BLOCKLAYER_STICKY			= 1 << 14;
+	const int BLOCKLAYER_TELEPORT1		= 1 << 15;
+	const int BLOCKLAYER_TELEPORT2		= 1 << 16;
+	const int BLOCKLAYER_STOP			= 1 << 17;
+	const int BLOCKLAYER_MAGNET			= 1 << 18;
+	const int BLOCKLAYER_VORTEX			= 1 << 19;
+	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
+	const int BLOCKLAYER_MOVING			= 1 << 21;
+	const int BLOCKLAYER_FALLING		= 1 << 22;
+	const int BLOCKLAYER_BOOST			= 1 << 23;
 
 
 	void Awake()
@@ -82,9 +85,10 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void Update () 
-	{
+	{		
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX;
+		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR 
+						| BLOCKLAYER_MOVING | BLOCKLAYER_FALLING;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if( !onGround )
 		{
@@ -107,11 +111,52 @@ public class PlayerControl : MonoBehaviour
 
 		// TODO: Put in a check to only allow this in debug
 		Debug_CheckSpawnFood();
+		
+		if(Input.GetKeyDown("d") && onGround)
+		{
+			//added for sticky block testing
+			if(this.transform.rigidbody2D.gravityScale == 0) 
+			{
+				this.transform.rigidbody2D.gravityScale = 1;
+			}
+			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//schooch!
+			scoochPoot();		
+		}
+		else if(Input.GetKeyDown("a") && onGround)
+		{
+			//added for sticky block testing
+			if(this.transform.rigidbody2D.gravityScale == 0) 
+			{
+				this.transform.rigidbody2D.gravityScale = 1;
+			}
+			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
+			scoochPoot();
+		}		
+	}
+	
+	void scoochPoot()
+	{	
+		try
+		{
+			if(!this.transform.Find ("body").audio.isPlaying)
+			{
+				this.transform.Find("body").audio.Play ();				
+			}
+		}
+		catch(UnityException ue)
+		{
+			Debug.Log ("Error with getting body: " + ue.ToString());
+		}	
 	}
 
 	void FixedUpdate()
 	{
 		isMoving = ( transform.rigidbody2D.velocity.sqrMagnitude >= 0.01f || transform.rigidbody2D.angularVelocity >= 0.01f );
+		
+		if(!onGround && collider2D.transform.parent != null)
+		{			
+			this.collider2D.transform.parent = null;
+		}
 
 		if( isMoving )
 		{
@@ -143,6 +188,8 @@ public class PlayerControl : MonoBehaviour
 
 		Launch_Reset();
 		PullLine_Reset();
+		
+		this.collider2D.transform.parent = null;
 	}
 
 
@@ -386,6 +433,13 @@ public class PlayerControl : MonoBehaviour
 
 		// TODO: assert if not transform.rigidbody2D
 		transform.rigidbody2D.AddForce( launchDir * launchForce );
+		
+		Debug.Log ("Fart sound play now! launchForce: " + launchForce + " | launchDir: " + launchDir.ToString());
+		if(launchDir != Vector2.zero)
+		{
+			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();
+			farts[(int)Random.Range(0, farts.Length)].Play ();
+		}
 	}
 
 
@@ -547,7 +601,7 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds( delayTime );
 		if( go )
 		{
-			if( go.name.Contains( "(Clone)" ) )
+			if( Util.IsSpaceBarSpawnedFood( go ) )
 			{
 				Debug_DecFoodCount();
 			}

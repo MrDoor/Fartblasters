@@ -38,10 +38,10 @@ TagManager:
   User Layer 17: StopBlock
   User Layer 18: MagnetBlock
   User Layer 19: VortexBlock
-  User Layer 20: 
-  User Layer 21: 
-  User Layer 22: 
-  User Layer 23: 
+  User Layer 20: DisappearBlock
+  User Layer 21: MovingBlock
+  User Layer 22: FallingBlock
+  User Layer 23: BoostBlock
   User Layer 24: 
   User Layer 25: 
   User Layer 26: 

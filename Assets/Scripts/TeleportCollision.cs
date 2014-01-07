@@ -18,55 +18,64 @@ public class TeleportCollision : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll)
 	{
 		//This only works if there is one of each block in the level... got it to work but will need to be modified to handle more than 2 teleport objects
+		if(coll.gameObject.name.Equals("Player"))
+		{
+			PlayerControl pControl = (PlayerControl)coll.gameObject.GetComponent<PlayerControl>();
+			if(pControl)
+			{				
+				if(nextTeleport <= Time.time)
+				{	
+					Vector2 tempVelocity = pControl.transform.rigidbody2D.velocity;
+					Vector3 tempPosition;
+					try
+					{
+						if(this.gameObject.name.EndsWith("1"))
+						{
+							tempPosition = GameObject.Find("TeleportBlock2").transform.position;
+							if(coll.transform.position.x > this.transform.position.x)
+							{
+								tempPosition.x -= this.renderer.bounds.size.x;
+							}
+							else
+							{
+								tempPosition.x += this.renderer.bounds.size.x;
+							}
+							pControl.transform.position = tempPosition;
+							pControl.transform.rigidbody2D.AddForce(tempVelocity);
+							nextTeleport = Time.time + 2;
+							Debug.Log ("Teleport! " + nextTeleport);			
+						}
+						else
+						{
+							tempPosition = GameObject.Find("TeleportBlock1").transform.position;
+							if(coll.transform.position.x > this.transform.position.x)
+							{
+								tempPosition.x -= this.renderer.bounds.size.x;
+							}
+							else
+							{
+								tempPosition.x += this.renderer.bounds.size.x;
+							}
+							pControl.transform.position = tempPosition;
+							pControl.transform.rigidbody2D.AddForce(tempVelocity);
+							nextTeleport = Time.time + 2;
+							Debug.Log ("Teleport! " + nextTeleport);
+						}
+					}
+					catch(UnityException ex)
+					{
+						Debug.Log ("Error: " + ex.Message);
+					}	
+				}
+			}
+		}
+		/*
 		if(!playerControlRef)
 		{
 			Debug.Log("Player Control Ref Not set!");
 			playerControlRef = (PlayerControl)GameObject.Find("Player").GetComponent<PlayerControl>();
 		}
+		*/
 		
-		if(nextTeleport <= Time.time)
-		{	
-			Vector2 tempVelocity = playerControlRef.transform.rigidbody2D.velocity;
-			Vector3 tempPosition;
-			try
-			{
-				if(this.gameObject.name.EndsWith("1"))
-				{
-					tempPosition = GameObject.Find("TeleportBlock2").transform.position;
-					if(coll.transform.position.x > this.transform.position.x)
-					{
-						tempPosition.x -= this.renderer.bounds.size.x;
-					}
-					else
-					{
-						tempPosition.x += this.renderer.bounds.size.x;
-					}
-					playerControlRef.transform.position = tempPosition;
-					playerControlRef.transform.rigidbody2D.AddForce(tempVelocity);
-					nextTeleport = Time.time + 2;
-					Debug.Log ("Teleport! " + nextTeleport);			
-				}
-				else
-				{
-					tempPosition = GameObject.Find("TeleportBlock1").transform.position;
-					if(coll.transform.position.x > this.transform.position.x)
-					{
-						tempPosition.x -= this.renderer.bounds.size.x;
-					}
-					else
-					{
-						tempPosition.x += this.renderer.bounds.size.x;
-					}
-					playerControlRef.transform.position = tempPosition;
-					playerControlRef.transform.rigidbody2D.AddForce(tempVelocity);
-					nextTeleport = Time.time + 2;
-					Debug.Log ("Teleport! " + nextTeleport);
-				}
-			}
-			catch(UnityException ex)
-			{
-				Debug.Log ("Error: " + ex.Message);
-			}	
-		}
 	}	
 }
