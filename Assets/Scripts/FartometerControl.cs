@@ -3,12 +3,12 @@ using System.Collections;
 
 public class FartometerControl : MonoBehaviour 
 {
-	public PlayerControl playerControlRef;
 	public Texture backgroundTexture; 
 	public Texture fillTexture;
 	public Texture backFillTexture;
 	public Texture capTexture;
-
+	
+	private PlayerControl playerControlRef;
 	private Rect backgroundRect;
 	private Rect fillRect;
 	private Rect backFillRect;
@@ -24,10 +24,10 @@ public class FartometerControl : MonoBehaviour
 
 	void Awake() 
 	{
+		playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
 		if( !playerControlRef )
 		{
-			playerControlRef = (PlayerControl)GameObject.Find("Player").GetComponent<PlayerControl>();
-			Debug.Log( "Fartometer Control reference to the Player Control script is unassigned." );
+			Debug.LogError( "Fartometer Control: Could not find Player Controls." );
 		}
 
 		scale.x = Screen.width / originalWidth;
