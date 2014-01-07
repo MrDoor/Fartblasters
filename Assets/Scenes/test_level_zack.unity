@@ -237,6 +237,7 @@ GameObject:
   - 61: {fileID: 11771091}
   - 212: {fileID: 11771090}
   - 114: {fileID: 11771092}
+  - 82: {fileID: 11771093}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -304,6 +305,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupJuice: 25
+--- !u!82 &11771093
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1435938353}
+  m_GameObject: {fileID: 11771088}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &12591416
 GameObject:
   m_ObjectHideFlags: 0
@@ -2398,6 +2458,7 @@ GameObject:
   - 212: {fileID: 131062069}
   - 114: {fileID: 131062068}
   - 82: {fileID: 131062071}
+  - 82: {fileID: 131062072}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -2469,6 +2530,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 387982749}
+  m_GameObject: {fileID: 131062066}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &131062072
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 387982749}
   m_GameObject: {fileID: 131062066}
@@ -6593,6 +6713,7 @@ GameObject:
   - 212: {fileID: 385790494}
   - 114: {fileID: 385790493}
   - 82: {fileID: 385790496}
+  - 82: {fileID: 385790497}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -6664,6 +6785,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 995417173}
+  m_GameObject: {fileID: 385790491}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &385790497
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 995417173}
   m_GameObject: {fileID: 385790491}
@@ -8054,6 +8234,7 @@ GameObject:
   - 212: {fileID: 445506242}
   - 114: {fileID: 445506241}
   - 82: {fileID: 445506244}
+  - 82: {fileID: 445506245}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -8125,6 +8306,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 558485770}
+  m_GameObject: {fileID: 445506239}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &445506245
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 558485770}
   m_GameObject: {fileID: 445506239}
@@ -8458,6 +8698,7 @@ GameObject:
   - 61: {fileID: 457241143}
   - 212: {fileID: 457241142}
   - 114: {fileID: 457241145}
+  - 82: {fileID: 457241146}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -8525,6 +8766,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupJuice: 25
+--- !u!82 &457241146
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 2052549225}
+  m_GameObject: {fileID: 457241141}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &457749036
 GameObject:
   m_ObjectHideFlags: 0
@@ -13754,6 +14054,7 @@ GameObject:
   - 61: {fileID: 786551399}
   - 212: {fileID: 786551398}
   - 114: {fileID: 786551397}
+  - 82: {fileID: 786551400}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -13821,6 +14122,65 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .449999988, y: .540000021}
   m_Center: {x: 0, y: 0}
+--- !u!82 &786551400
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1278317507}
+  m_GameObject: {fileID: 786551395}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &791145410
 GameObject:
   m_ObjectHideFlags: 0
@@ -16763,6 +17123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5541a1b42a006543b51fead97bf9aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disappearTime: 2.5
+  totalBlinkTime: 1
+  reappears: 1
+  reappearTime: 1
 --- !u!61 &955877572
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18878,6 +19242,7 @@ GameObject:
   - 61: {fileID: 1035345876}
   - 212: {fileID: 1035345875}
   - 114: {fileID: 1035345874}
+  - 82: {fileID: 1035345877}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -18945,6 +19310,65 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .449999988, y: .540000021}
   m_Center: {x: 0, y: 0}
+--- !u!82 &1035345877
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 833445682}
+  m_GameObject: {fileID: 1035345872}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1001 &1041363876
 Prefab:
   m_ObjectHideFlags: 0
@@ -20384,6 +20808,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5541a1b42a006543b51fead97bf9aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disappearTime: 2.5
+  totalBlinkTime: 1
+  reappears: 1
+  reappearTime: 1
 --- !u!61 &1117362799
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20816,6 +21244,7 @@ GameObject:
   - 212: {fileID: 1142099422}
   - 114: {fileID: 1142099421}
   - 82: {fileID: 1142099424}
+  - 82: {fileID: 1142099425}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -20887,6 +21316,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 1741038564}
+  m_GameObject: {fileID: 1142099419}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &1142099425
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 1741038564}
   m_GameObject: {fileID: 1142099419}
@@ -23609,6 +24097,7 @@ GameObject:
   - 212: {fileID: 1263672032}
   - 114: {fileID: 1263672031}
   - 82: {fileID: 1263672035}
+  - 82: {fileID: 1263672036}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -23680,6 +24169,65 @@ Transform:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 933909825}
+  m_GameObject: {fileID: 1263672030}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &1263672036
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 933909825}
   m_GameObject: {fileID: 1263672030}
@@ -30298,6 +30846,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5541a1b42a006543b51fead97bf9aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disappearTime: 2.5
+  totalBlinkTime: 1
+  reappears: 1
+  reappearTime: 1
 --- !u!61 &1588515788
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31334,6 +31886,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5541a1b42a006543b51fead97bf9aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disappearTime: 2.5
+  totalBlinkTime: 1
+  reappears: 1
+  reappearTime: 1
 --- !u!61 &1626396956
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31998,6 +32554,7 @@ GameObject:
   - 212: {fileID: 1652166101}
   - 114: {fileID: 1652166100}
   - 82: {fileID: 1652166103}
+  - 82: {fileID: 1652166104}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -32069,6 +32626,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 1474894949}
+  m_GameObject: {fileID: 1652166098}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &1652166104
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 1474894949}
   m_GameObject: {fileID: 1652166098}
@@ -35472,6 +36088,7 @@ GameObject:
   - 61: {fileID: 1838741604}
   - 212: {fileID: 1838741603}
   - 114: {fileID: 1838741602}
+  - 82: {fileID: 1838741605}
   m_Layer: 10
   m_Name: Broccoli
   m_TagString: PickUp
@@ -35539,6 +36156,65 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .449999988, y: .540000021}
   m_Center: {x: 0, y: 0}
+--- !u!82 &1838741605
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394915318}
+  m_GameObject: {fileID: 1838741600}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1001 &1839429901
 Prefab:
   m_ObjectHideFlags: 0
@@ -35847,6 +36523,7 @@ GameObject:
   - 212: {fileID: 1852432252}
   - 114: {fileID: 1852432251}
   - 82: {fileID: 1852432254}
+  - 82: {fileID: 1852432255}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -35918,6 +36595,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 204917013}
+  m_GameObject: {fileID: 1852432249}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &1852432255
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 204917013}
   m_GameObject: {fileID: 1852432249}
@@ -38910,6 +39646,7 @@ GameObject:
   - 212: {fileID: 2004362985}
   - 114: {fileID: 2004362984}
   - 82: {fileID: 2004362987}
+  - 82: {fileID: 2004362988}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -38981,6 +39718,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 1234702742}
+  m_GameObject: {fileID: 2004362982}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &2004362988
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 1234702742}
   m_GameObject: {fileID: 2004362982}
@@ -39673,6 +40469,7 @@ GameObject:
   - 212: {fileID: 2049471431}
   - 114: {fileID: 2049471430}
   - 82: {fileID: 2049471433}
+  - 82: {fileID: 2049471434}
   m_Layer: 10
   m_Name: Jalapeno
   m_TagString: PickUp
@@ -39744,6 +40541,65 @@ BoxCollider2D:
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: 87e0e2993549ece49a37a10cd89cd714,
+    type: 2}
+  m_PrefabInternal: {fileID: 95124900}
+  m_GameObject: {fileID: 2049471428}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 355cdc4dfe1c1fa40bc93bb7fb431af8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &2049471434
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200002, guid: 87e0e2993549ece49a37a10cd89cd714,
     type: 2}
   m_PrefabInternal: {fileID: 95124900}
   m_GameObject: {fileID: 2049471428}

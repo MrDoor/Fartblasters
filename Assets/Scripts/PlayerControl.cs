@@ -437,7 +437,7 @@ public class PlayerControl : MonoBehaviour
 		Debug.Log ("Fart sound play now! launchForce: " + launchForce + " | launchDir: " + launchDir.ToString());
 		if(launchDir != Vector2.zero)
 		{
-			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();
+			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();			
 			farts[(int)Random.Range(0, farts.Length)].Play ();
 		}
 	}
