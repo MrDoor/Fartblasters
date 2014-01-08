@@ -9,15 +9,6 @@ public class MovingBlockControl : MonoBehaviour {
 	private Vector3 currentPosition;
 	public bool isLeftRight = false;
 	
-	private enum Direction
-	{
-		DOWN,
-		LEFT,
-		NONE,
-		RIGHT,
-		UP
-	};
-	
 	//private Direction lastDirection = Direction.NONE;
 	private Direction moveTo = Direction.LEFT;
 	
