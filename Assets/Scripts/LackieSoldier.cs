@@ -1,34 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LackieSoldier : MonoBehaviour {
-
+public class LackieSoldier : MonoBehaviour 
+{
 	private Transform groundCheck;
 	private bool onGround = false;	
 	//private bool isMoving	= false;
 	private float detectPause = 0.0f;
 	
 	private Direction lastDirection = Direction.NONE;
-	private Direction moveTo = Direction.LEFT;
+	private Direction moveTo        = Direction.LEFT;
 	
 	private Animator playerAnimator;
-	private float lastXPos		= 0.0f;
+	private float lastXPos = 0.0f;
 	
-	// Use this for initialization
-	void Start () {
-		groundCheck = transform.Find("Lackie_Soldier_groundCheck");
+	void Start() 
+    {
+		groundCheck = transform.Find( "Lackie_Soldier_groundCheck" );
 		Animation_Init();
 		Move();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update() 
+    {
         int layerMask = Constants.LayerMask_Ground;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		
-		if(!onGround)
+		if( !onGround )
 		{
-			if(lastDirection == Direction.LEFT)
+			if( lastDirection == Direction.LEFT )
 			{
 				moveTo = Direction.RIGHT;
 			}
@@ -37,18 +37,18 @@ public class LackieSoldier : MonoBehaviour {
 				moveTo = Direction.LEFT;
 			}
 		}
-		Move ();
+		Move();
 		
 		Animation_Update(onGround);
 	}
 	
 	void FixedUpdate()
 	{		
-		if( lastXPos < transform.position.x)
+		if( lastXPos < transform.position.x )
 		{
 			lastDirection = Direction.RIGHT;
 		}
-		else if(lastXPos > transform.position.x)
+		else if( lastXPos > transform.position.x )
 		{
 			lastDirection = Direction.LEFT;
 		}
@@ -61,7 +61,7 @@ public class LackieSoldier : MonoBehaviour {
 	
 	void Move()
 	{
-		if(moveTo == Direction.RIGHT)
+		if( moveTo == Direction.RIGHT )
 		{
 			MoveRight();
 		}
@@ -88,45 +88,45 @@ public class LackieSoldier : MonoBehaviour {
 	//Animation
 	public void Animation_Init()
 	{
-		playerAnimator	= this.transform.Find ("body").GetComponent( "Animator" ) as Animator;
+		playerAnimator	= this.transform.Find( "body" ).GetComponent( "Animator" ) as Animator;
 		lastXPos		= transform.position.x;
 	}
 	
 	public void Animation_Update( bool onGround )
 	{
-		if(moveTo == Direction.LEFT)
+		if( moveTo == Direction.LEFT )
 		{
-			playerAnimator.Play("lackie walk");
+			playerAnimator.Play( "lackie walk" );
 		}
 		else
 		{
 			//Not WORKING!!
-			playerAnimator.Play("lackie walk_right");
+			playerAnimator.Play( "lackie walk_right" );
 		}
 	}
 	
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if(coll.gameObject.name.Equals("Player"))
+		if( coll.gameObject.tag.Equals( "Player" ) )
 		{
-			Debug.Log("Player!");
+			Debug.Log( "Player!" );
 		}
 		else
 		{
-			if(coll.gameObject.transform.position.y >= this.transform.position.y)
+			if( coll.gameObject.transform.position.y >= this.transform.position.y )
 			{
-				if(Physics2D.Linecast(transform.position, coll.gameObject.transform.position))
+				if( Physics2D.Linecast( transform.position, coll.gameObject.transform.position ) )
 				{
-					if(detectPause <= Time.time)
+					if( detectPause <= Time.time )
 					{
-						if(moveTo == Direction.LEFT)
+						if( moveTo == Direction.LEFT )
 						{
 							MoveRight();
 							moveTo = Direction.RIGHT;
 						}
 						else
 						{
-							MoveLeft ();
+							MoveLeft();
 							moveTo = Direction.LEFT;
 						}
 						detectPause = Time.time + 2.0f;

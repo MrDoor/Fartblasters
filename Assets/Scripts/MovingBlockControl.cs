@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovingBlockControl : MonoBehaviour {
-
+public class MovingBlockControl : MonoBehaviour 
+{
 	public float rightLeftSize = 1.0f;
 	public float upDownSize = 2.0f; 
 	
@@ -14,13 +14,13 @@ public class MovingBlockControl : MonoBehaviour {
 	//private Direction lastDirection = Direction.NONE;
 	private Direction moveTo = Direction.LEFT;
 	
-	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
 		transform_ = this.transform;
 		currentPosition = transform_.position;
-		if(isLeftRight)
+		if( isLeftRight )
 		{	
-			MoveLeft ();	
+			MoveLeft();	
 		}
 		else
 		{
@@ -29,11 +29,12 @@ public class MovingBlockControl : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(isLeftRight)
+	void Update() 
+    {
+		if( isLeftRight )
 		{
 			positionDifference = currentPosition.x - transform_.position.x;	
-			if(Mathf.Abs (positionDifference) >= rightLeftSize)
+			if( Mathf.Abs( positionDifference ) >= rightLeftSize )
 			{
 				CheckDirection();
 			}	
@@ -41,36 +42,36 @@ public class MovingBlockControl : MonoBehaviour {
 		else
 		{
 			positionDifference = currentPosition.y - transform_.position.y;
-			if(Mathf.Abs (positionDifference) >= upDownSize)
+			if( Mathf.Abs( positionDifference ) >= upDownSize )
 			{
 				CheckDirection();
 			}
 		}
-		Move ();
+		Move();
 	}	
 	
 	void Move()
 	{
-		if(isLeftRight)
+		if( isLeftRight )
 		{
-			if(moveTo == Direction.LEFT)
+			if( moveTo == Direction.LEFT )
 			{
 				MoveLeft();
 			}
 			else
 			{
-				MoveRight ();
+				MoveRight();
 			}
 		}
 		else
 		{
-			if(moveTo == Direction.UP)
+			if( moveTo == Direction.UP )
 			{
 				MoveDown();
 			}
 			else
 			{
-				MoveUp ();
+				MoveUp();
 			}
 		}		
 	}
@@ -105,9 +106,9 @@ public class MovingBlockControl : MonoBehaviour {
 	
 	void CheckDirection()
 	{
-		if(isLeftRight)
+		if( isLeftRight )
 		{
-			if(moveTo == Direction.LEFT)
+			if( moveTo == Direction.LEFT )
 			{
 				moveTo = Direction.RIGHT;
 			}
@@ -118,7 +119,7 @@ public class MovingBlockControl : MonoBehaviour {
 		}
 		else
 		{
-			if(moveTo == Direction.UP)
+			if( moveTo == Direction.UP )
 			{
 				moveTo = Direction.DOWN;
 			}
@@ -129,12 +130,12 @@ public class MovingBlockControl : MonoBehaviour {
 		}
 	}
 	
-	void OnCollisionEnter2D(Collision2D coll)
+	void OnCollisionEnter2D( Collision2D coll )
 	{
-		if(coll.gameObject.tag.Equals("Player"))
+		if( coll.gameObject.tag.Equals( "Player" ) )
 		{
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			if(pControl)
+			if( pControl )
 			{				
 				//Debug.Log(coll.transform.parent == null ? "No Parent to start with." : "Has a parent: " + coll.transform.parent.name);
 				coll.transform.parent = transform_;
@@ -143,10 +144,10 @@ public class MovingBlockControl : MonoBehaviour {
 	}
 	
 	//NOT WORKING!!
-	void OnCollisionExit2D(Collision2D coll)
+	void OnCollisionExit2D( Collision2D coll )
 	{
-		Debug.Log ("Collision Exit");
-		if(coll.gameObject.name.Equals("Player"))
+		Debug.Log( "Collision Exit" );
+		if( coll.gameObject.name.Equals( "Player" ) )
 		{
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			if(pControl)
