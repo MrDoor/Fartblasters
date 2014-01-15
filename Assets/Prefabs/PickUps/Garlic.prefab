@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 82: {fileID: 8200000}
   m_Layer: 10
-  m_Name: 2 Point Fart Juice
+  m_Name: Garlic
   m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .163515687, y: -4.62452412, z: -.0500489995}
-  m_LocalScale: {x: 1, y: 1, z: 5.63625622}
+  m_LocalPosition: {x: 4.37991953, y: -1.90485072, z: -.0500489995}
+  m_LocalScale: {x: 1.20000005, y: 1.20000005, z: 5.63625622}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!61 &6100000
@@ -39,7 +39,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 6200000, guid: 97a03eba3cd7fe54cbbaa4869db348c1, type: 2}
   m_IsTrigger: 1
-  m_Size: {x: .400000006, y: .449999988}
+  m_Size: {x: .5, y: .5}
   m_Center: {x: 0, y: 0}
 --- !u!82 &8200000
 AudioSource:
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortingLayerID: 3210385691
-  m_Sprite: {fileID: 21300000, guid: b844112333529e9428d101d4db664e0c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ecb2bc7c46af0ea448d3e427ff243a65, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

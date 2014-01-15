@@ -43,7 +43,7 @@ public class CollectFood : MonoBehaviour
 			pControl.transform.rigidbody2D.AddForce( pControl.transform.rigidbody2D.velocity.normalized * 4000 );	
 			AudioSource[] sounds = this.gameObject.GetComponents<AudioSource>();
 			sounds[0].Play();		
-			sounds[1].Play();
+			sounds[1].PlayDelayed(sounds[0].clip.length);
 			this.transform.renderer.enabled = false;
 			destroyTime = sounds[1].clip.length;
 			Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
