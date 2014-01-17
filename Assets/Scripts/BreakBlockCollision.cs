@@ -13,17 +13,6 @@ public class BreakBlockCollision : MonoBehaviour {
 	
 	}
 
-    /*oid OnCollisionEnter2D( Collision2D coll )
-    {
-    	
-        if( coll.gameObject.tag.Equals( "Player" ) )
-        {
-            this.renderer.enabled = false;
-            this.gameObject.collider2D.enabled = false;
-        }
-    }*/
-	
-
     void OnTriggerEnter2D( Collider2D obj )
     {
         if (obj.name == "Player")
@@ -34,6 +23,7 @@ public class BreakBlockCollision : MonoBehaviour {
 				this.transform.renderer.enabled = false;
 				this.gameObject.collider2D.enabled = false;
 				pControl.transform.rigidbody2D.AddForce( pControl.transform.rigidbody2D.velocity.normalized * -3000 );
+				Debug.Log ("Break Block");
 			}
         }
     }
