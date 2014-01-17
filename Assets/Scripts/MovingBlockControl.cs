@@ -1,32 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovingBlockControl : MonoBehaviour {
-
+public class MovingBlockControl : MonoBehaviour 
+{
 	public float rightLeftSize = 1.0f;
 	public float upDownSize = 2.0f; 
+	
+	private Transform transform_;
 	private float positionDifference = 0.0f;	
 	private Vector3 currentPosition;
 	public bool isLeftRight = false;
 	
-	private enum Direction
-	{
-		DOWN,
-		LEFT,
-		NONE,
-		RIGHT,
-		UP
-	};
-	
 	//private Direction lastDirection = Direction.NONE;
 	private Direction moveTo = Direction.LEFT;
 	
-	// Use this for initialization
-	void Start () {
-		currentPosition = this.transform.position;
-		if(isLeftRight)
+	void Start () 
+    {
+		transform_ = this.transform;
+		currentPosition = transform_.position;
+		if( isLeftRight )
 		{	
-			MoveLeft ();	
+			MoveLeft();	
 		}
 		else
 		{
@@ -35,88 +29,86 @@ public class MovingBlockControl : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(isLeftRight)
+	void Update() 
+    {
+		if( isLeftRight )
 		{
-			positionDifference = currentPosition.x - this.transform.position.x;	
-			if(Mathf.Abs (positionDifference) >= rightLeftSize)
+			positionDifference = currentPosition.x - transform_.position.x;	
+			if( Mathf.Abs( positionDifference ) >= rightLeftSize )
 			{
 				CheckDirection();
 			}	
 		}
 		else
 		{
-			positionDifference = currentPosition.y - this.transform.position.y;
-			if(Mathf.Abs (positionDifference) >= upDownSize)
+			positionDifference = currentPosition.y - transform_.position.y;
+			if( Mathf.Abs( positionDifference ) >= upDownSize )
 			{
 				CheckDirection();
 			}
 		}
-		//Debug.Log (positionDifference + " | " + rightLeftSize + " | " + upDownSize);	
-		
-		Move ();
-	}
-	
+		Move();
+	}	
 	
 	void Move()
 	{
-		if(isLeftRight)
+		if( isLeftRight )
 		{
-			if(moveTo == Direction.LEFT)
+			if( moveTo == Direction.LEFT )
 			{
 				MoveLeft();
 			}
 			else
 			{
-				MoveRight ();
+				MoveRight();
 			}
 		}
 		else
 		{
-			if(moveTo == Direction.UP)
+			if( moveTo == Direction.UP )
 			{
 				MoveDown();
 			}
 			else
 			{
-				MoveUp ();
+				MoveUp();
 			}
 		}		
 	}
 	
 	void MoveRight()
 	{
-		Vector3 temp = this.transform.position;
+		Vector3 temp = transform_.position;
 		temp.x += .01f;
-		this.transform.position = temp;
+		transform_.position = temp;
 	}
 	
 	void MoveLeft()
 	{
-		Vector3 temp = this.transform.position;
+		Vector3 temp = transform_.position;
 		temp.x -= .01f;
-		this.transform.position = temp;
+		transform_.position = temp;
 	}
 	
 	void MoveUp()
 	{
-		Vector3 temp = this.transform.position;
+		Vector3 temp = transform_.position;
 		temp.y += .01f;
-		this.transform.position = temp;
+		transform_.position = temp;
 	}
 	
 	void MoveDown()
 	{
-		Vector3 temp = this.transform.position;
+		Vector3 temp = transform_.position;
 		temp.y -= .01f;
-		this.transform.position = temp;	
+		transform_.position = temp;	
 	}
 	
 	void CheckDirection()
 	{
-		if(isLeftRight)
+		if( isLeftRight )
 		{
-			if(moveTo == Direction.LEFT)
+			if( moveTo == Direction.LEFT )
 			{
 				moveTo = Direction.RIGHT;
 			}
@@ -127,7 +119,7 @@ public class MovingBlockControl : MonoBehaviour {
 		}
 		else
 		{
-			if(moveTo == Direction.UP)
+			if( moveTo == Direction.UP )
 			{
 				moveTo = Direction.DOWN;
 			}
@@ -138,24 +130,24 @@ public class MovingBlockControl : MonoBehaviour {
 		}
 	}
 	
-	void OnCollisionEnter2D(Collision2D coll)
+	void OnCollisionEnter2D( Collision2D coll )
 	{
-		if(coll.gameObject.name.Equals("Player"))
+		if( coll.gameObject.tag.Equals( "Player" ) )
 		{
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			if(pControl)
+			if( pControl )
 			{				
 				//Debug.Log(coll.transform.parent == null ? "No Parent to start with." : "Has a parent: " + coll.transform.parent.name);
-				coll.transform.parent = this.transform;
+				coll.transform.parent = transform_;
 			}
 		}
 	}
 	
 	//NOT WORKING!!
-	void OnCollisionExit2D(Collision2D coll)
+	void OnCollisionExit2D( Collision2D coll )
 	{
-		Debug.Log ("Collision Exit");
-		if(coll.gameObject.name.Equals("Player"))
+		Debug.Log( "Collision Exit" );
+		if( coll.gameObject.name.Equals( "Player" ) )
 		{
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			if(pControl)
@@ -165,7 +157,7 @@ public class MovingBlockControl : MonoBehaviour {
 			}
 		}
 	}
-	
+		
 	/*
 	IEnumerator pauseMovement()
 	{

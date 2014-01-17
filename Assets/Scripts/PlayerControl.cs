@@ -42,38 +42,15 @@ public class PlayerControl : MonoBehaviour
 	private float lastXPos		= 0.0f;
 	private Direction movingDir	= Direction.RIGHT;
 
+    // Sounds
+    private AudioSource playerBodyAudioSource;
+
 	// Debug
 	public GameObject debugSpawnFoodObj;
 
 	private int maxDebugFood			= 3;
 	private int debugFoodCount			= 0;
 	private float debugFoodDestroyTime	= 3.0f;
-
-
-
-	private enum Direction
-	{
-		LEFT,
-		NONE,
-		RIGHT
-	};	
-
-	// These are hard coded to the values of the layers in the editor
-	// Have to update by hand if they change
-	const int BLOCKLAYER_DEFAULT		= 1 << 11;
-	const int BLOCKLAYER_SLIPPERY		= 1 << 12;
-	const int BLOCKLAYER_BOUNCY			= 1 << 13;
-	const int BLOCKLAYER_STICKY			= 1 << 14;
-	const int BLOCKLAYER_TELEPORT1		= 1 << 15;
-	const int BLOCKLAYER_TELEPORT2		= 1 << 16;
-	const int BLOCKLAYER_STOP			= 1 << 17;
-	const int BLOCKLAYER_MAGNET			= 1 << 18;
-	const int BLOCKLAYER_VORTEX			= 1 << 19;
-	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
-	const int BLOCKLAYER_MOVING			= 1 << 21;
-	const int BLOCKLAYER_FALLING		= 1 << 22;
-	const int BLOCKLAYER_BOOST			= 1 << 23;
-
 
 	void Awake()
 	{
@@ -82,13 +59,13 @@ public class PlayerControl : MonoBehaviour
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
+        Sound_Init();
 	}
 
 	void Update () 
 	{		
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR 
-						| BLOCKLAYER_MOVING | BLOCKLAYER_FALLING;
+        int layerMask = Constants.LayerMask_Ground;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		if( !onGround )
 		{
@@ -96,7 +73,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		// TODO: Find a way to do this that doesn't involve two line casts
-		layerMask = BLOCKLAYER_BOUNCY; 
+		layerMask = Constants.BLOCKLAYER_BOUNCY; 
 		if( Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) )
 		{
 			bouncyBlockHitLast = true;
@@ -132,21 +109,6 @@ public class PlayerControl : MonoBehaviour
 			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
 			scoochPoot();
 		}		
-	}
-	
-	void scoochPoot()
-	{	
-		try
-		{
-			if(!this.transform.Find ("body").audio.isPlaying)
-			{
-				this.transform.Find("body").audio.Play ();				
-			}
-		}
-		catch(UnityException ue)
-		{
-			Debug.Log ("Error with getting body: " + ue.ToString());
-		}	
 	}
 
 	void FixedUpdate()
@@ -544,7 +506,35 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 
+    
+    // Sound    
+    // -------------------------------------------------------------------------------------
+
+    void Sound_Init()
+    {
+        try
+        {
+            playerBodyAudioSource = this.transform.Find("body").audio;
+            if(!playerBodyAudioSource)
+            {
+                Debug.LogError("Init_Sound: could not find GameObject 'body'.");
+            }
+        }
+        catch(UnityException ue)
+        {
+            Debug.Log ("Error with getting body: " + ue.ToString());
+        } 
+    }
+    
+    void scoochPoot()
+    {   
+        if( !playerBodyAudioSource.isPlaying )
+        {
+            playerBodyAudioSource.Play();              
+        }  
+    }
 	
+
 	// Misc Debug (add new stuff above this)
 	// -------------------------------------------------------------------------------------
 	private void Debug_CheckSpawnFood()

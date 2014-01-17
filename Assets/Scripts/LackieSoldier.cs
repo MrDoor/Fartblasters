@@ -1,57 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LackieSoldier : MonoBehaviour {
-
+public class LackieSoldier : MonoBehaviour 
+{
 	private Transform groundCheck;
 	private bool onGround = false;	
 	//private bool isMoving	= false;
 	private float detectPause = 0.0f;
 	
 	private Direction lastDirection = Direction.NONE;
-	private Direction moveTo = Direction.LEFT;
-	
-	// These are hard coded to the values of the layers in the editor
-	// Have to update by hand if they change
-	const int BLOCKLAYER_DEFAULT		= 1 << 11;
-	const int BLOCKLAYER_SLIPPERY		= 1 << 12;
-	const int BLOCKLAYER_BOUNCY			= 1 << 13;
-	const int BLOCKLAYER_STICKY			= 1 << 14;
-	const int BLOCKLAYER_TELEPORT1		= 1 << 15;
-	const int BLOCKLAYER_TELEPORT2		= 1 << 16;
-	const int BLOCKLAYER_STOP			= 1 << 17;
-	const int BLOCKLAYER_MAGNET			= 1 << 18;
-	const int BLOCKLAYER_VORTEX			= 1 << 19;
-	const int BLOCKLAYER_DISAPPEAR		= 1 << 20;	
-	const int BLOCKLAYER_MOVING			= 1 << 21;
-	const int BLOCKLAYER_FALLING		= 1 << 22;
-	
-	private enum Direction
-	{
-		LEFT,
-		NONE,
-		RIGHT
-	};
+	private Direction moveTo        = Direction.LEFT;
 	
 	private Animator playerAnimator;
-	private float lastXPos		= 0.0f;
+	private float lastXPos = 0.0f;
 	
-	// Use this for initialization
-	void Start () {
-		groundCheck = transform.Find("Lackie_Soldier_groundCheck");
+	void Start() 
+    {
+		groundCheck = transform.Find( "Lackie_Soldier_groundCheck" );
 		Animation_Init();
 		Move();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		int layerMask = BLOCKLAYER_DEFAULT | BLOCKLAYER_SLIPPERY | BLOCKLAYER_STICKY | BLOCKLAYER_TELEPORT1 | BLOCKLAYER_TELEPORT2 | BLOCKLAYER_STOP | BLOCKLAYER_MAGNET | BLOCKLAYER_VORTEX | BLOCKLAYER_DISAPPEAR
-			| BLOCKLAYER_MOVING | BLOCKLAYER_FALLING;
+	void Update() 
+    {
+        int layerMask = Constants.LayerMask_Ground;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
 		
-		if(!onGround)
+		if( !onGround )
 		{
-			if(lastDirection == Direction.LEFT)
+			if( lastDirection == Direction.LEFT )
 			{
 				moveTo = Direction.RIGHT;
 			}
@@ -60,18 +37,18 @@ public class LackieSoldier : MonoBehaviour {
 				moveTo = Direction.LEFT;
 			}
 		}
-		Move ();
+		Move();
 		
 		Animation_Update(onGround);
 	}
 	
 	void FixedUpdate()
 	{		
-		if( lastXPos < transform.position.x)
+		if( lastXPos < transform.position.x )
 		{
 			lastDirection = Direction.RIGHT;
 		}
-		else if(lastXPos > transform.position.x)
+		else if( lastXPos > transform.position.x )
 		{
 			lastDirection = Direction.LEFT;
 		}
@@ -84,7 +61,7 @@ public class LackieSoldier : MonoBehaviour {
 	
 	void Move()
 	{
-		if(moveTo == Direction.RIGHT)
+		if( moveTo == Direction.RIGHT )
 		{
 			MoveRight();
 		}
@@ -111,45 +88,45 @@ public class LackieSoldier : MonoBehaviour {
 	//Animation
 	public void Animation_Init()
 	{
-		playerAnimator	= this.transform.Find ("body").GetComponent( "Animator" ) as Animator;
+		playerAnimator	= this.transform.Find( "body" ).GetComponent( "Animator" ) as Animator;
 		lastXPos		= transform.position.x;
 	}
 	
 	public void Animation_Update( bool onGround )
 	{
-		if(moveTo == Direction.LEFT)
+		if( moveTo == Direction.LEFT )
 		{
-			playerAnimator.Play("lackie walk");
+			playerAnimator.Play( "lackie walk" );
 		}
 		else
 		{
 			//Not WORKING!!
-			playerAnimator.Play("lackie walk_right");
+			playerAnimator.Play( "lackie walk_right" );
 		}
 	}
 	
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if(coll.gameObject.name.Equals("Player"))
+		if( coll.gameObject.tag.Equals( "Player" ) )
 		{
-			Debug.Log("Player!");
+			Debug.Log( "Player!" );
 		}
 		else
 		{
-			if(coll.gameObject.transform.position.y >= this.transform.position.y)
+			if( coll.gameObject.transform.position.y >= this.transform.position.y )
 			{
-				if(Physics2D.Linecast(transform.position, coll.gameObject.transform.position))
+				if( Physics2D.Linecast( transform.position, coll.gameObject.transform.position ) )
 				{
-					if(detectPause <= Time.time)
+					if( detectPause <= Time.time )
 					{
-						if(moveTo == Direction.LEFT)
+						if( moveTo == Direction.LEFT )
 						{
 							MoveRight();
 							moveTo = Direction.RIGHT;
 						}
 						else
 						{
-							MoveLeft ();
+							MoveLeft();
 							moveTo = Direction.LEFT;
 						}
 						detectPause = Time.time + 2.0f;
