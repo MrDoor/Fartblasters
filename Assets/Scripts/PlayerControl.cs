@@ -42,6 +42,9 @@ public class PlayerControl : MonoBehaviour
 	private float lastXPos		= 0.0f;
 	private Direction movingDir	= Direction.RIGHT;
 
+    // Sounds
+    private AudioSource playerBodyAudioSource;
+
 	// Debug
 	public GameObject debugSpawnFoodObj;
 
@@ -56,6 +59,7 @@ public class PlayerControl : MonoBehaviour
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
+        Sound_Init();
 	}
 
 	void Update () 
@@ -105,21 +109,6 @@ public class PlayerControl : MonoBehaviour
 			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
 			scoochPoot();
 		}		
-	}
-	
-	void scoochPoot()
-	{	
-		try
-		{
-			if(!this.transform.Find ("body").audio.isPlaying)
-			{
-				this.transform.Find("body").audio.Play ();				
-			}
-		}
-		catch(UnityException ue)
-		{
-			Debug.Log ("Error with getting body: " + ue.ToString());
-		}	
 	}
 
 	void FixedUpdate()
@@ -517,7 +506,35 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 
+    
+    // Sound    
+    // -------------------------------------------------------------------------------------
+
+    void Sound_Init()
+    {
+        try
+        {
+            playerBodyAudioSource = this.transform.Find("body").audio;
+            if(!playerBodyAudioSource)
+            {
+                Debug.LogError("Init_Sound: could not find GameObject 'body'.");
+            }
+        }
+        catch(UnityException ue)
+        {
+            Debug.Log ("Error with getting body: " + ue.ToString());
+        } 
+    }
+    
+    void scoochPoot()
+    {   
+        if( !playerBodyAudioSource.isPlaying )
+        {
+            playerBodyAudioSource.Play();              
+        }  
+    }
 	
+
 	// Misc Debug (add new stuff above this)
 	// -------------------------------------------------------------------------------------
 	private void Debug_CheckSpawnFood()
