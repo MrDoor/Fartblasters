@@ -9,8 +9,7 @@ public class CameraFollow : MonoBehaviour
 	public float ySmooth = 4f;		// How smoothly the camera catches up with it's target movement in the y axis.
 	public Vector2 maxXAndY;		// The maximum x and y coordinates the camera can have.
 	public Vector2 minXAndY;		// The minimum x and y coordinates the camera can have.
-	
-	
+		
 	private Transform player;		// Reference to the player's transform.
 	
 	
@@ -18,6 +17,7 @@ public class CameraFollow : MonoBehaviour
 	{
 		GameObject playerGO = Util.SafeGameObjectFind("Player");
 		player = playerGO.transform;
+		//Camera.main.orthographicSize = 3;			
 	}
 	
 	
