@@ -9,7 +9,7 @@ public class StickyCollision : MonoBehaviour
 
 	void Start() 
     {	
-        playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
+        playerControlRef = Util.SafePlayerControlFind();
 	}
 	
 	void Update() 
