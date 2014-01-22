@@ -1,39 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StickyCollision : MonoBehaviour {
-	
-	public PlayerControl playerControlRef;
+public class StickyCollision : MonoBehaviour 
+{	
+	private PlayerControl playerControlRef;
 	private float nextLaunch = 0.0f;
 	private bool canLaunch = true;
-	// Use this for initialization
-	void Start () {
-	
+
+	void Start() 
+    {	
+        playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		if(nextLaunch <= Time.time)
+	void Update() 
+    {
+		if( nextLaunch <= Time.time )
 		{
 			canLaunch = true;
 		}
 	}
 	
-	void OnCollisionEnter2D(Collision2D coll)
+	void OnCollisionEnter2D( Collision2D coll )
 	{		
 		try
 		{
-			if(!playerControlRef)
-			{
-				playerControlRef = (PlayerControl)GameObject.Find("Player").GetComponent<PlayerControl>();
-			}
-			if(canLaunch)
+			if( canLaunch )
 			{
 				Vector3 temp = this.transform.position;
 				Debug.Log (this.transform.rotation.z);
-				if(this.transform.rotation.z > 0)
+				if( this.transform.rotation.z > 0 )
 				{
-					if(coll.transform.position.x > this.transform.position.x)
+					if( coll.transform.position.x > this.transform.position.x )
 					{
 						temp.x += this.renderer.bounds.size.x;
 					}
@@ -42,7 +39,7 @@ public class StickyCollision : MonoBehaviour {
 						temp.x -= this.renderer.bounds.size.x;
 					}
 				}			
-				else if(coll.transform.position.y > this.transform.position.y)
+				else if( coll.transform.position.y > this.transform.position.y )
 				{
 					temp.y += this.renderer.bounds.size.y;
 				}
@@ -59,7 +56,7 @@ public class StickyCollision : MonoBehaviour {
 				canLaunch = false;
 			}
 		}
-		catch(UnityException ex)
+		catch( UnityException ex )
 		{
 			Debug.Log("Error: " + ex.Message);
 		}

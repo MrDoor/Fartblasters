@@ -8,7 +8,8 @@ public class PlayerControl : MonoBehaviour
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
-	private bool inVortex 	= false;
+    private bool inVortex 	= false;
+    private bool isStopped  = false;
 
 	// Pull Line	
 	public float maxLineLength = 1.5f;
@@ -59,6 +60,7 @@ public class PlayerControl : MonoBehaviour
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
+        isStopped = false;
         Sound_Init();
 	}
 
@@ -255,7 +257,16 @@ public class PlayerControl : MonoBehaviour
 	{
 		inVortex = isInVortex;
 	}
-
+    
+    public bool GetIsStopped()
+    {
+        return isStopped;
+    }
+    
+    public void SetIsStopped(bool stopped)
+    {
+        isStopped = stopped;
+    }
 
 	// Pull Line Control
 	// -------------------------------------------------------------------------------------
@@ -332,6 +343,8 @@ public class PlayerControl : MonoBehaviour
 		}
 		
 		Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
+        
+        SetIsStopped( false );
 		
 		return pullEndPoint;
 	}
