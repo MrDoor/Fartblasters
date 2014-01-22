@@ -215,7 +215,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 3210385691
   m_Sprite: {fileID: 21300000, guid: 4c23133a6cfff444282a8ccbe7802726, type: 3}
-  m_Color: {r: .742647052, g: .644355536, b: .644355536, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &11771091
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: 25
 --- !u!82 &11771093
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5315,7 +5315,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 3210385691
   m_Sprite: {fileID: 21300000, guid: 4c23133a6cfff444282a8ccbe7802726, type: 3}
-  m_Color: {r: .742647052, g: .644355536, b: .644355536, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &457241143
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5351,7 +5351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: 25
 --- !u!82 &457241146
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10534,6 +10534,18 @@ Prefab:
     - target: {fileID: 21200000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
       propertyPath: m_SortingLayerID
       value: 3826374579
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
@@ -21400,8 +21412,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 11771089}
   - {fileID: 457241144}
+  - {fileID: 11771089}
   - {fileID: 131062067}
   - {fileID: 445506240}
   - {fileID: 1263672034}
@@ -25478,6 +25490,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e, type: 2}
       propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e, type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 9f13f19c508eb5a4087d7fb6b69ce87e, type: 2}
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
