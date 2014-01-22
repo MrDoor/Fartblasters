@@ -651,7 +651,7 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds( delayTime );
 		if( go )
 		{
-			if( Util.IsSpaceBarSpawnedFood( go ) )
+            if( Util.IsObjectDebug( go ) )
 			{
 				Debug_DecFoodCount();
 			}

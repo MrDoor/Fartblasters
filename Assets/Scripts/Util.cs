@@ -17,7 +17,7 @@ public class Util
 		}
 	}
 
-	public static bool IsSpaceBarSpawnedFood( GameObject go )
+	public static bool IsObjectDebug( GameObject go )
 	{
 		return go.tag.Equals( "Debug" );
 	}

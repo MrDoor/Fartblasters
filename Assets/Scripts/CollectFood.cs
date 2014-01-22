@@ -8,7 +8,7 @@ public class CollectFood : MonoBehaviour
 
 	void Start()
 	{
-		isDebugFood = Util.IsSpaceBarSpawnedFood( this.gameObject );
+        isDebugFood = Util.IsObjectDebug( this.gameObject );
 	}
 
 	void OnTriggerEnter2D( Collider2D obj )
