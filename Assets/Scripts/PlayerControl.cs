@@ -8,7 +8,8 @@ public class PlayerControl : MonoBehaviour
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
-	private bool inVortex 	= false;
+    private bool inVortex 	= false;
+    private bool isStopped  = false;
 
 	// Pull Line	
 	public float maxLineLength = 1.5f;
@@ -59,6 +60,7 @@ public class PlayerControl : MonoBehaviour
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
+        isStopped = false;
         Sound_Init();
 	}
 
@@ -136,6 +138,7 @@ public class PlayerControl : MonoBehaviour
 			}
 			lastXPos = transform.position.x;
 		}
+		
 	}
 	
 	void OnMouseUp()
@@ -151,9 +154,19 @@ public class PlayerControl : MonoBehaviour
 		Launch_Reset();
 		PullLine_Reset();
 		
+		//Zooming in and out		
+		StopCoroutine("zoomOut");
+		StartCoroutine("zoomIn");		
+		
 		this.collider2D.transform.parent = null;
 	}
-
+	
+	void OnMouseDown()
+	{
+		//Zooming in and out	
+		StopCoroutine("zoomIn");				
+		StartCoroutine("zoomOut");		
+	}
 
 	void OnMouseDrag()
 	{
@@ -164,6 +177,42 @@ public class PlayerControl : MonoBehaviour
 	void OnGUI()
 	{
 
+	}
+	
+	// Camera Zoom
+	// -------------------------------------------------------------------------------------
+	
+	IEnumerator zoomOut()
+	{		
+		Debug.Log ("ZoomOut Coroutine: " + Camera.main.orthographicSize);
+		while(Camera.main.orthographicSize <= 5)
+		{
+			Debug.Log ("ZoomOut Coroutine: " + Camera.main.orthographicSize);
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,6, Time.deltaTime * 1.25f);						
+			yield return new WaitForSeconds(.025f);
+		}		
+		Debug.Log ("Stop Zoom Out");
+		yield break;		
+	}
+	
+	IEnumerator zoomIn()
+	{
+		yield return new WaitForSeconds(1.25f);
+		while(Camera.main.orthographicSize > 3)
+		{
+			Debug.Log ("ZoomIn Coroutine: " + Camera.main.orthographicSize);
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,3, Time.deltaTime * .2f);
+			//Could not figure this out so I just added this crap.  Needs to be redone.
+			if(Camera.main.orthographicSize <= .31)
+			{
+				Camera.main.orthographicSize = 3;
+				break;
+			}
+			yield return new WaitForSeconds(.025f);
+		}
+		
+		Debug.Log ("Stop Zoom In");
+		yield break;
 	}
 	
 	
@@ -208,7 +257,16 @@ public class PlayerControl : MonoBehaviour
 	{
 		inVortex = isInVortex;
 	}
-
+    
+    public bool GetIsStopped()
+    {
+        return isStopped;
+    }
+    
+    public void SetIsStopped(bool stopped)
+    {
+        isStopped = stopped;
+    }
 
 	// Pull Line Control
 	// -------------------------------------------------------------------------------------
@@ -285,6 +343,8 @@ public class PlayerControl : MonoBehaviour
 		}
 		
 		Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
+        
+        SetIsStopped( false );
 		
 		return pullEndPoint;
 	}
