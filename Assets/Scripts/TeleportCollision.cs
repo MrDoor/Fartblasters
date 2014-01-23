@@ -11,9 +11,9 @@ public class TeleportCollision : MonoBehaviour
 
 	void Start() 
     {
-        playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
-        teleportBlock1 = GameObject.Find( "TeleportBlock1" ).transform;
-        teleportBlock2 = GameObject.Find( "TeleportBlock2" ).transform;
+        playerControlRef = Util.SafePlayerControlFind();
+        teleportBlock1 = Util.SafeGameObjectFind( "TeleportBlock1" ).transform;
+        teleportBlock2 = Util.SafeGameObjectFind( "TeleportBlock2" ).transform;
 	}
 	
 	void Update() 
