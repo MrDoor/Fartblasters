@@ -179,6 +179,7 @@ public class PlayerControl : MonoBehaviour
 
 	}
 	
+	// Not sure if this should go here or in a different script file?
 	// Camera Zoom
 	// -------------------------------------------------------------------------------------
 	
