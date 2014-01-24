@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CollectFood : MonoBehaviour 
 {
-	public float pickupJuice	= 0.0f;
+	public float pickupJuice	= 5.0f;
 	private bool isDebugFood	= false;
 
 	void Start()
@@ -49,8 +49,13 @@ public class CollectFood : MonoBehaviour
 			Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
 		}
 		else
-		{			
-			Debug.Log( this.gameObject.name );
+		{
+			if(this.gameObject.tag.Equals("Health"))
+			{
+				pControl.Health_IncHealth(pickupJuice);
+				Debug.Log ( "Health inc by " + pickupJuice );
+			}			
+			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag);
 			this.audio.Play();
 			destroyTime = this.audio.clip.length;
 			this.transform.renderer.enabled = false;

@@ -110,6 +110,8 @@ public class LackieSoldier : MonoBehaviour
 		if( coll.gameObject.tag.Equals( "Player" ) )
 		{
 			Debug.Log( "Player!" );
+			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
+			pControl.Health_DefaultHit();
 		}
 		else
 		{
@@ -137,6 +139,16 @@ public class LackieSoldier : MonoBehaviour
 					//Debug.Log ("No Hit: " + this.transform.position + " | " + coll.gameObject.transform.position);
 				}
 			}
+		}
+	}
+	
+	void OnCollisionStay2D(Collision2D coll)
+	{
+		if( coll.gameObject.tag.Equals( "Player" ) )
+		{
+			Debug.Log( "Player!" );
+			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
+			pControl.Health_DefaultHit();
 		}
 	}
 }

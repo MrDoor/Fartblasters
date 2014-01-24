@@ -33,6 +33,11 @@ public class PlayerControl : MonoBehaviour
 	private bool launchAllowed			= false;
 	private bool bouncyBlockHitLast		= false;
 	private Vector2 launchDir;
+	
+	// Health
+	public float maxHealth				= 100f;
+	private float currentHealth			= 0.0f;
+	private float lastHit				= 0.0f;
 
 	// Animation
 	public AnimationClip testAnimation;
@@ -62,6 +67,7 @@ public class PlayerControl : MonoBehaviour
 		isStuck = false;
         isStopped = false;
         Sound_Init();
+        Health_init();
 	}
 
 	void Update () 
@@ -98,7 +104,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
-			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//schooch!
+			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//scooch!
 			scoochPoot();		
 		}
 		else if(Input.GetKeyDown("a") && onGround)
@@ -108,7 +114,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
-			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
+			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//scooch!
 			scoochPoot();
 		}		
 	}
@@ -176,7 +182,8 @@ public class PlayerControl : MonoBehaviour
 	
 	void OnGUI()
 	{
-
+		//Just a temp spot for health
+		GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
 	}
 	
 	// Not sure if this should go here or in a different script file?
@@ -185,14 +192,11 @@ public class PlayerControl : MonoBehaviour
 	
 	IEnumerator zoomOut()
 	{		
-		Debug.Log ("ZoomOut Coroutine: " + Camera.main.orthographicSize);
 		while(Camera.main.orthographicSize <= 5)
 		{
-			Debug.Log ("ZoomOut Coroutine: " + Camera.main.orthographicSize);
 			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,6, Time.deltaTime * 1.25f);						
 			yield return new WaitForSeconds(.025f);
 		}		
-		Debug.Log ("Stop Zoom Out");
 		yield break;		
 	}
 	
@@ -201,7 +205,6 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds(1.25f);
 		while(Camera.main.orthographicSize > 3)
 		{
-			Debug.Log ("ZoomIn Coroutine: " + Camera.main.orthographicSize);
 			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,3, Time.deltaTime * .2f);
 			//Could not figure this out so I just added this crap.  Needs to be redone.
 			if(Camera.main.orthographicSize <= .31)
@@ -212,10 +215,69 @@ public class PlayerControl : MonoBehaviour
 			yield return new WaitForSeconds(.025f);
 		}
 		
-		Debug.Log ("Stop Zoom In");
 		yield break;
 	}
 	
+	
+	// Health
+	// -------------------------------------------------------------------------------------
+	public void Health_init()
+	{
+		currentHealth = maxHealth;
+		lastHit = Time.time;
+	}
+	
+	public void Health_DecHealth()
+	{
+		if( Time.time >= lastHit )
+		{
+			currentHealth -= 10f;
+		}
+	}
+	
+	public void Health_DecHealth( float amount )
+	{
+		if( Time.time >= lastHit )
+		{
+			currentHealth -= amount;
+		}
+	}
+	
+	public void Health_IncHealth( float amount )
+	{
+		if( currentHealth + amount < maxHealth )
+		{
+			currentHealth += amount;
+		}
+		else
+		{
+			currentHealth = maxHealth;
+		}
+	}
+	
+	public void Health_DefaultHit()
+	{
+		if(Time.time > lastHit)
+		{
+			Health_DecHealth();
+			if( currentHealth <= 0 )
+			{
+				//DIE!
+			}
+			else
+			{
+				lastHit = Time.time + 3;//Invincibility time	
+				if( facingRight )
+				{			
+					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
+				}
+				else
+				{
+					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
+				}
+			}
+		}
+	}
 	
 	// Player Control
 	// -------------------------------------------------------------------------------------
