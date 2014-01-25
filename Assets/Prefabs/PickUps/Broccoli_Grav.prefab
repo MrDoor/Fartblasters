@@ -16,7 +16,7 @@ GameObject:
   - 82: {fileID: 8200000}
   m_Layer: 10
   m_Name: Broccoli_Grav
-  m_TagString: PickUp
+  m_TagString: Debug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

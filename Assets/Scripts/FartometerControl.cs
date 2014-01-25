@@ -24,7 +24,7 @@ public class FartometerControl : MonoBehaviour
 
 	void Awake() 
 	{
-		playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
+        playerControlRef = Util.SafePlayerControlFind();
 		if( !playerControlRef )
 		{
 			Debug.LogError( "Fartometer Control: Could not find Player Controls." );

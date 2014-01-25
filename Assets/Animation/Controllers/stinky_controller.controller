@@ -61,6 +61,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110216485
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: HitWall
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: 5ee987cf5f39c1449a8a14bf7ac5049b, type: 2}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: 495, y: 741, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110237411
 State:
   m_ObjectHideFlags: 3
@@ -133,6 +148,21 @@ State:
   - {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 180, y: 156, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
+--- !u!1102 &110256967
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Land
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: ab6686989e58439408fb94c7550e85d6, type: 2}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: 460, y: 676, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -216,6 +246,8 @@ StateMachine:
   - {fileID: 110289640}
   - {fileID: 110240813}
   - {fileID: 110280719}
+  - {fileID: 110256967}
+  - {fileID: 110216485}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:

@@ -8,7 +8,8 @@ public class PlayerControl : MonoBehaviour
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
-	private bool inVortex 	= false;
+    private bool inVortex 	= false;
+    private bool isStopped  = false;
 
 	// Pull Line	
 	public float maxLineLength = 1.5f;
@@ -32,6 +33,11 @@ public class PlayerControl : MonoBehaviour
 	private bool launchAllowed			= false;
 	private bool bouncyBlockHitLast		= false;
 	private Vector2 launchDir;
+	
+	// Health
+	public float maxHealth				= 100f;
+	private float currentHealth			= 0.0f;
+	private float lastHit				= 0.0f;
 
 	// Animation
 	public AnimationClip testAnimation;
@@ -59,7 +65,9 @@ public class PlayerControl : MonoBehaviour
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
+        isStopped = false;
         Sound_Init();
+        Health_init();
 	}
 
 	void Update () 
@@ -96,7 +104,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
-			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//schooch!
+			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//scooch!
 			scoochPoot();		
 		}
 		else if(Input.GetKeyDown("a") && onGround)
@@ -106,7 +114,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
-			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//schooch!
+			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//scooch!
 			scoochPoot();
 		}		
 	}
@@ -136,6 +144,7 @@ public class PlayerControl : MonoBehaviour
 			}
 			lastXPos = transform.position.x;
 		}
+		
 	}
 	
 	void OnMouseUp()
@@ -151,9 +160,19 @@ public class PlayerControl : MonoBehaviour
 		Launch_Reset();
 		PullLine_Reset();
 		
+		//Zooming in and out		
+		StopCoroutine("zoomOut");
+		StartCoroutine("zoomIn");		
+		
 		this.collider2D.transform.parent = null;
 	}
-
+	
+	void OnMouseDown()
+	{
+		//Zooming in and out	
+		StopCoroutine("zoomIn");				
+		StartCoroutine("zoomOut");		
+	}
 
 	void OnMouseDrag()
 	{
@@ -161,11 +180,193 @@ public class PlayerControl : MonoBehaviour
 		PullLine_PositionClouds( transform.position, pullEndPoint );
 	}
 	
+	//public TextAsset txtAsst;
 	void OnGUI()
 	{
-
+		if(!alive)
+		{			
+			GUI.color = Color.red;
+			GUIStyle textStyle = new GUIStyle();
+			textStyle.fontSize = 80;
+			textStyle.fontStyle = FontStyle.Bold;
+			GUI.Label(new Rect(Screen.width / 3, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);	
+		}
+		//Just a temp spot for health
+		//Texture2D healthBubble = new Texture2D(32, 32);
+		//healthBubble.LoadImage(txtAsst.bytes);
+		//GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
 	}
 	
+	// Not sure if this should go here or in a different script file?
+	// Camera Zoom
+	// -------------------------------------------------------------------------------------
+	
+	IEnumerator zoomOut()
+	{		
+		while(Camera.main.orthographicSize <= 5)
+		{
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,6, Time.deltaTime * 1.25f);						
+			yield return new WaitForSeconds(.025f);
+		}		
+		yield break;		
+	}
+	
+	IEnumerator zoomIn()
+	{
+		yield return new WaitForSeconds(1.25f);
+		while(Camera.main.orthographicSize > 3)
+		{
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,3, Time.deltaTime * .2f);
+			//Could not figure this out so I just added this crap.  Needs to be redone.
+			if(Camera.main.orthographicSize <= .31)
+			{
+				Camera.main.orthographicSize = 3;
+				break;
+			}
+			yield return new WaitForSeconds(.025f);
+		}
+		
+		yield break;
+	}
+	
+	
+	// Health
+	// -------------------------------------------------------------------------------------
+	HealthControl hControl;
+	bool alive = true;
+	
+	public void Health_init()
+	{
+		currentHealth 	= maxHealth;
+		lastHit 		= Time.time;
+		hControl		= (HealthControl)GameObject.Find( "Health" ).GetComponent<HealthControl>();
+		hControl.updateHealth(currentHealth);
+	}
+	
+	public float Health_GetCurrentHealth()
+	{
+		return currentHealth;
+	}
+	
+	public void Health_DecHealth()
+	{
+		if( Time.time >= lastHit )
+		{
+			currentHealth -= 10f;
+		}
+	}
+	
+	public void Health_DecHealth( float amount )
+	{
+		if( Time.time >= lastHit )
+		{
+			currentHealth -= amount;
+		}
+	}
+	
+	public void Health_IncHealth( float amount )
+	{
+		if( currentHealth + amount < maxHealth )
+		{
+			currentHealth += amount;
+		}
+		else
+		{
+			currentHealth = maxHealth;
+		}
+		hControl.updateHealth( currentHealth );
+	}
+	
+	/*
+	public void Health_DefaultHit()
+	{
+		if(Time.time > lastHit)
+		{
+			Health_DecHealth();
+			if( currentHealth <= 0 )
+			{
+				//DIE!
+				StartCoroutine( "Die" );
+			}
+			else
+			{
+				lastHit = Time.time + 3;//Invincibility time	
+				if( facingRight )
+				{			
+					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
+				}
+				else
+				{
+					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
+				}
+			}
+		}
+	}
+	*/
+	
+	public void Health_DefaultHit(Transform hitter)
+	{
+		if(Time.time > lastHit)
+		{
+			Health_DecHealth();
+			StartCoroutine( "Health_DamageFlash" );			
+			hControl.updateHealth( currentHealth );
+			if( currentHealth <= 0 )
+			{
+				//DIE!
+				this.transform.collider2D.isTrigger = true;
+				StartCoroutine( "Die" );
+			}
+			else
+			{
+				lastHit = Time.time + 3;//Invincibility time
+				this.transform.rigidbody2D.velocity = Vector3.zero;	
+				if(this.transform.position.x > hitter.position.x)
+				{
+					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
+				}
+				else
+				{
+					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
+				}				
+			}
+		}
+	}
+	
+	private int flashCount = 20;
+	IEnumerator Health_DamageFlash()
+	{
+		bool colorSwitch = false;
+		for(int i=0;i<flashCount;i++)
+		{
+			if(colorSwitch)
+			{				
+				this.transform.Find("body").renderer.material.color = Color.white;
+			}
+			else
+			{				
+				this.transform.Find("body").renderer.material.color = Color.red;
+			}
+			colorSwitch = !colorSwitch;
+			yield return new WaitForSeconds(.10f);
+		}
+	}
+	
+	IEnumerator Die()
+	{
+		Debug.Log ( "Dying" );
+		alive = false;
+		yield return new WaitForSeconds(4f);
+		/*
+		GUIStyle textStyle = new GUIStyle();
+		textStyle.fontSize = 35;
+		GUI.color = Color.red;
+		GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);
+		Debug.Log ( "Dead" );		
+		yield return new WaitForSeconds(2f);
+		*/
+		Application.LoadLevel(Application.loadedLevel);
+	}
 	
 	// Player Control
 	// -------------------------------------------------------------------------------------
@@ -208,7 +409,16 @@ public class PlayerControl : MonoBehaviour
 	{
 		inVortex = isInVortex;
 	}
-
+    
+    public bool GetIsStopped()
+    {
+        return isStopped;
+    }
+    
+    public void SetIsStopped(bool stopped)
+    {
+        isStopped = stopped;
+    }
 
 	// Pull Line Control
 	// -------------------------------------------------------------------------------------
@@ -285,6 +495,8 @@ public class PlayerControl : MonoBehaviour
 		}
 		
 		Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
+        
+        SetIsStopped( false );
 		
 		return pullEndPoint;
 	}
@@ -591,7 +803,7 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds( delayTime );
 		if( go )
 		{
-			if( Util.IsSpaceBarSpawnedFood( go ) )
+            if( Util.IsObjectDebug( go ) )
 			{
 				Debug_DecFoodCount();
 			}

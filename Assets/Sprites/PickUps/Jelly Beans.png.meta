@@ -1,0 +1,159 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: c89cf49aab1ed2c43a7aa71684d651a3
+=======
+guid: 57a901defdf025e48be55f9904a34a2f
+>>>>>>> d1d7c16378b4845d12c0fa4611fe79e9ed4b609e
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+<<<<<<< HEAD
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+=======
+    aniso: -1
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+>>>>>>> d1d7c16378b4845d12c0fa4611fe79e9ed4b609e
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+<<<<<<< HEAD
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Jelly Beans_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 90
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_1
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 90
+        width: 48
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_2
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 90
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 90
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_4
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 88
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_5
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 13
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_6
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 13
+        width: 48
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_7
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 13
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_8
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 13
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Jelly Beans_9
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 11
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+=======
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites: []
+>>>>>>> d1d7c16378b4845d12c0fa4611fe79e9ed4b609e
+  spritePackingTag: 
+  userData: 

@@ -3,12 +3,14 @@ using System.Collections;
 
 public class CollectFood : MonoBehaviour 
 {
-	public float pickupJuice	= 0.0f;
+	public float pickupJuice	= 5.0f;
 	private bool isDebugFood	= false;
+	//private Animator foodAnimator;
 
 	void Start()
 	{
-		isDebugFood = Util.IsSpaceBarSpawnedFood( this.gameObject );
+        isDebugFood = Util.IsObjectDebug( this.gameObject );
+		//foodAnimator = GameObject.Find("PickUp_Animator").GetComponent<Animator>();
 	}
 
 	void OnTriggerEnter2D( Collider2D obj )
@@ -49,8 +51,13 @@ public class CollectFood : MonoBehaviour
 			Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
 		}
 		else
-		{			
-			Debug.Log( this.gameObject.name );
+		{
+			if(this.gameObject.tag.Equals("Health"))
+			{
+				pControl.Health_IncHealth(pickupJuice);
+				Debug.Log ( "Health inc by " + pickupJuice );
+			}			
+			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag);
 			this.audio.Play();
 			destroyTime = this.audio.clip.length;
 			this.transform.renderer.enabled = false;
