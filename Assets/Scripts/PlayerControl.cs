@@ -183,10 +183,18 @@ public class PlayerControl : MonoBehaviour
 	//public TextAsset txtAsst;
 	void OnGUI()
 	{
+		if(!alive)
+		{			
+			GUI.color = Color.red;
+			GUIStyle textStyle = new GUIStyle();
+			textStyle.fontSize = 80;
+			textStyle.fontStyle = FontStyle.Bold;
+			GUI.Label(new Rect(Screen.width / 3, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);	
+		}
 		//Just a temp spot for health
 		//Texture2D healthBubble = new Texture2D(32, 32);
 		//healthBubble.LoadImage(txtAsst.bytes);
-		GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
+		//GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
 	}
 	
 	// Not sure if this should go here or in a different script file?
@@ -224,10 +232,20 @@ public class PlayerControl : MonoBehaviour
 	
 	// Health
 	// -------------------------------------------------------------------------------------
+	HealthControl hControl;
+	bool alive = true;
+	
 	public void Health_init()
 	{
-		currentHealth = maxHealth;
-		lastHit = Time.time;
+		currentHealth 	= maxHealth;
+		lastHit 		= Time.time;
+		hControl		= (HealthControl)GameObject.Find( "Health" ).GetComponent<HealthControl>();
+		hControl.updateHealth(currentHealth);
+	}
+	
+	public float Health_GetCurrentHealth()
+	{
+		return currentHealth;
 	}
 	
 	public void Health_DecHealth()
@@ -256,9 +274,10 @@ public class PlayerControl : MonoBehaviour
 		{
 			currentHealth = maxHealth;
 		}
+		hControl.updateHealth( currentHealth );
 	}
 	
-	
+	/*
 	public void Health_DefaultHit()
 	{
 		if(Time.time > lastHit)
@@ -267,6 +286,7 @@ public class PlayerControl : MonoBehaviour
 			if( currentHealth <= 0 )
 			{
 				//DIE!
+				StartCoroutine( "Die" );
 			}
 			else
 			{
@@ -282,20 +302,25 @@ public class PlayerControl : MonoBehaviour
 			}
 		}
 	}
+	*/
 	
 	public void Health_DefaultHit(Transform hitter)
 	{
 		if(Time.time > lastHit)
 		{
 			Health_DecHealth();
-			StartCoroutine( "Health_DamageFlash" );
+			StartCoroutine( "Health_DamageFlash" );			
+			hControl.updateHealth( currentHealth );
 			if( currentHealth <= 0 )
 			{
 				//DIE!
+				this.transform.collider2D.isTrigger = true;
+				StartCoroutine( "Die" );
 			}
 			else
 			{
-				lastHit = Time.time + 3;//Invincibility time	
+				lastHit = Time.time + 3;//Invincibility time
+				this.transform.rigidbody2D.velocity = Vector3.zero;	
 				if(this.transform.position.x > hitter.position.x)
 				{
 					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
@@ -325,6 +350,22 @@ public class PlayerControl : MonoBehaviour
 			colorSwitch = !colorSwitch;
 			yield return new WaitForSeconds(.10f);
 		}
+	}
+	
+	IEnumerator Die()
+	{
+		Debug.Log ( "Dying" );
+		alive = false;
+		yield return new WaitForSeconds(4f);
+		/*
+		GUIStyle textStyle = new GUIStyle();
+		textStyle.fontSize = 35;
+		GUI.color = Color.red;
+		GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);
+		Debug.Log ( "Dead" );		
+		yield return new WaitForSeconds(2f);
+		*/
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	
 	// Player Control

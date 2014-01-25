@@ -9,7 +9,7 @@ public class AudioHandler : MonoBehaviour {
 
 		this.audio.clip = farts[Random.Range(0, farts.Length)];
 		Debug.Log ("Playing Test Fart");
-		this.audio.Play();
+		//this.audio.Play();
 		
 	}
 	
