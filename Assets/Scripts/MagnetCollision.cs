@@ -22,7 +22,7 @@ public class MagnetCollision : MonoBehaviour
 		magnetRange.radius += Random.Range( 5, 30 ) * .01f;
 		Debug.Log( "radius: " + magnetRange.radius );
         
-        playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
+        playerControlRef = Util.SafePlayerControlFind();
 	}
 	
 	void Update() 
@@ -78,44 +78,6 @@ public class MagnetCollision : MonoBehaviour
 			}
 		}
 	}
-	
-	/*
-	void OnCollisionEnter2D(Collision2D coll)
-	{		
-		Debug.Log ("Collision Enter");
-		if(inMagnet || nextMagnetPull > Time.time)
-		{
-			return;
-		}
-		try
-		{
-			Vector3 tempEnd = GameObject.Find ("LeftMagnetPosition").transform.position;
-			tempEnd.x += GameObject.Find("LeftMagnetPosition").transform.parent.renderer.bounds.size.x;
-			endMark = tempEnd;
-			GameObject tempRef = GameObject.Find("Player");
-			Debug.Log ("coll.x = " + coll.transform.position.x);
-			target = tempRef.transform;
-			inMagnet = true;
-			startMarker = tempRef.transform;
-			//endMarker = GameObject.Find("LeftMagnetPosition").transform;			
-			endMarker = GameObject.Find("LeftMagnetPosition").transform.parent.transform;			
-			//endMarker.position.x -= (GameObject.Find("LeftMagnePosition").transform.parent.renderer.bounds.size.x / 2);
-			startTime = Time.time;
-			journeyLength = Vector3.Distance(startMarker.position, endMarker.position);				
-			
-			//tempRef.transform.position = GameObject.Find("LeftMagnetPosition").renderer.bounds.center;	
-			//tempRef.transform.position = Vector3.Lerp(tempRef.transform.position, GameObject.Find("LeftMagnetPosition").renderer.bounds.center, 1);
-			//tempRef.transform.rigidbody2D.gravityScale = 0;
-			//tempRef.transform.rigidbody2D.velocity = Vector2.zero;		
-			
-			//tempRef.setIsStuck(true);
-		}
-		catch(UnityException ex)
-		{
-			Debug.LogError("Error: " + ex);
-		}
-	}
-	*/
 	
 	void Stuck()
 	{								

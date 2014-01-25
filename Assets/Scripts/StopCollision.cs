@@ -7,7 +7,7 @@ public class StopCollision : MonoBehaviour
 
     void Start() 
     {   
-        playerControlRef = GameObject.Find("Player").GetComponent<PlayerControl>() as PlayerControl;
+        playerControlRef = Util.SafePlayerControlFind();
     }
 
 	void OnCollisionEnter2D( Collision2D coll )
