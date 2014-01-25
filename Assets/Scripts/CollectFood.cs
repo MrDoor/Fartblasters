@@ -5,10 +5,12 @@ public class CollectFood : MonoBehaviour
 {
 	public float pickupJuice	= 5.0f;
 	private bool isDebugFood	= false;
+	//private Animator foodAnimator;
 
 	void Start()
 	{
         isDebugFood = Util.IsObjectDebug( this.gameObject );
+		//foodAnimator = GameObject.Find("PickUp_Animator").GetComponent<Animator>();
 	}
 
 	void OnTriggerEnter2D( Collider2D obj )

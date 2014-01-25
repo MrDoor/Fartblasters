@@ -180,9 +180,12 @@ public class PlayerControl : MonoBehaviour
 		PullLine_PositionClouds( transform.position, pullEndPoint );
 	}
 	
+	//public TextAsset txtAsst;
 	void OnGUI()
 	{
 		//Just a temp spot for health
+		//Texture2D healthBubble = new Texture2D(32, 32);
+		//healthBubble.LoadImage(txtAsst.bytes);
 		GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
 	}
 	
@@ -255,6 +258,7 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 	
+	
 	public void Health_DefaultHit()
 	{
 		if(Time.time > lastHit)
@@ -276,6 +280,50 @@ public class PlayerControl : MonoBehaviour
 					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
 				}
 			}
+		}
+	}
+	
+	public void Health_DefaultHit(Transform hitter)
+	{
+		if(Time.time > lastHit)
+		{
+			Health_DecHealth();
+			StartCoroutine( "Health_DamageFlash" );
+			if( currentHealth <= 0 )
+			{
+				//DIE!
+			}
+			else
+			{
+				lastHit = Time.time + 3;//Invincibility time	
+				if(this.transform.position.x > hitter.position.x)
+				{
+					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
+				}
+				else
+				{
+					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
+				}				
+			}
+		}
+	}
+	
+	private int flashCount = 20;
+	IEnumerator Health_DamageFlash()
+	{
+		bool colorSwitch = false;
+		for(int i=0;i<flashCount;i++)
+		{
+			if(colorSwitch)
+			{				
+				this.transform.Find("body").renderer.material.color = Color.white;
+			}
+			else
+			{				
+				this.transform.Find("body").renderer.material.color = Color.red;
+			}
+			colorSwitch = !colorSwitch;
+			yield return new WaitForSeconds(.10f);
 		}
 	}
 	

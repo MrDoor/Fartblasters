@@ -111,7 +111,7 @@ public class LackieSoldier : MonoBehaviour
 		{
 			Debug.Log( "Player!" );
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			pControl.Health_DefaultHit();
+			pControl.Health_DefaultHit(this.transform);
 		}
 		else
 		{
@@ -148,7 +148,7 @@ public class LackieSoldier : MonoBehaviour
 		{
 			Debug.Log( "Player!" );
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			pControl.Health_DefaultHit();
+			pControl.Health_DefaultHit(this.transform);
 		}
 	}
 }
