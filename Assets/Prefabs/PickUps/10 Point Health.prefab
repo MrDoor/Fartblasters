@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 82: {fileID: 8200000}
   m_Layer: 10
-  m_Name: 5 Point Health
+  m_Name: 10 Point Health
   m_TagString: Health
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
