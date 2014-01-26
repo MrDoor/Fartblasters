@@ -12,4 +12,21 @@ public class BlockHit : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	//Note Done
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+	/*
+		PlayerControl pControl;
+		//Animator pAnimator;
+		if(coll.gameObject.tag.Equals("Player"))
+		{			
+			pControl = (PlayerControl)coll.gameObject.GetComponent<PlayerControl>();
+			if(pControl != null)
+			{
+				pControl.Animation_PlayAnimation ( "HitWall" );
+			}
+		}
+		*/
+	}
 }
