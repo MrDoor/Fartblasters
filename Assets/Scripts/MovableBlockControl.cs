@@ -28,4 +28,18 @@ public class MovableBlockControl : MonoBehaviour {
 		{
 				}
 	}
+
+	/*void OnTriggerEnter2D( Collider2D obj )
+	{
+		Vector2 temp = new Vector2 (.9f, .0f);
+		this.transform.rigidbody2D.gravityScale = 1;
+		if (obj.gameObject.tag.Equals ("Player"))
+		{
+			this.transform.rigidbody2D.AddForce (temp * force);
+			Debug.Log (obj.gameObject.tag);
+		} 
+		else 
+		{
+		}
+	}*/
 }
