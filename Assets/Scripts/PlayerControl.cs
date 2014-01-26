@@ -718,9 +718,21 @@ public class PlayerControl : MonoBehaviour
 			}
 		}
 	}
-
-    
-    // Sound    
+	
+	public void Animation_PlayAnimation(string animationName)
+	{
+		try
+		{		
+			playerAnimator.Play( animationName );
+		}
+		catch(UnityException ue)
+		{
+			Debug.LogError ( "Error: " + ue.ToString() );
+		}
+	}	
+	
+	
+	// Sound    
     // -------------------------------------------------------------------------------------
 
     void Sound_Init()

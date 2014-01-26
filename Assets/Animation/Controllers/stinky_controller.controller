@@ -67,12 +67,12 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: HitWall
-  m_Speed: 1
+  m_Speed: 3
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 7400000, guid: 5ee987cf5f39c1449a8a14bf7ac5049b, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 495, y: 741, z: 0}
+  m_Position: {x: 492, y: 744, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
