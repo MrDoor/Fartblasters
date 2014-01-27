@@ -8,6 +8,8 @@ public class LackieSoldier : MonoBehaviour
 	//private bool isMoving	= false;
 	private float detectPause = 0.0f;
 	
+	public float speed = .0075f;
+	
 	private Direction lastDirection = Direction.NONE;
 	private Direction moveTo        = Direction.LEFT;
 	
@@ -74,14 +76,14 @@ public class LackieSoldier : MonoBehaviour
 	void MoveRight()
 	{
 		Vector3 temp = this.transform.position;
-		temp.x += .0075f;
+		temp.x += speed;
 		this.transform.position = temp;
 	}
 	
 	void MoveLeft()
 	{
 		Vector3 temp = this.transform.position;
-		temp.x -= .0075f;
+		temp.x -= speed;
 		this.transform.position = temp;
 	}
 	
