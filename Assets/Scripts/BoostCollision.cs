@@ -4,8 +4,8 @@ using System.Collections;
 public class BoostCollision : MonoBehaviour 
 {
 	const float FORCE = 10000f;
-	const float xAxis = -0.9f;
-	const float yAxis = 0.0f;
+	public float xAxis = -0.9f;
+	public float yAxis = 0.0f;
 
 	void Start() 
 	{

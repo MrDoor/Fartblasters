@@ -234,7 +234,8 @@ public class PlayerControl : MonoBehaviour
 	// -------------------------------------------------------------------------------------
 	HealthControl hControl;
 	bool alive = true;
-	
+
+
 	public void Health_init()
 	{
 		currentHealth 	= maxHealth;
