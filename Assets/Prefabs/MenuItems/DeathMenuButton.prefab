@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 61: {fileID: 6100000}
   m_Layer: 0
-  m_Name: Menu Button
+  m_Name: DeathMenuButton
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4533bd4fbfff9814db68267c748d3c0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 057afb7f1cdd7524697bc085abfcd386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &21200000

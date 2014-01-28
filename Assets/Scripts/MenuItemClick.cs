@@ -12,9 +12,32 @@ public class MenuItemClick : MonoBehaviour {
 	void Update () {
 	
 	}
-	void OnMouseDown()
+	/*void OnMouseDown()
 	{
-		Application.LoadLevel (1);
+		Application.LoadLevel (2);
 		Debug.Log ("Click");
+	}*/
+	void OnGUI () {
+				
+		GUI.Label (new Rect(750, 250, 300,50), "Welcome to: \nFART BLASTERS");
+		GUI.Box (new Rect (700, 300, 300, 200),"");
+		
+				
+		if (GUI.Button (new Rect (720, 320, 100, 50), "New Game")) {
+			Debug.Log ("Load Level: " + Application.loadedLevelName);
+			Application.LoadLevel("test_level_Nick");
+			}
+				
+		if(GUI.Button (new Rect(720, 380, 100,50), "Continue"))
+			{
+				
+			}
+
+		if(GUI.Button (new Rect(720, 440, 100,50), "Quit Game"))
+			{
+				Application.Quit();
+			}
+
+
 	}
 }

@@ -97,26 +97,25 @@ public class PlayerControl : MonoBehaviour
 		// TODO: Put in a check to only allow this in debug
 		Debug_CheckSpawnFood();
 		
-		if(Input.GetKeyDown("d") && onGround)
-		{
-			//added for sticky block testing
-			if(this.transform.rigidbody2D.gravityScale == 0) 
-			{
-				this.transform.rigidbody2D.gravityScale = 1;
-			}
-			this.transform.rigidbody2D.AddForce(new Vector2(100, 500));//scooch!
-			scoochPoot();		
-		}
-		else if(Input.GetKeyDown("a") && onGround)
-		{
-			//added for sticky block testing
-			if(this.transform.rigidbody2D.gravityScale == 0) 
-			{
-				this.transform.rigidbody2D.gravityScale = 1;
-			}
-			this.transform.rigidbody2D.AddForce(new Vector2(-100, 500));//scooch!
-			scoochPoot();
-		}		
+		if (Input.GetKeyDown ("d") && onGround) {
+						//added for sticky block testing
+						if (this.transform.rigidbody2D.gravityScale == 0) {
+								this.transform.rigidbody2D.gravityScale = 1;
+						}
+						this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
+						scoochPoot ();		
+				} else if (Input.GetKeyDown ("a") && onGround) {
+						//added for sticky block testing
+						if (this.transform.rigidbody2D.gravityScale == 0) {
+								this.transform.rigidbody2D.gravityScale = 1;
+						}
+						this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
+						scoochPoot ();
+				}
+		//Added to test dying transition menu
+		else if (Input.GetKeyDown ("x")) {
+			Health_DecHealth( 100.0f );
+				}
 	}
 
 	void FixedUpdate()
@@ -366,7 +365,8 @@ public class PlayerControl : MonoBehaviour
 		Debug.Log ( "Dead" );		
 		yield return new WaitForSeconds(2f);
 		*/
-		Application.LoadLevel(Application.loadedLevel);
+		//Application.LoadLevel(Application.loadedLevel);
+		Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	
 	// Player Control
