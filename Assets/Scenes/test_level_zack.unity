@@ -4189,7 +4189,7 @@ GameObject:
   - 4: {fileID: 177359308}
   - 212: {fileID: 177359310}
   - 95: {fileID: 177359309}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8514,7 +8514,7 @@ GameObject:
   - 4: {fileID: 391940313}
   - 212: {fileID: 391940315}
   - 95: {fileID: 391940314}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21226,6 +21226,7 @@ GameObject:
   - 82: {fileID: 963563739}
   - 82: {fileID: 963563738}
   - 82: {fileID: 963563737}
+  - 58: {fileID: 963563740}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -21887,6 +21888,17 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!58 &963563740
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 963563725}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: 1
+  m_Center: {x: 0, y: 0}
 --- !u!1 &963999887
 GameObject:
   m_ObjectHideFlags: 0
@@ -24174,7 +24186,7 @@ GameObject:
   - 50: {fileID: 1080646375}
   - 61: {fileID: 1080646374}
   - 114: {fileID: 1080646376}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Lackie_Soldier
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -24438,7 +24450,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1089378782}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Lackie_Soldier_groundCheck
   m_TagString: Untagged
   m_Icon: {fileID: -2065832391, guid: 0000000000000000d000000000000000, type: 0}
@@ -26184,7 +26196,7 @@ GameObject:
   - 50: {fileID: 1161726521}
   - 61: {fileID: 1161726520}
   - 114: {fileID: 1161726519}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Lackie_Soldier
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -33550,7 +33562,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1472425760}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Lackie_Soldier_groundCheck
   m_TagString: Untagged
   m_Icon: {fileID: -2065832391, guid: 0000000000000000d000000000000000, type: 0}
@@ -41411,6 +41423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8a0290ce8ee3846b836aa1ad2cd17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xAxis: -.899999976
+  yAxis: 0
 --- !u!1001 &1783522634
 Prefab:
   m_ObjectHideFlags: 0

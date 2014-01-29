@@ -184,7 +184,7 @@ public class PlayerControl : MonoBehaviour
 	{
 		if(!alive)
 		{			
-			GUI.color = Color.red;
+			GUI.color = Color.red;// Not working at the moment...
 			GUIStyle textStyle = new GUIStyle();
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
@@ -194,6 +194,18 @@ public class PlayerControl : MonoBehaviour
 		//Texture2D healthBubble = new Texture2D(32, 32);
 		//healthBubble.LoadImage(txtAsst.bytes);
 		//GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
+	}
+	
+	void OnTriggerEnter2D(Collider2D obj)
+	{
+		if(obj.gameObject.tag.Equals( "Block" ))
+		{
+			willHit = true;
+		}
+		else
+		{
+			willHit = false;
+		}
 	}
 	
 	// Not sure if this should go here or in a different script file?
@@ -618,6 +630,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 
+	bool willHit = false;
 	// Animation Control
 	// -------------------------------------------------------------------------------------
 
@@ -638,24 +651,34 @@ public class PlayerControl : MonoBehaviour
 		else
 		{
 			bool isHolding = PullLine_IsHolding();
-
-			
-			if( inVortex )
+		
+		if( inVortex )
+		{
+			playerAnimator.Play ("Vortex");
+		}
+		else if( isMoving && !isHolding )
+		{
+		/*
+			if(willHit)
 			{
-				playerAnimator.Play ("Vortex");
+				playerAnimator.Play ( "HitWall" );
 			}
-			else if( isMoving && !isHolding )
+			else
 			{
 				playerAnimator.Play( "flying" );
 			}
-			else if( isHolding )
-			{
-				playerAnimator.Play( "HoldingItIn" );
-			}
-			else if( onGround )
-			{
-				playerAnimator.Play( "Idle" );
-			}
+		*/
+			playerAnimator.Play ( "flying" );	
+		}
+		else if( isHolding )
+		{
+			playerAnimator.Play( "HoldingItIn" );
+		}
+		else if( onGround )
+		{
+			playerAnimator.Play( "Idle" );
+		}	
+		
 		}
 
 		Animation_UpdateFacingDir();

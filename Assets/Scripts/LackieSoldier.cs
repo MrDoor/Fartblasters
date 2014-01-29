@@ -114,6 +114,7 @@ public class LackieSoldier : MonoBehaviour
 			Debug.Log( "Player!" );
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			pControl.Health_DefaultHit(this.transform);
+			StartCoroutine( "IgnorePlayer" );
 		}
 		else
 		{
@@ -152,5 +153,15 @@ public class LackieSoldier : MonoBehaviour
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			pControl.Health_DefaultHit(this.transform);
 		}
+	}
+	
+	//Turns off collision for a short time between Player and Enemy
+	IEnumerator IgnorePlayer()
+	{
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "Enemies" ), true);
+		
+		yield return new WaitForSeconds(3f);		
+		
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "Enemies" ), false);
 	}
 }
