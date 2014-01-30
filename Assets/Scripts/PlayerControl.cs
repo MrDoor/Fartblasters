@@ -15,12 +15,14 @@ public class PlayerControl : MonoBehaviour
 	public float maxLineLength = 1.5f;
 	public float minLineLength = 0.6f;	
 
-	private const int maxLineVerts	= 2;
-	private const int maxFartClouds	= 6;
+	private const int maxLineVerts		= 2;
+	private const int maxFartClouds		= 6;
+	private const int maxTrajectoryDots = 6;
 	private Transform[] fartClouds;
-	private float pullFraction	= 0.0f;
-	private float pullDist		= 0.0f;
-	private float juiceToUse	= 0.0f;
+	private Transform[] trajectoryDots;
+	private float pullFraction			= 0.0f;
+	private float pullDist				= 0.0f;
+	private float juiceToUse			= 0.0f;
 
 	// Launch
 	public float maxLaunchForce			= 7000.0f;
@@ -177,6 +179,7 @@ public class PlayerControl : MonoBehaviour
 	{
 		Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
 		PullLine_PositionClouds( transform.position, pullEndPoint );
+		PullLine_PositionTrajectoryDots( transform.position, pullEndPoint );
 	}
 	
 	//public TextAsset txtAsst;
@@ -196,6 +199,7 @@ public class PlayerControl : MonoBehaviour
 		//GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
 	}
 	
+	//Testing for prewall collision detection
 	void OnTriggerEnter2D(Collider2D obj)
 	{
 		if(obj.gameObject.tag.Equals( "Block" ))
@@ -442,8 +446,10 @@ public class PlayerControl : MonoBehaviour
 		juiceToUse		= 0.0f;
 		pullDist		= 0.0f;
 		fartClouds		= null;
+		trajectoryDots	= null;
 
-		Transform pullContainer = myTransform.FindChild( "pullContainer" );
+		Transform pullContainer 		= myTransform.FindChild( "pullContainer" );
+		Transform trajectoryContainer 	= myTransform.FindChild( "trajectoryDotContainer" );
 		// TODO: Change this to assert
 		if( pullContainer )
 		{
@@ -451,6 +457,12 @@ public class PlayerControl : MonoBehaviour
 			for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
 			{
 				fartClouds[ cloudIndex ] = pullContainer.FindChild( "FartCloud" + cloudIndex ); 
+			}
+			
+			trajectoryDots = new Transform[ maxTrajectoryDots ];
+			for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+			{
+				trajectoryDots[ dotIndex ] = trajectoryContainer.FindChild( "TrajectoryDot" + dotIndex ); 
 			}
 		}
 	}
@@ -464,6 +476,11 @@ public class PlayerControl : MonoBehaviour
 		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
 		{
 			fartClouds[ cloudIndex ].transform.position = transform.position; 
+		}
+		
+		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+		{
+			trajectoryDots[ dotIndex ].transform.position = transform.position; 
 		}
 	}
 	
@@ -529,6 +546,22 @@ public class PlayerControl : MonoBehaviour
 			float stepAmount = ( cloudIndex * Mathf.Pow( ( stepDistance + 0.004f ), 1.05f ) );
 			Vector3 step = direction * stepAmount;
 			fartClouds[ maxFartClouds - cloudIndex - 1 ].transform.position = pullEndPoint + step; 
+		}
+	}
+	
+	public void PullLine_PositionTrajectoryDots( Vector3 playerPos, Vector3 pullEndPoint )
+	{				
+		Vector3 direction = playerPos - pullEndPoint;		
+		Vector3 dotEndPoint = playerPos + ( direction / 3 );
+		float stepDistance = 4.0f / maxTrajectoryDots;
+		
+		Debug.Log ( "pullEndPoint = " + pullEndPoint + " direction = " + direction );
+		
+		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+		{
+			float stepAmount = ( dotIndex * Mathf.Pow( ( stepDistance + 0.0004f ), 1.001f ) );
+			Vector3 step = direction * stepAmount;
+			trajectoryDots[ maxTrajectoryDots - dotIndex - 1 ].transform.position = dotEndPoint + step ; 			
 		}
 	}
 
