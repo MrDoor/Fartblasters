@@ -52,6 +52,9 @@ public class PlayerControl : MonoBehaviour
 
     // Sounds
     private AudioSource playerBodyAudioSource;
+    
+    //Trajectory
+    public GameObject trajectoryDot;
 
 	// Debug
 	public GameObject debugSpawnFoodObj;
@@ -150,6 +153,10 @@ public class PlayerControl : MonoBehaviour
 	
 	void OnMouseUp()
 	{
+		foreach( GameObject go in GameObject.FindGameObjectsWithTag( "TrajectoryDot" ))
+		{
+			Destroy( go );
+		}
 		//added for sticky block testing
 		if(this.transform.rigidbody2D.gravityScale == 0) 
 		{
@@ -447,6 +454,10 @@ public class PlayerControl : MonoBehaviour
 		pullDist		= 0.0f;
 		fartClouds		= null;
 		trajectoryDots	= null;
+		dotTime 		= Time.time + dotDelay;
+		
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Enemies" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
 
 		Transform pullContainer 		= myTransform.FindChild( "pullContainer" );
 		Transform trajectoryContainer 	= myTransform.FindChild( "trajectoryDotContainer" );
@@ -549,8 +560,11 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 	
+	private float dotDelay = .5f;
+	private float dotTime;
 	public void PullLine_PositionTrajectoryDots( Vector3 playerPos, Vector3 pullEndPoint )
-	{				
+	{	
+	/*			
 		Vector3 direction = playerPos - pullEndPoint;		
 		Vector3 dotEndPoint = playerPos + ( direction / 3 );
 		float stepDistance = 4.0f / maxTrajectoryDots;
@@ -562,7 +576,23 @@ public class PlayerControl : MonoBehaviour
 			float stepAmount = ( dotIndex * Mathf.Pow( ( stepDistance + 0.0004f ), 1.001f ) );
 			Vector3 step = direction * stepAmount;
 			trajectoryDots[ maxTrajectoryDots - dotIndex - 1 ].transform.position = dotEndPoint + step ; 			
+		}*/
+		
+		if( Time.time >= dotTime )
+		{
+			PullLine_LaunchTrajectoryDot();
 		}
+	}
+	
+	public void PullLine_LaunchTrajectoryDot()
+	{
+		Debug.Log ( "dotTime = " + dotTime + " now = " + Time.time );
+		dotTime = Time.time + dotDelay;
+		float pullPercent = PullLine_GetFraction();
+		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
+		GameObject newDot = (GameObject)Instantiate( trajectoryDot, this.transform.position, Quaternion.identity );
+		newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
+		StartCoroutine ( Destroy_Now( newDot, 1f ) );
 	}
 
 
