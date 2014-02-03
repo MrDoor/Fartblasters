@@ -23,7 +23,10 @@ public class FallingBlockCollision : MonoBehaviour
 		}
 		else
 		{	
-			StartCoroutine( FadeOut() );
+			if( !coll.gameObject.tag.Equals( "TrajectoryDot" ))
+			{
+				StartCoroutine( FadeOut() );
+			}
 		}	
 	}	
 	

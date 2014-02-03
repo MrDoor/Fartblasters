@@ -15,12 +15,14 @@ public class PlayerControl : MonoBehaviour
 	public float maxLineLength = 1.5f;
 	public float minLineLength = 0.6f;	
 
-	private const int maxLineVerts	= 2;
-	private const int maxFartClouds	= 6;
+	private const int maxLineVerts		= 2;
+	private const int maxFartClouds		= 6;
+	private const int maxTrajectoryDots = 6;
 	private Transform[] fartClouds;
-	private float pullFraction	= 0.0f;
-	private float pullDist		= 0.0f;
-	private float juiceToUse	= 0.0f;
+	private Transform[] trajectoryDots;
+	private float pullFraction			= 0.0f;
+	private float pullDist				= 0.0f;
+	private float juiceToUse			= 0.0f;
 
 	// Launch
 	public float maxLaunchForce			= 7000.0f;
@@ -50,6 +52,9 @@ public class PlayerControl : MonoBehaviour
 
     // Sounds
     private AudioSource playerBodyAudioSource;
+    
+    //Trajectory
+    public GameObject trajectoryDot;
 
 	// Debug
 	public GameObject debugSpawnFoodObj;
@@ -148,6 +153,10 @@ public class PlayerControl : MonoBehaviour
 	
 	void OnMouseUp()
 	{
+		foreach( GameObject go in GameObject.FindGameObjectsWithTag( "TrajectoryDot" ))
+		{
+			Destroy( go );
+		}
 		//added for sticky block testing
 		if(this.transform.rigidbody2D.gravityScale == 0) 
 		{
@@ -177,6 +186,7 @@ public class PlayerControl : MonoBehaviour
 	{
 		Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
 		PullLine_PositionClouds( transform.position, pullEndPoint );
+		PullLine_PositionTrajectoryDots( transform.position, pullEndPoint );
 	}
 	
 	//public TextAsset txtAsst;
@@ -184,7 +194,7 @@ public class PlayerControl : MonoBehaviour
 	{
 		if(!alive)
 		{			
-			GUI.color = Color.red;
+			GUI.color = Color.red;// Not working at the moment...
 			GUIStyle textStyle = new GUIStyle();
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
@@ -194,6 +204,19 @@ public class PlayerControl : MonoBehaviour
 		//Texture2D healthBubble = new Texture2D(32, 32);
 		//healthBubble.LoadImage(txtAsst.bytes);
 		//GUI.Label(new Rect(0,0,Screen.width,Screen.height),currentHealth.ToString());
+	}
+	
+	//Testing for prewall collision detection
+	void OnTriggerEnter2D(Collider2D obj)
+	{
+		if(obj.gameObject.tag.Equals( "Block" ))
+		{
+			willHit = true;
+		}
+		else
+		{
+			willHit = false;
+		}
 	}
 	
 	// Not sure if this should go here or in a different script file?
@@ -432,8 +455,14 @@ public class PlayerControl : MonoBehaviour
 		juiceToUse		= 0.0f;
 		pullDist		= 0.0f;
 		fartClouds		= null;
+		trajectoryDots	= null;
+		dotTime 		= Time.time + dotDelay;
+		
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Enemies" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
 
-		Transform pullContainer = myTransform.FindChild( "pullContainer" );
+		Transform pullContainer 		= myTransform.FindChild( "pullContainer" );
+		Transform trajectoryContainer 	= myTransform.FindChild( "trajectoryDotContainer" );
 		// TODO: Change this to assert
 		if( pullContainer )
 		{
@@ -441,6 +470,12 @@ public class PlayerControl : MonoBehaviour
 			for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
 			{
 				fartClouds[ cloudIndex ] = pullContainer.FindChild( "FartCloud" + cloudIndex ); 
+			}
+			
+			trajectoryDots = new Transform[ maxTrajectoryDots ];
+			for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+			{
+				trajectoryDots[ dotIndex ] = trajectoryContainer.FindChild( "TrajectoryDot" + dotIndex ); 
 			}
 		}
 	}
@@ -454,6 +489,11 @@ public class PlayerControl : MonoBehaviour
 		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
 		{
 			fartClouds[ cloudIndex ].transform.position = transform.position; 
+		}
+		
+		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+		{
+			trajectoryDots[ dotIndex ].transform.position = transform.position; 
 		}
 	}
 	
@@ -520,6 +560,41 @@ public class PlayerControl : MonoBehaviour
 			Vector3 step = direction * stepAmount;
 			fartClouds[ maxFartClouds - cloudIndex - 1 ].transform.position = pullEndPoint + step; 
 		}
+	}
+	
+	private float dotDelay = .5f;
+	private float dotTime;
+	public void PullLine_PositionTrajectoryDots( Vector3 playerPos, Vector3 pullEndPoint )
+	{	
+	/*			
+		Vector3 direction = playerPos - pullEndPoint;		
+		Vector3 dotEndPoint = playerPos + ( direction / 3 );
+		float stepDistance = 4.0f / maxTrajectoryDots;
+		
+		Debug.Log ( "pullEndPoint = " + pullEndPoint + " direction = " + direction );
+		
+		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+		{
+			float stepAmount = ( dotIndex * Mathf.Pow( ( stepDistance + 0.0004f ), 1.001f ) );
+			Vector3 step = direction * stepAmount;
+			trajectoryDots[ maxTrajectoryDots - dotIndex - 1 ].transform.position = dotEndPoint + step ; 			
+		}*/
+		
+		if( Time.time >= dotTime )
+		{
+			PullLine_LaunchTrajectoryDot();
+		}
+	}
+	
+	public void PullLine_LaunchTrajectoryDot()
+	{
+		Debug.Log ( "dotTime = " + dotTime + " now = " + Time.time );
+		dotTime = Time.time + dotDelay;
+		float pullPercent = PullLine_GetFraction();
+		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
+		GameObject newDot = (GameObject)Instantiate( trajectoryDot, this.transform.position, Quaternion.identity );
+		newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
+		StartCoroutine ( Destroy_Now( newDot, 1f ) );
 	}
 
 
@@ -620,6 +695,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 
+	bool willHit = false;
 	// Animation Control
 	// -------------------------------------------------------------------------------------
 
@@ -640,24 +716,34 @@ public class PlayerControl : MonoBehaviour
 		else
 		{
 			bool isHolding = PullLine_IsHolding();
-
-			
-			if( inVortex )
+		
+		if( inVortex )
+		{
+			playerAnimator.Play ("Vortex");
+		}
+		else if( isMoving && !isHolding )
+		{
+		/*
+			if(willHit)
 			{
-				playerAnimator.Play ("Vortex");
+				playerAnimator.Play ( "HitWall" );
 			}
-			else if( isMoving && !isHolding )
+			else
 			{
 				playerAnimator.Play( "flying" );
 			}
-			else if( isHolding )
-			{
-				playerAnimator.Play( "HoldingItIn" );
-			}
-			else if( onGround )
-			{
-				playerAnimator.Play( "Idle" );
-			}
+		*/
+			playerAnimator.Play ( "flying" );	
+		}
+		else if( isHolding )
+		{
+			playerAnimator.Play( "HoldingItIn" );
+		}
+		else if( onGround )
+		{
+			playerAnimator.Play( "Idle" );
+		}	
+		
 		}
 
 		Animation_UpdateFacingDir();
