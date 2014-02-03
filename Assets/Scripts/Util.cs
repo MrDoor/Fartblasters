@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Util
 {
+	public static string level;
+
 	public static GameObject SafeGameObjectFind( string name )
 	{
 		GameObject newGameObject = GameObject.Find( name );
@@ -37,4 +39,13 @@ public class Util
 	{
 		return go.tag.Equals( "Debug" );
 	}
+	public static void setLevel(string index)
+	{
+		level = index;
+	}
+
+	public static string  getlevel()
+	{
+		return level;
+		}
 }

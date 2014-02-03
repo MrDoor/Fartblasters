@@ -366,6 +366,8 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds(2f);
 		*/
 		//Application.LoadLevel(Application.loadedLevel);
+		Util.setLevel (Application.loadedLevelName);
+		Debug.Log ("lodedl level" + Util.getlevel());
 		Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	
