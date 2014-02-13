@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
 	private bool isStuck	= false;
     private bool inVortex 	= false;
     private bool isStopped  = false;
+    private bool isEating	= false;
 
 	// Pull Line	
 	public float maxLineLength = 1.5f;
@@ -134,6 +135,8 @@ public class PlayerControl : MonoBehaviour
 
 		if( isMoving )
 		{
+			transform.parent = null;
+			
 			if( lastXPos < transform.position.x )
 			{
 				movingDir = Direction.RIGHT;
@@ -172,7 +175,6 @@ public class PlayerControl : MonoBehaviour
 		StopCoroutine("zoomOut");
 		StartCoroutine("zoomIn");		
 		
-		this.collider2D.transform.parent = null;
 	}
 	
 	void OnMouseDown()
@@ -445,6 +447,16 @@ public class PlayerControl : MonoBehaviour
     {
         isStopped = stopped;
     }
+    
+    public void SetIsEating(bool eating)
+    {
+    	isEating = eating;
+    }
+    
+    public bool GetIsEating()
+    {
+    	return isEating;
+    }
 
 	// Pull Line Control
 	// -------------------------------------------------------------------------------------
@@ -587,8 +599,7 @@ public class PlayerControl : MonoBehaviour
 	}
 	
 	public void PullLine_LaunchTrajectoryDot()
-	{
-		Debug.Log ( "dotTime = " + dotTime + " now = " + Time.time );
+	{		
 		dotTime = Time.time + dotDelay;
 		float pullPercent = PullLine_GetFraction();
 		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
@@ -676,7 +687,9 @@ public class PlayerControl : MonoBehaviour
 		if( juiceToUse > currentLaunchJuice )
 		{
 			juiceToUse = currentLaunchJuice;
-		}
+		}		
+		
+		this.collider2D.transform.parent = null;
 
 		currentLaunchJuice -= juiceToUse;
 		juiceToUse = 0.0f;
@@ -684,9 +697,8 @@ public class PlayerControl : MonoBehaviour
 		Launch_SetAllowed( false );
 
 		// TODO: assert if not transform.rigidbody2D
-		transform.rigidbody2D.AddForce( launchDir * launchForce );
+		transform.rigidbody2D.AddForce( launchDir * launchForce );		
 		
-		Debug.Log ("Fart sound play now! launchForce: " + launchForce + " | launchDir: " + launchDir.ToString());
 		if(launchDir != Vector2.zero)
 		{
 			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();			
@@ -717,32 +729,24 @@ public class PlayerControl : MonoBehaviour
 		{
 			bool isHolding = PullLine_IsHolding();
 		
-		if( inVortex )
-		{
-			playerAnimator.Play ("Vortex");
-		}
-		else if( isMoving && !isHolding )
-		{
-		/*
-			if(willHit)
+			/*
+			if( inVortex )
 			{
-				playerAnimator.Play ( "HitWall" );
+				playerAnimator.Play ("Vortex");
 			}
-			else
+			else if( isMoving && !isHolding )
 			{
-				playerAnimator.Play( "flying" );
+				playerAnimator.Play ( "flying" );	
 			}
-		*/
-			playerAnimator.Play ( "flying" );	
-		}
-		else if( isHolding )
-		{
-			playerAnimator.Play( "HoldingItIn" );
-		}
-		else if( onGround )
-		{
-			playerAnimator.Play( "Idle" );
-		}	
+			else if( isHolding )
+			{
+				playerAnimator.Play( "HoldingItIn" );
+			}
+			else if( onGround )
+			{
+				playerAnimator.Play( "Idle" );
+			}	
+			*/
 		
 		}
 
