@@ -5,11 +5,11 @@ public class MovingBlockControl : MonoBehaviour
 {
 	public float rightLeftSize = 1.0f;
 	public float upDownSize = 2.0f; 
+	public bool isLeftRight = false;
 	
 	private Transform transform_;
 	private float positionDifference = 0.0f;	
 	private Vector3 currentPosition;
-	public bool isLeftRight = false;
 	
 	//private Direction lastDirection = Direction.NONE;
 	private Direction moveTo = Direction.LEFT;
@@ -138,40 +138,11 @@ public class MovingBlockControl : MonoBehaviour
 			if( pControl )
 			{				
 				//Debug.Log(coll.transform.parent == null ? "No Parent to start with." : "Has a parent: " + coll.transform.parent.name);
-				coll.transform.parent = transform_;
+				if( pControl.transform.parent == null )
+				{
+					pControl.transform.parent = transform_;
+				}
 			}
 		}
 	}
-	
-	//NOT WORKING!!
-	void OnCollisionExit2D( Collision2D coll )
-	{
-		Debug.Log( "Collision Exit" );
-		if( coll.gameObject.name.Equals( "Player" ) )
-		{
-			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			if(pControl)
-			{
-				//Debug.Log("setting null");
-				coll.transform.parent = null;
-			}
-		}
-	}
-		
-	/*
-	IEnumerator pauseMovement()
-	{
-		isPaused = true;
-		if(moveTo == Direction.LEFT)
-		{
-			moveTo = Direction.RIGHT;
-		}
-		else
-		{
-			moveTo = Direction.LEFT;
-		}				
-		Debug.Log("moveTo = " + moveTo);
-		yield return new WaitForSeconds(2f);
-	}
-	*/
 }

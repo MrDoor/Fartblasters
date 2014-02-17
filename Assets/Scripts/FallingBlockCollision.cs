@@ -45,7 +45,10 @@ public class FallingBlockCollision : MonoBehaviour
 		}
 		
 		this.renderer.enabled = true;
-		this.gameObject.AddComponent<Rigidbody2D>();
+		if( this.gameObject.rigidbody2D == null )
+		{
+			this.gameObject.AddComponent<Rigidbody2D>();
+		}
 		this.transform.rigidbody2D.gravityScale = 1;
 		this.transform.rigidbody2D.mass = 10;
 	}	
