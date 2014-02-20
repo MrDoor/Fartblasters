@@ -48,7 +48,7 @@ public class CollectFood : MonoBehaviour
 			sounds[1].PlayDelayed(sounds[0].clip.length);
 			this.transform.renderer.enabled = false;
 			destroyTime = sounds[1].clip.length;
-			Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
+			//Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
 		}
 		else
 		{
@@ -62,7 +62,14 @@ public class CollectFood : MonoBehaviour
 			destroyTime = this.audio.clip.length;
 			this.transform.renderer.enabled = false;
 		}
+		pControl.SetIsEating ( true );
 		Destroy( this.gameObject, destroyTime );
+		StartCoroutine ( "StopEating", pControl );
 	}
-
+	
+	IEnumerator StopEating( PlayerControl pControl )
+	{
+		yield return new WaitForSeconds ( .24f );
+		pControl.SetIsEating ( false );
+	}
 }

@@ -19749,6 +19749,8 @@ GameObject:
   - 212: {fileID: 898382185}
   - 95: {fileID: 898382184}
   - 82: {fileID: 898382186}
+  - 58: {fileID: 898382187}
+  - 114: {fileID: 898382188}
   m_Layer: 0
   m_Name: body
   m_TagString: Untagged
@@ -19779,8 +19781,8 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3f04fdb407fd69b42bfc7aa7d0a2d8e5, type: 2}
   m_CullingMode: 0
-  m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
+  m_ApplyRootMotion: 0
+  m_AnimatePhysics: 1
   m_HasTransformHierarchy: 1
 --- !u!212 &898382185
 SpriteRenderer:
@@ -19865,6 +19867,28 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!58 &898382187
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 898382182}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: .600000024
+  m_Center: {x: 0, y: 0}
+--- !u!114 &898382188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 898382182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f42d2e83b02273c47bca1c0a6f5a5a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &900828642
 Prefab:
   m_ObjectHideFlags: 0
@@ -21304,7 +21328,7 @@ Transform:
   m_PrefabInternal: {fileID: 2083777961}
   m_GameObject: {fileID: 963563725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.79256105, y: -3.04763508, z: -.0500488281}
+  m_LocalPosition: {x: -6.79256105, y: -3.08335304, z: -.0500488281}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 898382183}
@@ -49271,7 +49295,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.04763508
+      value: -3.08335304
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
       propertyPath: m_LocalPosition.z
@@ -49309,6 +49333,14 @@ Prefab:
       propertyPath: trajectoryDot
       value: 
       objectReference: {fileID: 100000, guid: 1c641e68a91de4c489d2674c388e29d8, type: 2}
+    - target: {fileID: 9500000, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
   m_RootGameObject: {fileID: 963563725}
