@@ -30,7 +30,11 @@ public class MenuItemClick : MonoBehaviour {
 				
 		if(GUI.Button (new Rect(720, 380, 100,50), "Continue"))
 			{
-				
+			Debug.Log ("Next Level: " + PlayerPrefs.GetInt ("loaded level"));
+				if(PlayerPrefs.HasKey ("loaded level"))
+			   {
+				Application.LoadLevel (PlayerPrefs.GetInt ("loaded level"));
+				}
 			}
 
 		if(GUI.Button (new Rect(720, 440, 100,50), "Quit Game"))
