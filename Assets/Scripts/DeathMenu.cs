@@ -20,13 +20,13 @@ public class DeathMenu : MonoBehaviour {
 		
 		if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
 			Debug.Log ("Load Level: " + Application.loadedLevelName);
-			Application.LoadLevel(Util.getlevel());
+			Application.LoadLevel(PlayerPrefs.GetInt ("currentLevel"));
 		}
 		
 		if(GUI.Button (new Rect(720, 380, 100,50), "Return to Main menu"))
 		{
 			//Debug.Log (Util.getlevel);
-			Application.LoadLevel("test_level_Nick");
+			Application.LoadLevel("test_menu_Nick");
 		}
 		
 		if(GUI.Button (new Rect(720, 440, 100,50), "Quit Game"))
