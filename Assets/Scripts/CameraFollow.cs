@@ -17,9 +17,10 @@ public class CameraFollow : MonoBehaviour
 	{
 		GameObject playerGO = Util.SafeGameObjectFind("Player");
 		player = playerGO.transform;
+		
+		//StartCoroutine ( MoveTo ( player.transform ) );
 		//Camera.main.orthographicSize = 3;			
-	}
-	
+	}	
 	
 	bool CheckXMargin()
 	{
@@ -39,7 +40,6 @@ public class CameraFollow : MonoBehaviour
 	{
 		TrackPlayer();
 	}
-	
 	
 	void TrackPlayer ()
 	{
@@ -64,4 +64,15 @@ public class CameraFollow : MonoBehaviour
 		// Set the camera's position to the target position with the same z component.
 		transform.position = new Vector3(targetX, targetY, transform.position.z);
 	}
+	
+	// Initial Player Camera Setup ********************************************************
+	
+	
+	IEnumerator MoveTo ( Transform trans )
+	{
+		yield return new WaitForSeconds( 2 );
+		this.transform.position = trans.position;
+		Debug.Log ( "Moved to: " + trans.position );
+	}
+	
 }

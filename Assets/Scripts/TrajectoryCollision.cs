@@ -21,4 +21,14 @@ public class TrajectoryCollision : MonoBehaviour {
 			Destroy ( this.gameObject );
 		}
 	}
+	/*
+	void OnTriggerEnter2D( Collider2D coll )
+	{
+		if( !coll.gameObject.CompareTag( "Player" ) )
+		{
+			Debug.Log ( "Destroy: " + this.gameObject.name + " touched: " + coll.gameObject.tag );
+			Destroy ( this.gameObject );
+		}
+	}	
+	*/
 }

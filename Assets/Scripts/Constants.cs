@@ -27,6 +27,9 @@ public class Constants
     public const int BLOCKLAYER_MOVING      = 1 << 21;
     public const int BLOCKLAYER_FALLING     = 1 << 22;
     public const int BLOCKLAYER_BOOST       = 1 << 23;
+    
+    
+	public const int BLOCKLAYER_GROUND      = 1 << 26;
 
     // Bit flag mask for blocks that you can land on
     public const int LayerMask_Ground = BLOCKLAYER_DEFAULT      | 
@@ -35,5 +38,6 @@ public class Constants
                                         BLOCKLAYER_STOP         |
                                         BLOCKLAYER_DISAPPEAR    | 
                                         BLOCKLAYER_MOVING       | 
-                                        BLOCKLAYER_FALLING;
+                                        BLOCKLAYER_FALLING		|
+                                        BLOCKLAYER_GROUND;
 }
