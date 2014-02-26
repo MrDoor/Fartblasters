@@ -3,32 +3,37 @@ using System.Collections;
 
 public class DetectCollisionDistance : MonoBehaviour {
 
-	private bool nearWall 	= false;
-	private float distance 	= 0f;
-	
 	private PlayerControl pControl;
 	private Transform wallTransform;
+	
 	// Use this for initialization
 	void Start () {
 		pControl = Util.SafePlayerControlFind();
 	}
-	/*
+	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ( "Near Wall: " + nearWall );
-		if ( nearWall )
+	
+		if( wallTransform != null )
 		{
-			distance = pControl.transform.position.x - wallTransform.position.x;
-			Debug.Log ( "distance: " + distance );
+			this.GetComponent<Animator>().SetFloat( "distFromWall",  Mathf.Abs ( pControl.transform.position.x - wallTransform.position.x ) );	
+			if( Mathf.Abs( pControl.transform.position.x - wallTransform.position.x ) > 3 )
+			{
+				this.GetComponent<Animator>().SetBool ( "nearWall" , false );
+			}
+			else
+			{
+				this.GetComponent<Animator>().SetBool ( "nearWall" , true );
+			}
+		}	
+	}
+	
+	void OnTriggerEnter2D ( Collider2D coll )
+	{	
+		if( coll.gameObject.name.Equals ( "Wall" ) )
+		{	
+			wallTransform = coll.transform;
 		}
 	}
-	*/
 	
-	/*
-	void OnTriggerEnter2D ( Collider2D coll )
-	{		
-		wallTransform = coll.transform;
-		nearWall = true;		
-	}
-	*/
 }

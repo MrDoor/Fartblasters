@@ -15,7 +15,7 @@ public class CollectFood : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D obj )
 	{
-		if( obj.name == "Player" )
+		if( obj.name.Equals( "Player" ) )
 		{
 			PlayerControl pControl = obj.GetComponent<PlayerControl>();
 			if( pControl )
@@ -47,7 +47,8 @@ public class CollectFood : MonoBehaviour
 			sounds[0].Play();		
 			sounds[1].PlayDelayed(sounds[0].clip.length);
 			this.transform.renderer.enabled = false;
-			destroyTime = sounds[1].clip.length;
+			destroyTime = sounds[1].clip.length;			
+			pControl.SetIsEating ( true );
 			//Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
 		}
 		else
@@ -60,9 +61,9 @@ public class CollectFood : MonoBehaviour
 			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag);
 			this.audio.Play();
 			destroyTime = this.audio.clip.length;
-			this.transform.renderer.enabled = false;
+			this.transform.renderer.enabled = false;			
+			pControl.SetIsEating ( true );
 		}
-		pControl.SetIsEating ( true );
 		Destroy( this.gameObject, destroyTime );
 		StartCoroutine ( "StopEating", pControl );
 	}

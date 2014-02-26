@@ -63,6 +63,10 @@ public class PlayerControl : MonoBehaviour
 	private int maxDebugFood			= 3;
 	private int debugFoodCount			= 0;
 	private float debugFoodDestroyTime	= 3.0f;
+	
+	// Zoom
+	public int maxZoom					= 5;
+	public int minZoom					= 4;
 
 	void Awake()
 	{
@@ -227,9 +231,9 @@ public class PlayerControl : MonoBehaviour
 	
 	IEnumerator zoomOut()
 	{		
-		while(Camera.main.orthographicSize <= 5)
+		while(Camera.main.orthographicSize <= maxZoom)
 		{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,6, Time.deltaTime * 1.25f);						
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,maxZoom + 1, Time.deltaTime * 1.25f);						
 			yield return new WaitForSeconds(.025f);
 		}		
 		yield break;		
@@ -238,13 +242,13 @@ public class PlayerControl : MonoBehaviour
 	IEnumerator zoomIn()
 	{
 		yield return new WaitForSeconds(1.25f);
-		while(Camera.main.orthographicSize > 3)
+		while(Camera.main.orthographicSize > minZoom)
 		{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,3, Time.deltaTime * .2f);
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,minZoom, Time.deltaTime * .2f);
 			//Could not figure this out so I just added this crap.  Needs to be redone.
 			if(Camera.main.orthographicSize <= .31)
 			{
-				Camera.main.orthographicSize = 3;
+				Camera.main.orthographicSize = minZoom;
 				break;
 			}
 			yield return new WaitForSeconds(.025f);
