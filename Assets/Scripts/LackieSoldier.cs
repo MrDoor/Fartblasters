@@ -25,23 +25,21 @@ public class LackieSoldier : MonoBehaviour
 	
 	void Update() 
     {
-        int layerMask = Constants.LayerMask_Ground;
-		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
+		if (Time.timeScale != 0) {
+						int layerMask = Constants.LayerMask_Ground;
+						onGround = Physics2D.Linecast (transform.position, groundCheck.position, layerMask);
 		
-		if( !onGround )
-		{
-			if( lastDirection == Direction.LEFT )
-			{
-				moveTo = Direction.RIGHT;
-			}
-			else
-			{
-				moveTo = Direction.LEFT;
-			}
-		}
-		Move();
+						if (!onGround) {
+								if (lastDirection == Direction.LEFT) {
+										moveTo = Direction.RIGHT;
+								} else {
+										moveTo = Direction.LEFT;
+								}
+						}
+						Move ();
 		
-		Animation_Update(onGround);
+						Animation_Update (onGround);
+				}
 	}
 	
 	void FixedUpdate()

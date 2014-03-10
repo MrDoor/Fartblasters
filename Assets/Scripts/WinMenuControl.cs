@@ -27,7 +27,8 @@ public class WinMenuControl : MonoBehaviour {
 			Debug.Log ("Next Level: " + PlayerPrefs.GetInt ("loaded level"));
 			if(PlayerPrefs.HasKey ("loaded level"))
 			{
-				Application.LoadLevel (PlayerPrefs.GetInt ("loaded level") + 1);
+				Time.timeScale = 1;
+				//Application.LoadLevel (PlayerPrefs.GetInt ("loaded level") + 1);
 			}
 		}
 		
@@ -36,7 +37,8 @@ public class WinMenuControl : MonoBehaviour {
 			Debug.Log ("Next Level: " + PlayerPrefs.GetInt ("loaded level"));
 			if(PlayerPrefs.HasKey ("loaded level"))
 			{
-				Application.LoadLevel (PlayerPrefs.GetInt ("loaded level"));
+
+				//Application.LoadLevel (PlayerPrefs.GetInt ("loaded level"));
 			}
 		}
 		

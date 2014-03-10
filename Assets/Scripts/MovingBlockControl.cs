@@ -30,24 +30,21 @@ public class MovingBlockControl : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update() 
-    {
-		if( isLeftRight )
-		{
-			positionDifference = currentPosition.x - transform_.position.x;	
-			if( Mathf.Abs( positionDifference ) >= rightLeftSize )
-			{
-				CheckDirection();
-			}	
-		}
-		else
-		{
-			positionDifference = currentPosition.y - transform_.position.y;
-			if( Mathf.Abs( positionDifference ) >= upDownSize )
-			{
-				CheckDirection();
-			}
-		}
-		Move();
+    { 
+		if (Time.timeScale != 0) {
+						if (isLeftRight) {
+								positionDifference = currentPosition.x - transform_.position.x;	
+								if (Mathf.Abs (positionDifference) >= rightLeftSize) {
+										CheckDirection ();
+								}	
+						} else {
+								positionDifference = currentPosition.y - transform_.position.y;
+								if (Mathf.Abs (positionDifference) >= upDownSize) {
+										CheckDirection ();
+								}
+						}
+						Move ();
+				}
 	}	
 	
 	void Move()

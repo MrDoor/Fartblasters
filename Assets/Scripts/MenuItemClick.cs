@@ -19,6 +19,7 @@ public class MenuItemClick : MonoBehaviour {
 	}*/
 	void OnGUI () {
 				
+
 		GUI.Label (new Rect(750, 250, 300,50), "Welcome to: \nFART BLASTERS");
 		GUI.Box (new Rect (700, 300, 300, 200),"");
 		
