@@ -5,6 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
 	// Player Control
 	private Transform groundCheck;
+	private Transform groundCheck2;
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
@@ -65,12 +66,14 @@ public class PlayerControl : MonoBehaviour
 	private float debugFoodDestroyTime	= 3.0f;
 	
 	// Zoom
+	public bool zoomOn					= false;
 	public int maxZoom					= 5;
 	public int minZoom					= 4;
 
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
+		groundCheck2 = transform.Find( "groundCheck2" );
 		PullLine_Init( transform );
 		Launch_Init();
 		Animation_Init();
@@ -84,7 +87,8 @@ public class PlayerControl : MonoBehaviour
 	{		
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
         int layerMask = Constants.LayerMask_Ground;
-		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask );
+		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) | Physics2D.Linecast( transform.position, groundCheck2.position, layerMask );
+		Debug.Log ( "onground: " + onGround );
 		if( !onGround )
 		{
 			onGround = isStuck;
@@ -176,16 +180,22 @@ public class PlayerControl : MonoBehaviour
 		PullLine_Reset();
 		
 		//Zooming in and out		
-		StopCoroutine("zoomOut");
-		StartCoroutine("zoomIn");		
+		if( zoomOn )
+		{
+			StopCoroutine("zoomOut");
+			StartCoroutine("zoomIn");		
+		}
 		
 	}
 	
 	void OnMouseDown()
 	{
-		//Zooming in and out	
-		StopCoroutine("zoomIn");				
-		StartCoroutine("zoomOut");		
+		//Zooming in and out
+		if( zoomOn )
+		{	
+			StopCoroutine("zoomIn");				
+			StartCoroutine("zoomOut");
+		}		
 	}
 
 	void OnMouseDrag()
@@ -263,7 +273,6 @@ public class PlayerControl : MonoBehaviour
 	HealthControl hControl;
 	bool alive = true;
 
-
 	public void Health_init()
 	{
 		currentHealth 	= maxHealth;
@@ -304,6 +313,14 @@ public class PlayerControl : MonoBehaviour
 			currentHealth = maxHealth;
 		}
 		hControl.updateHealth( currentHealth );
+	}
+	
+	public void Health_KillPlayer ()
+	{
+		currentHealth = 0;
+		hControl.updateHealth ( 0 );
+		this.transform.collider2D.isTrigger = true;
+		StartCoroutine( "Die" );
 	}
 	
 	/*

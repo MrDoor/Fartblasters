@@ -9,13 +9,16 @@ public class PlayerAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		pControl = Util.SafePlayerControlFind();
-		//pAnimator = pControl.GetComponent<Animator>();
 		pAnimator = this.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () 
 	{			
+	}
+	
+	void Update()
+	{		
 		//Testing Animation Transition
 		if(pAnimator)
 		{
@@ -23,10 +26,6 @@ public class PlayerAnimation : MonoBehaviour {
 			pAnimator.SetBool ( "isMoving", pControl.GetIsMoving() );
 			pAnimator.SetBool ( "inVortex", pControl.GetInVortex() );
 			pAnimator.SetBool ( "isEating", pControl.GetIsEating() );
-		}		
-	}
-	
-	void Update()
-	{
+		}
 	}
 }
