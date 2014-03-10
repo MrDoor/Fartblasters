@@ -61,16 +61,16 @@ public class CollectFood : MonoBehaviour
 			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag);
 			this.audio.Play();
 			destroyTime = this.audio.clip.length;
-			this.transform.renderer.enabled = false;			
+			this.transform.renderer.enabled = false;
 			pControl.SetIsEating ( true );
 		}
-		Destroy( this.gameObject, destroyTime );
 		StartCoroutine ( "StopEating", pControl );
+		Destroy( this.gameObject, destroyTime );
 	}
 	
 	IEnumerator StopEating( PlayerControl pControl )
 	{
-		yield return new WaitForSeconds ( .24f );
+		yield return new WaitForSeconds ( .25f );
 		pControl.SetIsEating ( false );
 	}
 }

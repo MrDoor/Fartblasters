@@ -12,4 +12,13 @@ public class KillLine : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	void OnCollisionEnter2D ( Collision2D coll )
+	{
+		if( coll.gameObject.CompareTag ( "Player" ) )
+		{
+			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
+			pControl.Health_KillPlayer();
+		}
+	}
 }
