@@ -214,7 +214,28 @@ public class PlayerControl : MonoBehaviour
 			GUIStyle textStyle = new GUIStyle();
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
-			GUI.Label(new Rect(Screen.width / 3, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);	
+			GUI.Label(new Rect(700,200 ,Screen.width,Screen.height),"Game Over", textStyle);	
+
+			//GUI.Label (new Rect (750, 250, 300, 50), "GAME OVER");
+			GUI.Box (new Rect (700, 300, 300, 200), "");
+			
+			
+			if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
+				Debug.Log ("Load Level: " + Application.loadedLevelName);
+				Application.LoadLevel (PlayerPrefs.GetInt ("currentLevel"));
+				Time.timeScale = 1;
+			}
+			
+			if (GUI.Button (new Rect (720, 380, 100, 50), "Return to Main menu")) {
+				//Debug.Log (Util.getlevel);
+				Application.LoadLevel ("test_menu_Nick");
+				Time.timeScale = 1;
+			}
+			
+			if (GUI.Button (new Rect (720, 440, 100, 50), "Quit Game")) {
+				Application.Quit ();
+			}
+
 		}
 		//Just a temp spot for health
 		//Texture2D healthBubble = new Texture2D(32, 32);
@@ -402,6 +423,7 @@ public class PlayerControl : MonoBehaviour
 	{
 		Debug.Log ( "Dying" );
 		alive = false;
+		Time.timeScale = 0;
 		yield return new WaitForSeconds(4f);
 		/*
 		GUIStyle textStyle = new GUIStyle();
@@ -413,8 +435,10 @@ public class PlayerControl : MonoBehaviour
 		*/
 		//Application.LoadLevel(Application.loadedLevel);
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
+		PlayerPrefs.SetString ("death", "Dead");
+
 		Debug.Log ("lodedl level" + Util.getlevel());
-		Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
+		//Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	
 	// Player Control

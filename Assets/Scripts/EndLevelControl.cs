@@ -23,6 +23,7 @@ public class EndLevelControl : MonoBehaviour {
 			//Application.LoadLevel ("test_winMenu_Nick");
 			win = true;
 			Time.timeScale = 0;
+			PlayerPrefs.SetInt ("loaded level", Application.loadedLevel);
 				}
 		
    }
