@@ -782,6 +782,10 @@ Prefab:
       propertyPath: maxLaunchForce
       value: 5600
       objectReference: {fileID: 0}
+    - target: {fileID: 5000000, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
+      propertyPath: m_FixedAngle
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
   m_RootGameObject: {fileID: 963563725}
