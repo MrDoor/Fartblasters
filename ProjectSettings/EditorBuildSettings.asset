@@ -12,6 +12,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/test_death_menu_Nick.unity
   - enabled: 1
+    path: Assets/Scenes/test_level_zack_lv_1.unity
+  - enabled: 1
+    path: Assets/Scenes/test_level_zack_lv_2.unity
+  - enabled: 1
     path: Assets/Scenes/test_level_Nick.unity
   - enabled: 1
     path: Assets/Scenes/test_level_zack.unity
