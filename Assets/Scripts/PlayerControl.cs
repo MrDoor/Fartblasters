@@ -54,6 +54,7 @@ public class PlayerControl : MonoBehaviour
 
     // Sounds
     private AudioSource playerBodyAudioSource;
+    private AudioHandler fartSource;
     
     //Trajectory
     public GameObject trajectoryDot;
@@ -69,6 +70,11 @@ public class PlayerControl : MonoBehaviour
 	public bool zoomOn					= false;
 	public int maxZoom					= 5;
 	public int minZoom					= 4;
+	
+	// Hop	
+	public float hopX 					= 1000f;
+	public float hopY 					= 2800f;
+	public bool canHop					= true;
 
 	void Awake()
 	{
@@ -84,7 +90,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void Update () 
-	{		
+	{				
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
         int layerMask = Constants.LayerMask_Ground;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) | Physics2D.Linecast( transform.position, groundCheck2.position, layerMask );
@@ -92,6 +98,10 @@ public class PlayerControl : MonoBehaviour
 		if( !onGround )
 		{
 			onGround = isStuck;
+		}
+		else
+		{
+			canHop = true;		
 		}
 
 		// TODO: Find a way to do this that doesn't involve two line casts
@@ -111,25 +121,39 @@ public class PlayerControl : MonoBehaviour
 		// TODO: Put in a check to only allow this in debug
 		Debug_CheckSpawnFood();
 		
-		if (Input.GetKeyDown ("d") && onGround) {
-						//added for sticky block testing
-						if (this.transform.rigidbody2D.gravityScale == 0) {
-								this.transform.rigidbody2D.gravityScale = 1;
-						}
-						this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
-						scoochPoot ();		
-				} else if (Input.GetKeyDown ("a") && onGround) {
-						//added for sticky block testing
-						if (this.transform.rigidbody2D.gravityScale == 0) {
-								this.transform.rigidbody2D.gravityScale = 1;
-						}
-						this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
-						scoochPoot ();
-				}
+		if (Input.GetKeyDown ("d") && onGround) 
+		{
+			//added for sticky block testing
+			if (this.transform.rigidbody2D.gravityScale == 0) {
+					this.transform.rigidbody2D.gravityScale = 1;
+			}
+			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
+			scoochPoot ();		
+		} 
+		else if (Input.GetKeyDown ("a") && onGround) 
+		{
+			//added for sticky block testing
+			if (this.transform.rigidbody2D.gravityScale == 0) {
+					this.transform.rigidbody2D.gravityScale = 1;
+			}
+			this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
+			scoochPoot ();
+		}
+		else if ( Input.GetKeyDown ("w") )
+		{
+			if ( canHop )
+			{
+				canHop = false;
+				this.transform.rigidbody2D.AddForce ( new Vector2 ( Animation_GetFacingRight() ? hopX : -hopX, hopY ) );//hop!	
+				fartSource.PlayClip(Random.Range( 0, fartSource.farts.Length ));
+				currentLaunchJuice -= 1;			
+			}
+		}
 		//Added to test dying transition menu
-		else if (Input.GetKeyDown ("x")) {
+		else if (Input.GetKeyDown ("x")) 
+		{
 			Health_DecHealth( 100.0f );
-				}
+		}
 	}
 
 	void FixedUpdate()
@@ -881,6 +905,7 @@ public class PlayerControl : MonoBehaviour
             {
                 Debug.LogError("Init_Sound: could not find GameObject 'body'.");
             }
+            fartSource = (AudioHandler)GameObject.Find("Fart_Audio_Source").GetComponent<AudioHandler>();            
         }
         catch(UnityException ue)
         {

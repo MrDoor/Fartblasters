@@ -4,6 +4,7 @@ using System.Collections;
 public class BackgroundParallax : MonoBehaviour
 {
 	public Transform[] backgrounds;				// Array of all the backgrounds to be parallaxed.
+	//public Transform[][] backgroundsRepeat;
 	public float parallaxScale;					// The proportion of the camera's movement to move the backgrounds by.
 	public float parallaxReductionFactor;		// How much less each successive layer should parallax.
 	public float smoothing;						// How smooth the parallax effect should be.
@@ -35,6 +36,13 @@ public class BackgroundParallax : MonoBehaviour
 		// For each successive background...
 		for(int i = 0; i < backgrounds.Length; i++)
 		{
+			//*****test for repeating backgrounds*****
+			//for( int j = 0; j < backgroundsRepeat[i].Length; j++)
+			//{
+			
+			//}
+			//*****end test*****
+			Debug.Log ( "ID: " + backgrounds[i].transform.name );
 			// ... set a target x position which is their current position plus the parallax multiplied by the reduction.
 			float backgroundTargetPosX = backgrounds[i].position.x + parallax * (i * parallaxReductionFactor + 1);
 			

@@ -17,4 +17,10 @@ public class AudioHandler : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	public void PlayClip ( int clipIndex )
+	{
+		this.audio.clip = farts[clipIndex];
+		this.audio.Play ();
+	}
 }
