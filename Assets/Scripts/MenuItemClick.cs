@@ -26,7 +26,7 @@ public class MenuItemClick : MonoBehaviour {
 				
 		if (GUI.Button (new Rect (720, 320, 100, 50), "New Game")) {
 			Debug.Log ("Load Level: " + Application.loadedLevelName);
-			Application.LoadLevel("test_level_zack_lv_1");
+			Application.LoadLevel("World_1_X-1");
 			}
 				
 		if(GUI.Button (new Rect(720, 380, 100,50), "Continue"))

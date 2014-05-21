@@ -12,12 +12,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/test_death_menu_Nick.unity
   - enabled: 1
+    path: Assets/Scenes/World_1_X-1.unity
+  - enabled: 1
+    path: Assets/Scenes/World_1-1.unity
+  - enabled: 1
+    path: Assets/Scenes/World_1-2.unity
+  - enabled: 1
+    path: Assets/Scenes/World_1-3.unity
+  - enabled: 1
+    path: Assets/Scenes/World_1-4.unity
+  - enabled: 0
     path: Assets/Scenes/test_level_zack_lv_1.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test_level_zack_lv_2.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test_level_Nick.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test_level_zack.unity
   - enabled: 0
     path: Assets/Scenes/test_level_adam.unity
