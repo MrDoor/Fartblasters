@@ -94,7 +94,7 @@ public class PlayerControl : MonoBehaviour
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
         int layerMask = Constants.LayerMask_Ground;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) | Physics2D.Linecast( transform.position, groundCheck2.position, layerMask );
-		Debug.Log ( "onground: " + onGround );
+		
 		if( !onGround )
 		{
 			onGround = isStuck;

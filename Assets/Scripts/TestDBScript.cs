@@ -7,6 +7,7 @@ public class TestDBScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+	/*
 		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE ID = 1;";
 		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
 		con.Open ();
@@ -15,7 +16,7 @@ public class TestDBScript : MonoBehaviour {
 		cmd.CommandText = update;
 		cmd.ExecuteNonQuery ();
 		con.Close ();
-
+	*/
 	}
 	
 	// Update is called once per frame
