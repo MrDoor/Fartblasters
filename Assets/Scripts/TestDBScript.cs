@@ -8,10 +8,9 @@ public class TestDBScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE testNum < 5;";
+		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE testNum > 5;";
 
-	
-		//string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE ID = 1;";
+
 		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
 		con.Open ();
 		SqliteCommand cmd = con.CreateCommand ();

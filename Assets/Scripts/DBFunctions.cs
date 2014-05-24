@@ -22,21 +22,31 @@ public class DBFunctions : MonoBehaviour {
 		con.Open ();
 		SqliteCommand cmd = con.CreateCommand ();
 		
-		cmd.CommandText = update;
+		cmd.CommandText = sql;
 		cmd.ExecuteNonQuery ();
 		con.Close ();
 	}
 
-	public static void updateLevelInfo()
+	public static void updateLevelInfo(string level, bool win, int score, Time lvlTime)
 	{
+		int complete = 0;
+		if (win) 
+		{ 
+			complete = 1;
+		}
+		string[] updates = new string[]{"UPDATE PlayerInfoByLevels SET TimesPlayed = TimesPlayed + 1, TimesComplete = TimesComplete + 1 WHERE LevelName = "+level+";",
+										"UPDATE PlayerInfoByLevels SET HighScore = " + score + "WHERE LevelName = " + level + "AND HighScore < " + score + ";",
+										"UPDATE PlayerInfoByLevels SET FastestTime = " + lvlTime + "WHERE LevelName = " + level + "AND FastestTIme < " + lvlTime + ";"};
+
 		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
 		con.Open ();
 		SqliteCommand cmd = con.CreateCommand ();
-		
-		cmd.CommandText = update;
 
-		SqliteDataReader current = cmd.ExecuteReader () ;
-		string sql;
+		foreach (string update in updates) {
+		
+					cmd.CommandText = update;
+					cmd.ExecuteNonQuery ();
+				}
 		con.Close ();
 	}
 }
