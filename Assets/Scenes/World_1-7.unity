@@ -7516,7 +7516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &208514288
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10026,7 +10026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &289912401
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11110,7 +11110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &317558115
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13714,7 +13714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &401713300
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17378,7 +17378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &522574013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17839,7 +17839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &532903577
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19661,7 +19661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &590244718
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21429,7 +21429,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -10.1941156
+      value: -10.156106
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
       propertyPath: m_LocalPosition.z
@@ -21581,7 +21581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &649909020
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -25170,7 +25170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &746777305
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -25653,7 +25653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &757056276
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26961,7 +26961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &804104096
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -31660,7 +31660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &942012128
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32534,7 +32534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &956428790
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32780,7 +32780,7 @@ Transform:
   m_PrefabInternal: {fileID: 647479554}
   m_GameObject: {fileID: 963563725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.8708086, y: -10.1941156, z: -.0500488281}
+  m_LocalPosition: {x: -15.8708086, y: -10.156106, z: -.0500488281}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 898382183}
@@ -39652,7 +39652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1158888333
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -40314,7 +40314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1177729161
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -43079,7 +43079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1259392976
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -45141,7 +45141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1316889596
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -47934,7 +47934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1396826788
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -50866,7 +50866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1510734275
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -52759,7 +52759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1570479272
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -53231,7 +53231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1580061529
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -54082,7 +54082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1598965721
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -57366,7 +57366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1698842990
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -59414,7 +59414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1776498198
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -62833,7 +62833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1892665435
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -63449,7 +63449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1915150547
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -65044,7 +65044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1971144105
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -65668,7 +65668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &1993525617
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -66892,7 +66892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &2045934349
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -67505,7 +67505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &2063148211
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -68000,7 +68000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: .5
+  pickupJuice: .75
 --- !u!212 &2082976024
 SpriteRenderer:
   m_ObjectHideFlags: 0

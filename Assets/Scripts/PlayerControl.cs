@@ -27,7 +27,7 @@ public class PlayerControl : MonoBehaviour
 	private float juiceToUse			= 0.0f;
 
 	// Launch
-	public float maxLaunchForce			= 7000.0f;
+	public float maxLaunchForce			= 4500.0f;
 	public float minLaunchForce			= 2000.0f;
 	public float maxJuiceUsedPerLaunch	= 10;
 	public float launchesAvailable		= 10;
@@ -143,10 +143,14 @@ public class PlayerControl : MonoBehaviour
 		{
 			if ( canHop )
 			{
+				Debug.Log ( "velocity: " + this.transform.rigidbody2D.velocity.magnitude );
 				canHop = false;
+				
+				this.transform.rigidbody2D.velocity = Vector2.zero;	
 				this.transform.rigidbody2D.AddForce ( new Vector2 ( Animation_GetFacingRight() ? hopX : -hopX, hopY ) );//hop!	
 				fartSource.PlayClip(Random.Range( 0, fartSource.farts.Length ));
-				currentLaunchJuice -= 1;			
+				currentLaunchJuice -= 1;
+								
 			}
 		}
 		//Added to test dying transition menu
@@ -766,7 +770,8 @@ public class PlayerControl : MonoBehaviour
 		Launch_SetAllowed( false );
 
 		// TODO: assert if not transform.rigidbody2D
-		transform.rigidbody2D.AddForce( launchDir * launchForce );		
+		transform.rigidbody2D.AddForce( launchDir * launchForce );	
+		
 		
 		if(launchDir != Vector2.zero)
 		{
