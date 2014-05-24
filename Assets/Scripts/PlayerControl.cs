@@ -466,7 +466,7 @@ public class PlayerControl : MonoBehaviour
 
 		PlayerPrefs.SetString ("death", "Dead");
 
-		Debug.Log ("lodedl level" + Util.getlevel());
+		Debug.Log ("loaded level" + Util.getlevel());
 		//Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	

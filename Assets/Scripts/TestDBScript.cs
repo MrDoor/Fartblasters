@@ -7,12 +7,11 @@ public class TestDBScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-<<<<<<< HEAD
+
 		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE testNum < 5;";
-=======
-	/*
-		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE ID = 1;";
->>>>>>> b60c54081e8fb6dd237bed2ff5fb2386a77d7cd3
+
+	
+		//string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE ID = 1;";
 		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
 		con.Open ();
 		SqliteCommand cmd = con.CreateCommand ();
@@ -29,7 +28,7 @@ public class TestDBScript : MonoBehaviour {
 			Debug.Log (reader ["ID"] + ", " + reader ["testNum"]);
 		}
 		con.Close ();
-	*/
+	
 	}
 	
 	// Update is called once per frame
