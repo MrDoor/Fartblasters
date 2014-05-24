@@ -450,6 +450,7 @@ public class PlayerControl : MonoBehaviour
 	IEnumerator Die()
 	{
 		Debug.Log ( "Dying" );
+		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
 		alive = false;
 		Time.timeScale = 0;
 		yield return new WaitForSeconds(4f);
@@ -462,10 +463,10 @@ public class PlayerControl : MonoBehaviour
 		yield return new WaitForSeconds(2f);
 		*/
 		//Application.LoadLevel(Application.loadedLevel);
-		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
+
 		PlayerPrefs.SetString ("death", "Dead");
 
-		Debug.Log ("lodedl level" + Util.getlevel());
+		Debug.Log ("loaded level" + Util.getlevel());
 		//Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	
