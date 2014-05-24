@@ -28,7 +28,7 @@ public class CollectFood : MonoBehaviour
 				}
 				
 				checkFoodType(pControl);				
-				Debug.Log( "Food Checked!" );
+				Debug.Log( "Food Checked! Juice:" + pickupJuice );
 			}
 		}
 	}

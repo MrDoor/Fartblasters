@@ -36,13 +36,6 @@ public class BackgroundParallax : MonoBehaviour
 		// For each successive background...
 		for(int i = 0; i < backgrounds.Length; i++)
 		{
-			//*****test for repeating backgrounds*****
-			//for( int j = 0; j < backgroundsRepeat[i].Length; j++)
-			//{
-			
-			//}
-			//*****end test*****
-			Debug.Log ( "ID: " + backgrounds[i].transform.name );
 			// ... set a target x position which is their current position plus the parallax multiplied by the reduction.
 			float backgroundTargetPosX = backgrounds[i].position.x + parallax * (i * parallaxReductionFactor + 1);
 			

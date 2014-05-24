@@ -8,7 +8,7 @@ public class AmplifyBouncy : MonoBehaviour {
 	void Start () {
 		if( bounceForce <= 0 )
 		{
-			bounceForce = 5.5f;
+			bounceForce = 8f;
 		}
 	}
 	
