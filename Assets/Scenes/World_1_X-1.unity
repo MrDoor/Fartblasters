@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: .75
 --- !u!212 &29207297
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2257,7 +2257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: .75
 --- !u!212 &787980978
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2416,11 +2416,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4.46204138
+      value: -1.65229177
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.61846066
+      value: 4.91734505
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5264,7 +5264,7 @@ Transform:
   m_PrefabInternal: {fileID: 834538066}
   m_GameObject: {fileID: 1531721123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.46204138, y: 2.61846066, z: 0}
+  m_LocalPosition: {x: -1.65229177, y: 4.91734505, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2135648018}
@@ -6148,7 +6148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: .75
 --- !u!212 &1760198625
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6738,7 +6738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: .75
 --- !u!212 &2034262941
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6996,7 +6996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123920d43060f5449ca58c3452fd105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupJuice: 2
+  pickupJuice: .75
 --- !u!212 &2073772736
 SpriteRenderer:
   m_ObjectHideFlags: 0
