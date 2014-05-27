@@ -7,7 +7,7 @@ public class TestDBScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+/*
 		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE testNum > 5;";
 
 
@@ -27,7 +27,7 @@ public class TestDBScript : MonoBehaviour {
 			Debug.Log (reader ["ID"] + ", " + reader ["testNum"]);
 		}
 		con.Close ();
-	
+*/	
 	}
 	
 	// Update is called once per frame
