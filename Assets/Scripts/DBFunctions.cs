@@ -19,6 +19,7 @@ public class DBFunctions : MonoBehaviour {
 
 	public static void updatePickUp(string name, int count)
 	{
+	/*
 		string sql = "UPDATE PickUpInfo Set PUTotal = PUTotal +" + count + "WHERE PUName = " + name + ";";
 
 		cmd = con.CreateCommand ();
@@ -26,6 +27,7 @@ public class DBFunctions : MonoBehaviour {
 		cmd.CommandText = sql;
 		cmd.ExecuteNonQuery ();
 		con.Close ();
+	*/	
 	}
 
 	public static void updateLevelInfo(string level, bool win, int score, Time lvlTime)
@@ -38,9 +40,16 @@ public class DBFunctions : MonoBehaviour {
 		string[] updates = new string[]{"UPDATE PlayerInfoByLevels SET TimesPlayed = TimesPlayed + 1, TimesComplete = TimesComplete + 1 WHERE LevelName = "+level+";",
 										"UPDATE PlayerInfoByLevels SET HighScore = " + score + "WHERE LevelName = " + level + "AND HighScore < " + score + ";",
 										"UPDATE PlayerInfoByLevels SET FastestTime = " + lvlTime + "WHERE LevelName = " + level + "AND FastestTIme < " + lvlTime + ";"};
+<<<<<<< HEAD
 
 
 		cmd = con.CreateCommand ();
+=======
+/*
+		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
+		con.Open ();
+		SqliteCommand cmd = con.CreateCommand ();
+>>>>>>> 7be1efabaa63573b3994b952f1599222fd503f86
 
 		foreach (string update in updates) {
 		
@@ -48,6 +57,7 @@ public class DBFunctions : MonoBehaviour {
 					cmd.ExecuteNonQuery ();
 				}
 		con.Close ();
+*/		
 	}
 
 	public static void incrementLives(int count)

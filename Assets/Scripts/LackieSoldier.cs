@@ -17,7 +17,8 @@ public class LackieSoldier : MonoBehaviour
 	private float lastXPos = 0.0f;
 	
 	void Start() 
-    {
+	{
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "Enemies" ), false);
 		groundCheck = transform.Find( "Lackie_Soldier_groundCheck" );
 		Animation_Init();
 		Move();
