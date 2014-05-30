@@ -5,6 +5,8 @@ using Mono.Data.Sqlite;
 
 public class DBFunctions : MonoBehaviour {
 
+	public static SqliteConnection con;
+	public static SqliteCommand cmd;
 	// Use this for initialization
 	void Start () {
 	
@@ -18,9 +20,8 @@ public class DBFunctions : MonoBehaviour {
 	public static void updatePickUp(string name, int count)
 	{
 		string sql = "UPDATE PickUpInfo Set PUTotal = PUTotal +" + count + "WHERE PUName = " + name + ";";
-		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
-		con.Open ();
-		SqliteCommand cmd = con.CreateCommand ();
+
+		cmd = con.CreateCommand ();
 		
 		cmd.CommandText = sql;
 		cmd.ExecuteNonQuery ();
@@ -38,9 +39,8 @@ public class DBFunctions : MonoBehaviour {
 										"UPDATE PlayerInfoByLevels SET HighScore = " + score + "WHERE LevelName = " + level + "AND HighScore < " + score + ";",
 										"UPDATE PlayerInfoByLevels SET FastestTime = " + lvlTime + "WHERE LevelName = " + level + "AND FastestTIme < " + lvlTime + ";"};
 
-		SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
-		con.Open ();
-		SqliteCommand cmd = con.CreateCommand ();
+
+		cmd = con.CreateCommand ();
 
 		foreach (string update in updates) {
 		
@@ -49,4 +49,39 @@ public class DBFunctions : MonoBehaviour {
 				}
 		con.Close ();
 	}
+
+	public static void incrementLives(int count)
+	{
+		connectToDB ();
+		con.Close();
+
+	}
+	public static void connectToDB()
+	{
+		con = new SqliteConnection ("Data Source=Assets/TestDB");
+		con.Open ();
+		}
+
+	public static void TestDB()
+	{
+		string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE testNum > 5;";
+		
+		connectToDB ();
+		
+		cmd = con.CreateCommand ();
+		
+		cmd.CommandText = update;
+		cmd.ExecuteNonQuery ();
+		cmd.CommandText = "SELECT*FROM TestTable;";
+		
+		
+		SqliteDataReader reader = cmd.ExecuteReader();
+		
+		while (reader.Read()) 
+		{
+			Debug.Log (reader ["ID"] + ", " + reader ["testNum"]);
+		}
+		con.Close ();
+	}
+
 }
