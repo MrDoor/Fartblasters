@@ -5,6 +5,7 @@ public class LackieSoldier : MonoBehaviour
 {
 	private Transform groundCheck;
 	private bool onGround = false;	
+	public bool noFall;
 	//private bool isMoving	= false;
 	private float detectPause = 0.0f;
 	
@@ -26,21 +27,29 @@ public class LackieSoldier : MonoBehaviour
 	
 	void Update() 
     {
-		if (Time.timeScale != 0) {
-						int layerMask = Constants.LayerMask_Ground;
-						onGround = Physics2D.Linecast (transform.position, groundCheck.position, layerMask);
-		
-						if (!onGround) {
-								if (lastDirection == Direction.LEFT) {
-										moveTo = Direction.RIGHT;
-								} else {
-										moveTo = Direction.LEFT;
-								}
-						}
-						Move ();
-		
-						Animation_Update (onGround);
+		if (Time.timeScale != 0) 
+		{
+			int layerMask = Constants.LayerMask_Ground;
+			onGround = Physics2D.Linecast (transform.position, groundCheck.position, layerMask);
+			
+			if( noFall )
+			{
+				if (!onGround) 
+				{
+					if (lastDirection == Direction.LEFT) 
+					{
+						moveTo = Direction.RIGHT;
+					} 
+					else 
+					{
+						moveTo = Direction.LEFT;
+					}
 				}
+			}
+			Move ();
+	
+			Animation_Update (onGround);
+		}
 	}
 	
 	void FixedUpdate()
@@ -117,6 +126,27 @@ public class LackieSoldier : MonoBehaviour
 		}
 		else
 		{
+			Debug.Log( LayerMask.LayerToName( coll.gameObject.layer ) );
+			
+			if( LayerMask.LayerToName ( coll.gameObject.layer ) == "Wall" )
+			{
+				if( detectPause <= Time.time )
+				{
+					if( moveTo == Direction.LEFT )
+					{
+						MoveRight();
+						moveTo = Direction.RIGHT;
+					}
+					else
+					{
+						MoveLeft();
+						moveTo = Direction.LEFT;
+					}
+					detectPause = Time.time + 2.0f;
+				}
+			}
+			
+			/*
 			if( coll.gameObject.transform.position.y >= this.transform.position.y )
 			{
 				if( Physics2D.Linecast( transform.position, coll.gameObject.transform.position ) )
@@ -141,6 +171,7 @@ public class LackieSoldier : MonoBehaviour
 					//Debug.Log ("No Hit: " + this.transform.position + " | " + coll.gameObject.transform.position);
 				}
 			}
+			*/
 		}
 	}
 	
