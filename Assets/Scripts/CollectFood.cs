@@ -5,6 +5,7 @@ public class CollectFood : MonoBehaviour
 {
 	public float pickupJuice	= 5.0f;
 	private bool isDebugFood	= false;
+	public bool isChecked = false;
 	//private Animator foodAnimator;
 
 	void Start()
@@ -15,19 +16,22 @@ public class CollectFood : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D obj )
 	{
+
 		if( obj.name.Equals( "Player" ) )
 		{
+
 			PlayerControl pControl = obj.GetComponent<PlayerControl>();
 			if( pControl )
 			{
 				pControl.Launch_IncCurrentJuice( pickupJuice );
-				
+
 				if( isDebugFood )
 				{
 					pControl.Debug_DecFoodCount();
 				}
 				
-				checkFoodType(pControl);				
+				checkFoodType(pControl);
+
 				Debug.Log( "Food Checked! Juice:" + pickupJuice );
 			}
 		}
@@ -63,11 +67,24 @@ public class CollectFood : MonoBehaviour
 			destroyTime = this.audio.clip.length;
 			this.transform.renderer.enabled = false;
 			pControl.SetIsEating ( true );
+
 		}
+
 		StartCoroutine ( "StopEating", pControl );
 		Destroy( this.gameObject, destroyTime );
+
 	}
-	
+
+	public void Check()
+	{
+		isChecked = true;
+	}
+
+	public bool getCheck()
+	{
+		return isChecked;
+	}
+
 	IEnumerator StopEating( PlayerControl pControl )
 	{
 		yield return new WaitForSeconds ( .25f );

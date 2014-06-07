@@ -4,12 +4,11 @@ using System.Data;
 using Mono.Data.Sqlite;
 
 public class TestDBScript : MonoBehaviour {
-	SqliteConnection con;
 	// Use this for initialization
 	void Start () {
 
 
-		DBFunctions.TestDB ();
+		//DBFunctions.TestDB ();
 		/*string update = "UPDATE TestTable SET TestNum = TestNum+1 WHERE testNum > 5;";
 
 
@@ -34,17 +33,9 @@ public class TestDBScript : MonoBehaviour {
 		con.Close ();*/
 	
 
-		con.Close ();
-	
-
 	}
 
-	public void connectDB()
-	{
-		con = new SqliteConnection ("Data Source=Assets/TestDB");
-		con.Open ();
 
-	}
 	// Update is called once per frame
 	void Update () {
 	

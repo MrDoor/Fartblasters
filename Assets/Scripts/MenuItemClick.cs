@@ -5,7 +5,7 @@ public class MenuItemClick : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		DBFunctions.TestDB ();
 	}
 	
 	// Update is called once per frame
@@ -31,10 +31,12 @@ public class MenuItemClick : MonoBehaviour {
 				
 		if(GUI.Button (new Rect(720, 380, 100,50), "Continue"))
 			{
-			Debug.Log ("Next Level: " + PlayerPrefs.GetInt ("loaded level"));
-				if(PlayerPrefs.HasKey ("loaded level"))
-			   {
-				Application.LoadLevel (PlayerPrefs.GetInt ("loaded level"));
+				Debug.Log ("Next Level: " + PlayerPrefs.GetInt ("loaded level"));
+				if(DBFunctions.getLevelProgress() != -1)
+					Application.LoadLevel(DBFunctions.getLevelProgress());
+				else {
+					Debug.Log ("Error retreiving level from the database");
+					Application.LoadLevel (0);
 				}
 			}
 

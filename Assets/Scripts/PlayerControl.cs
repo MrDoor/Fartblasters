@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Timers; 
 
 public class PlayerControl : MonoBehaviour 
 {
@@ -76,6 +77,25 @@ public class PlayerControl : MonoBehaviour
 	public float hopY 					= 2800f;
 	public bool canHop					= true;
 
+	//DB counts
+	public static int puCount			= 0;
+	public static Timer levelTime;
+	public static int playTime = 0;
+
+	void Start()
+	{
+		levelTime = new System.Timers.Timer(1000);
+		resetCount ();
+		levelTime.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+		levelTime.Enabled = true;
+		levelTime.Start ();
+	}
+
+	private static void OnTimedEvent(System.Object source, ElapsedEventArgs e)
+	{
+		playTime++;
+		Debug.Log ("Tic: "+ playTime);
+	}
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
@@ -242,7 +262,8 @@ public class PlayerControl : MonoBehaviour
 			GUIStyle textStyle = new GUIStyle();
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
-			GUI.Label(new Rect(700,200 ,Screen.width,Screen.height),"Game Over", textStyle);	
+			GUI.Label(new Rect(700,200 ,Screen.width,Screen.height),"Game Over", textStyle);
+
 
 			//GUI.Label (new Rect (750, 250, 300, 50), "GAME OVER");
 			GUI.Box (new Rect (700, 300, 300, 200), "");
@@ -264,6 +285,8 @@ public class PlayerControl : MonoBehaviour
 				Application.Quit ();
 			}
 
+			GUI.Label (new Rect(700, 500, Screen.width, Screen.height), "You have died " + DBFunctions.getTimesDied () + " Times.");
+
 		}
 		//Just a temp spot for health
 		//Texture2D healthBubble = new Texture2D(32, 32);
@@ -273,7 +296,18 @@ public class PlayerControl : MonoBehaviour
 	
 	//Testing for prewall collision detection
 	void OnTriggerEnter2D(Collider2D obj)
-	{
+	{	
+		if (obj.gameObject.tag.Equals ("PickUp")) 
+		{
+			CollectFood pickUp = obj.GetComponent<CollectFood>();
+			if(!pickUp.getCheck ())
+			{	
+				pickUp.Check();
+				puCount ++;
+				Debug.Log ("PU count = " + puCount);
+			}
+		}
+				
 		if(obj.gameObject.tag.Equals( "Block" ))
 		{
 			willHit = true;
@@ -450,8 +484,10 @@ public class PlayerControl : MonoBehaviour
 	IEnumerator Die()
 	{
 		Debug.Log ( "Dying" );
+		levelTime.Stop ();
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
 		alive = false;
+		DBFunctions.updateTimesDied (1);
 		Time.timeScale = 0;
 		yield return new WaitForSeconds(4f);
 		/*
@@ -991,4 +1027,21 @@ public class PlayerControl : MonoBehaviour
 			Destroy( go );
 		}
 	}
+	//DB Counts
+	//--------------------------------------------------------------------------------------------
+	public static void resetCount()
+	{	
+		puCount = 0;
+		playTime = 0;
+	}
+	public static int[] getPlayTime()
+	{
+		int[] lvlTimes = new int[2];
+		lvlTimes [0] = (playTime / 60);
+		lvlTimes [1] = (playTime % 60);
+
+		return lvlTimes;
+	}
+
+
 }
