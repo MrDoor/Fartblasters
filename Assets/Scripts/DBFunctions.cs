@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Data; 
+using System.Data;
+using System.ComponentModel; 
 using Mono.Data.Sqlite;
 using System;
 
@@ -175,7 +176,7 @@ public class DBFunctions : MonoBehaviour {
 		try{
 
 			connectToDB ();
-			string sql = "UPDATE PickUpInfo Set PUTotal = PUTotal +" + count + "WHERE PUName = " + name + ";";
+			string sql = "UPDATE PickUpInfo Set PUTotal = PUTotal +" + count + " WHERE PUName = " + name + ";";
 
 			SqliteCommand cmd = con.CreateCommand ();
 			

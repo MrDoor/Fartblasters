@@ -96,7 +96,12 @@ public class PlayerControl : MonoBehaviour
 	private static void OnTimedEvent(System.Object source, ElapsedEventArgs e)
 	{
 		playTime++;
+<<<<<<< HEAD
+=======
+		//Debug.Log ("Tic: "+ playTime);
+>>>>>>> 7f853c7b56682524a12e199e4f03e8c4c420da4d
 	}
+	
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
@@ -164,7 +169,6 @@ public class PlayerControl : MonoBehaviour
 		{
 			if ( canHop )
 			{
-				Debug.Log ( "velocity: " + this.transform.rigidbody2D.velocity.magnitude );
 				canHop = false;
 				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
@@ -271,8 +275,13 @@ public class PlayerControl : MonoBehaviour
 			GUI.Box (new Rect (810, 300, 200, 200), "");
 			
 			
+<<<<<<< HEAD
 			if (GUI.Button (new Rect (860, 315, 100, 50), "Restart Level")) {
 				Debug.Log ("Load Level: " + Application.loadedLevelName);
+=======
+			if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
+				//Debug.Log ("Load Level: " + Application.loadedLevelName);
+>>>>>>> 7f853c7b56682524a12e199e4f03e8c4c420da4d
 				Application.LoadLevel (PlayerPrefs.GetInt ("currentLevel"));
 				Time.timeScale = 1;
 			}
@@ -308,11 +317,15 @@ public class PlayerControl : MonoBehaviour
 			{	
 				pickUp.Check();
 				puCount ++;
+<<<<<<< HEAD
 
 				if (pUps.ContainsKey (obj.gameObject.name))
 					pUps[obj.gameObject.name] += 1;
 				else
 					pUps.Add (obj.gameObject.name, 1);
+=======
+				//Debug.Log ("PU count = " + puCount);
+>>>>>>> 7f853c7b56682524a12e199e4f03e8c4c420da4d
 			}
 		}
 				
@@ -491,7 +504,7 @@ public class PlayerControl : MonoBehaviour
 	
 	IEnumerator Die()
 	{
-		Debug.Log ( "Dying" );
+		//Debug.Log ( "Dying" );
 		levelTime.Stop ();
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
 		alive = false;
@@ -510,7 +523,7 @@ public class PlayerControl : MonoBehaviour
 
 		PlayerPrefs.SetString ("death", "Dead");
 
-		Debug.Log ("loaded level" + Util.getlevel());
+		//Debug.Log ("loaded level" + Util.getlevel());
 		//Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	
