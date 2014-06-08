@@ -94,8 +94,9 @@ public class PlayerControl : MonoBehaviour
 	private static void OnTimedEvent(System.Object source, ElapsedEventArgs e)
 	{
 		playTime++;
-		Debug.Log ("Tic: "+ playTime);
+		//Debug.Log ("Tic: "+ playTime);
 	}
+	
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
@@ -163,7 +164,6 @@ public class PlayerControl : MonoBehaviour
 		{
 			if ( canHop )
 			{
-				Debug.Log ( "velocity: " + this.transform.rigidbody2D.velocity.magnitude );
 				canHop = false;
 				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
@@ -270,7 +270,7 @@ public class PlayerControl : MonoBehaviour
 			
 			
 			if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
-				Debug.Log ("Load Level: " + Application.loadedLevelName);
+				//Debug.Log ("Load Level: " + Application.loadedLevelName);
 				Application.LoadLevel (PlayerPrefs.GetInt ("currentLevel"));
 				Time.timeScale = 1;
 			}
@@ -304,7 +304,7 @@ public class PlayerControl : MonoBehaviour
 			{	
 				pickUp.Check();
 				puCount ++;
-				Debug.Log ("PU count = " + puCount);
+				//Debug.Log ("PU count = " + puCount);
 			}
 		}
 				
@@ -483,7 +483,7 @@ public class PlayerControl : MonoBehaviour
 	
 	IEnumerator Die()
 	{
-		Debug.Log ( "Dying" );
+		//Debug.Log ( "Dying" );
 		levelTime.Stop ();
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
 		alive = false;
@@ -502,7 +502,7 @@ public class PlayerControl : MonoBehaviour
 
 		PlayerPrefs.SetString ("death", "Dead");
 
-		Debug.Log ("loaded level" + Util.getlevel());
+		//Debug.Log ("loaded level" + Util.getlevel());
 		//Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	

@@ -16,10 +16,8 @@ public class CollectFood : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D obj )
 	{
-
 		if( obj.name.Equals( "Player" ) )
 		{
-
 			PlayerControl pControl = obj.GetComponent<PlayerControl>();
 			if( pControl )
 			{
