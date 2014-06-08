@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Timers; 
 
 public class PlayerControl : MonoBehaviour 
@@ -81,10 +82,11 @@ public class PlayerControl : MonoBehaviour
 	public static int puCount			= 0;
 	public static Timer levelTime;
 	public static int playTime = 0;
-
+	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
 	void Start()
 	{
-		levelTime = new System.Timers.Timer(1000);
+		//levelTime = new System.Timers.Timer(1000);
+		levelTime = new Timer (1000);
 		resetCount ();
 		levelTime.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 		levelTime.Enabled = true;
@@ -94,7 +96,6 @@ public class PlayerControl : MonoBehaviour
 	private static void OnTimedEvent(System.Object source, ElapsedEventArgs e)
 	{
 		playTime++;
-		Debug.Log ("Tic: "+ playTime);
 	}
 	void Awake()
 	{
@@ -258,34 +259,35 @@ public class PlayerControl : MonoBehaviour
 	{
 		if(!alive)
 		{			
-			GUI.color = Color.red;// Not working at the moment...
 			GUIStyle textStyle = new GUIStyle();
+			textStyle.normal.textColor = Color.red;
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
+
 			GUI.Label(new Rect(700,200 ,Screen.width,Screen.height),"Game Over", textStyle);
 
 
 			//GUI.Label (new Rect (750, 250, 300, 50), "GAME OVER");
-			GUI.Box (new Rect (700, 300, 300, 200), "");
+			GUI.Box (new Rect (810, 300, 200, 200), "");
 			
 			
-			if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
+			if (GUI.Button (new Rect (860, 315, 100, 50), "Restart Level")) {
 				Debug.Log ("Load Level: " + Application.loadedLevelName);
 				Application.LoadLevel (PlayerPrefs.GetInt ("currentLevel"));
 				Time.timeScale = 1;
 			}
 			
-			if (GUI.Button (new Rect (720, 380, 100, 50), "Return to Main menu")) {
+			if (GUI.Button (new Rect (860, 375, 100, 50), "Return to \nMain Menu")) {
 				//Debug.Log (Util.getlevel);
 				Application.LoadLevel ("test_menu_Nick");
 				Time.timeScale = 1;
 			}
 			
-			if (GUI.Button (new Rect (720, 440, 100, 50), "Quit Game")) {
+			if (GUI.Button (new Rect (860, 435, 100, 50), "Quit Game")) {
 				Application.Quit ();
 			}
 
-			GUI.Label (new Rect(700, 500, Screen.width, Screen.height), "You have died " + DBFunctions.getTimesDied () + " Times.");
+			GUI.Label (new Rect(850, 500, Screen.width, Screen.height), "You have died " + DBFunctions.getTimesDied () + " Times.");
 
 		}
 		//Just a temp spot for health
@@ -300,11 +302,17 @@ public class PlayerControl : MonoBehaviour
 		if (obj.gameObject.tag.Equals ("PickUp")) 
 		{
 			CollectFood pickUp = obj.GetComponent<CollectFood>();
+
+
 			if(!pickUp.getCheck ())
 			{	
 				pickUp.Check();
 				puCount ++;
-				Debug.Log ("PU count = " + puCount);
+
+				if (pUps.ContainsKey (obj.gameObject.name))
+					pUps[obj.gameObject.name] += 1;
+				else
+					pUps.Add (obj.gameObject.name, 1);
 			}
 		}
 				
@@ -1033,6 +1041,7 @@ public class PlayerControl : MonoBehaviour
 	{	
 		puCount = 0;
 		playTime = 0;
+		pUps.Clear ();
 	}
 	public static int[] getPlayTime()
 	{

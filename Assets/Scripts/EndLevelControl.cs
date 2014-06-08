@@ -23,9 +23,15 @@ public class EndLevelControl : MonoBehaviour {
 			//Application.LoadLevel ("test_winMenu_Nick");
 			PlayerControl.levelTime.Stop ();
 			win = true;
+			int num = Application.loadedLevel;
 			Time.timeScale = 0;
-			PlayerPrefs.SetInt ("loaded level", Application.loadedLevel);
-			DBFunctions.updateLevelProgress (Application.loadedLevel +1);
+			PlayerPrefs.SetInt ("loaded level", num);
+			DBFunctions.updateLevelComplete (num);
+			DBFunctions.updateLevelProgress (num +1);
+			DBFunctions.updateLastLevel (num);
+			DBFunctions.updateLevelInfo(num, true, 5000, PlayerControl.playTime, false, PlayerControl.puCount);
+			DBFunctions.incrementTimesComplete (num, 1);
+			DBFunctions.incrementTimesPlayed (num, 1);
 			}
 		
    }
@@ -77,11 +83,13 @@ public class EndLevelControl : MonoBehaviour {
 				Application.Quit ();
 			}
 			//----------------Level Stats----------------//
-			GUI.Label (new Rect (600, 500, 300, 50), "You got " + PlayerControl.puCount + " PickUps");
-
 			int[] tm = PlayerControl.getPlayTime ();
+			GUI.Label (new Rect(910,190, 300, 50),"Your Score: ");
+			GUI.Label (new Rect (920, 205, 300, 50), "Pick Up percentage: " + DBFunctions.calcPickUpPercentage (Application.loadedLevel, PlayerControl.puCount)+"%");
 
-			GUI.Label (new Rect(600, 515, 300,50), "Level Time: " + tm[0] + " Min " + tm[1] + " Sec");
+
+
+			GUI.Label (new Rect(920, 220, 300,50), "Level Time: " + tm[0] + " Min " + tm[1] + " Sec");
 		
 		}
 	}

@@ -192,7 +192,7 @@ public class DBFunctions : MonoBehaviour {
 	}
 
 	//PlayerInfoByLevel//
-	public static void updateLevelInfo(int levelIndex, bool win, int score, Time lvlTime, bool secret, int pickUps)
+	public static void updateLevelInfo(int levelIndex, bool win, int score, int lvlTime, bool secret, int pickUps)
 	{
 		int complete = 0;
 		if (win) 
@@ -210,8 +210,8 @@ public class DBFunctions : MonoBehaviour {
 		string[] updates = new string[]{"UPDATE PlayerInfoByLevels SET TimesPlayed = TimesPlayed + 1, TimesComplete = TimesComplete + 1 WHERE levelIndex = "+levelIndex+";",
 			"UPDATE PlayerInfoByLevels SET HighScore = " + score + " WHERE levelIndex = " + levelIndex + " AND HighScore < " + score + ";",
 			"UPDATE PlayerInfoByLevels SET FastestTime = " + lvlTime + " WHERE levelIndex = " + levelIndex + " AND FastestTIme < " + lvlTime + ";",
-			"UPDATE PlayerInfoByLevels SET SecretExitFount = "+ sec + " WHERE levelIndex = " + levelIndex + ";",
-			"UPDATE PlayerIndoByLevels SET HighestPercentPickUps = " + percent + "WHERE levelIndex = " + levelIndex + " AND HighestPercentPickUps < " + percent +";" };
+			"UPDATE PlayerInfoByLevels SET SecretExitFound = "+ sec + " WHERE levelIndex = " + levelIndex + ";",
+			"UPDATE PlayerInfoByLevels SET HighestPercentPickUps = " + percent + " WHERE levelIndex = " + levelIndex + " AND HighestPercentPickUps < " + percent +";" };
 
 
 
@@ -234,12 +234,55 @@ public class DBFunctions : MonoBehaviour {
 			con.Close ();
 		}
 	}
+
+	public static void incrementTimesPlayed(int levelIndex, int increment)
+	{
+		string update = "UPDATE PlayerInfoByLevels SET TimesPlayed = TimesPlayed + " + increment + " WHERE LevelIndex = " + levelIndex + ";";
+		try{
+			
+			connectToDB ();
+			SqliteCommand cmd = con.CreateCommand ();
+				
+			cmd.CommandText = update;
+			cmd.ExecuteNonQuery ();
+		}
+		catch(SqliteException e)
+		{
+			Debug.Log ("DATABASE ERROR: " + e + "\nDataBase NOT UPDATED");
+		}
+		finally
+		{
+			con.Close ();
+		}
+		
+	}
+	public static void incrementTimesComplete(int levelIndex, int increment)
+	{
+		string update = "UPDATE PlayerInfoByLevels SET TimesPlayed = TimesComplete+ " + increment + " WHERE LevelIndex = " + levelIndex + ";";
+		try{
+			
+			connectToDB ();
+			SqliteCommand cmd = con.CreateCommand ();
+			
+			cmd.CommandText = update;
+			cmd.ExecuteNonQuery ();
+		}
+		catch(SqliteException e)
+		{
+			Debug.Log ("DATABASE ERROR: " + e + "\nDataBase NOT UPDATED");
+		}
+		finally
+		{
+			con.Close ();
+		}
+		
+	}
 	
 	//********************Get Values from Tables**********************************//
 
 	//Level Info Table
 
-	public static float getTotalPickUps (int levelIndex)
+	public static int getTotalPickUps (int levelIndex)
 	{
 		string query = "SELECT TotalPickUps FROM LevelInfo WHERE levelIndex = " + levelIndex + ";";
 		try 
@@ -251,7 +294,7 @@ public class DBFunctions : MonoBehaviour {
 			
 			SqliteDataReader reader = cmd.ExecuteReader ();
 			reader.Read ();
-			float perc = reader.GetFloat(0);
+			int perc = reader.GetInt32(0);
 			reader.Close ();
 			return perc;
 		} 
@@ -375,34 +418,6 @@ public class DBFunctions : MonoBehaviour {
 			con.Close ();
 		} 
 	}
-
-	public static int getTotalPickUP(string name)
-	{
-		string query = "SELECT PUTotal FROM PickUpInfo WHERE PUName = " + name + ";";
-		try 
-		{
-			connectToDB ();
-			
-			SqliteCommand cmd = con.CreateCommand ();
-			cmd.CommandText = query;
-			
-			SqliteDataReader reader = cmd.ExecuteReader ();
-			reader.Read ();
-			int total = reader.GetInt32 (0);
-			reader.Close ();
-			return total;
-		} 
-		catch (SqliteException e) 
-		{
-			Debug.Log ("DATABASE error: " + e);
-			return -1;
-		} 
-		finally 
-		{
-			con.Close ();
-		} 
-	}
-
 
 
 	public static int getLives ()
@@ -702,7 +717,7 @@ public class DBFunctions : MonoBehaviour {
 		} 
 		else 
 		{
-			return (total/PUCount);
+			return (PUCount/total)*100;
 		}
 	}
 
