@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EndLevelControl : MonoBehaviour {
 
@@ -19,21 +20,22 @@ public class EndLevelControl : MonoBehaviour {
 		Debug.Log ("End Block Collison: " + coll.gameObject.tag);
 		if (coll.tag == "Player") 
 		{
-			//PlayerPrefs.SetInt ("loaded level", Application.loadedLevel);
-			//Application.LoadLevel ("test_winMenu_Nick");
+						//PlayerPrefs.SetInt ("loaded level", Application.loadedLevel);
+						//Application.LoadLevel ("test_winMenu_Nick");
 			PlayerControl.levelTime.Stop ();
 			win = true;
 			int num = Application.loadedLevel;
 			Time.timeScale = 0;
 			PlayerPrefs.SetInt ("loaded level", num);
 			DBFunctions.updateLevelComplete (num);
-			DBFunctions.updateLevelProgress (num +1);
+			DBFunctions.updateLevelProgress (num + 1);
 			DBFunctions.updateLastLevel (num);
-			DBFunctions.updateLevelInfo(num, true, 5000, PlayerControl.playTime, false, PlayerControl.puCount);
-			DBFunctions.incrementTimesComplete (num, 1);
-			DBFunctions.incrementTimesPlayed (num, 1);
+			DBFunctions.updateLevelInfo (num, true, 5000, PlayerControl.playTime, false, PlayerControl.puCount);
+			foreach (KeyValuePair<string, int> pU in PlayerControl.pUps) 
+			{
+				DBFunctions.updatePickUp (pU.Key, pU.Value);
 			}
-		
+		}
    }
 
 	void OnGUI () {

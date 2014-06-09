@@ -151,7 +151,7 @@ public class DBFunctions : MonoBehaviour {
 
 	public static void updateLevelComplete(int levelIndex)
 	{
-		string update = "UPDATE LevelInfo SET complete = 0 WHERE LevelIndex = " + levelIndex + ";";
+		string update = "UPDATE LevelInfo SET complete = 1 WHERE LevelIndex = " + levelIndex + ";";
 
 		try
 		{
@@ -176,12 +176,24 @@ public class DBFunctions : MonoBehaviour {
 		try{
 
 			connectToDB ();
-			string sql = "UPDATE PickUpInfo Set PUTotal = PUTotal +" + count + " WHERE PUName = " + name + ";";
 
+			string sql = "UPDATE PickUpInfo Set PUTotal = PUTotal + " + count + " WHERE PUName = '" + name + "';";
 			SqliteCommand cmd = con.CreateCommand ();
-			
-			cmd.CommandText = sql;
-			cmd.ExecuteNonQuery ();
+			cmd.CommandText= "SELECT * FROM PickUpInfo WHERE PUName = '" + name + "';";
+			SqliteDataReader reader = cmd.ExecuteReader ();
+			if(reader.HasRows)
+			{
+				reader.Close ();
+				cmd.CommandText = sql;
+				cmd.ExecuteNonQuery ();
+			}
+			else
+			{
+				reader.Close();
+				cmd.CommandText = "INSERT INTO PickUpInfo VALUES('" + name + "', 0.75, " + count + ";";
+				cmd.ExecuteNonQuery();
+			}
+
 		}
 		catch(SqliteException e)
 		{
@@ -215,16 +227,28 @@ public class DBFunctions : MonoBehaviour {
 			"UPDATE PlayerInfoByLevels SET HighestPercentPickUps = " + percent + " WHERE levelIndex = " + levelIndex + " AND HighestPercentPickUps < " + percent +";" };
 
 
-
+		string insert = "INSERT INTO PlayerInfoByLevels VALUES(" + levelIndex + ", " + score + ", " + lvlTime + ", " + percent + ", 1, 1, " + sec + ");";
 		try{
 
 			connectToDB ();
 			SqliteCommand cmd = con.CreateCommand ();
-			foreach (string update in updates) {
+			cmd.CommandText= "SELECT * FROM PlayerInfoByLevels WHERE LevelIndex = " + levelIndex + ";";
+			SqliteDataReader reader = cmd.ExecuteReader ();
+			if(reader.HasRows)
+			{
+				reader.Close ();
+				foreach (string update in updates) {
 			
 						cmd.CommandText = update;
 						cmd.ExecuteNonQuery ();
 					}
+			}
+			else
+			{
+				reader.Close ();
+				cmd.CommandText = insert;
+				cmd.ExecuteNonQuery ();
+			}
 		}
 		catch(SqliteException e)
 		{

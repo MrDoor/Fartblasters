@@ -83,6 +83,7 @@ public class PlayerControl : MonoBehaviour
 	public static Timer levelTime;
 	public static int playTime = 0;
 	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
+
 	void Start()
 	{
 		//levelTime = new System.Timers.Timer(1000);
@@ -96,10 +97,6 @@ public class PlayerControl : MonoBehaviour
 	private static void OnTimedEvent(System.Object source, ElapsedEventArgs e)
 	{
 		playTime++;
-<<<<<<< HEAD
-=======
-		//Debug.Log ("Tic: "+ playTime);
->>>>>>> 7f853c7b56682524a12e199e4f03e8c4c420da4d
 	}
 	
 	void Awake()
@@ -274,14 +271,13 @@ public class PlayerControl : MonoBehaviour
 			//GUI.Label (new Rect (750, 250, 300, 50), "GAME OVER");
 			GUI.Box (new Rect (810, 300, 200, 200), "");
 			
-			
-<<<<<<< HEAD
+
 			if (GUI.Button (new Rect (860, 315, 100, 50), "Restart Level")) {
 				Debug.Log ("Load Level: " + Application.loadedLevelName);
-=======
-			if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
+			
+			//if (GUI.Button (new Rect (720, 320, 100, 50), "Restart Level")) {
 				//Debug.Log ("Load Level: " + Application.loadedLevelName);
->>>>>>> 7f853c7b56682524a12e199e4f03e8c4c420da4d
+
 				Application.LoadLevel (PlayerPrefs.GetInt ("currentLevel"));
 				Time.timeScale = 1;
 			}
@@ -306,7 +302,7 @@ public class PlayerControl : MonoBehaviour
 	}
 	
 	//Testing for prewall collision detection
-	void OnTriggerEnter2D(Collider2D obj)
+	 void OnTriggerEnter2D(Collider2D obj)
 	{	
 		if (obj.gameObject.tag.Equals ("PickUp")) 
 		{
@@ -317,15 +313,16 @@ public class PlayerControl : MonoBehaviour
 			{	
 				pickUp.Check();
 				puCount ++;
-<<<<<<< HEAD
+
 
 				if (pUps.ContainsKey (obj.gameObject.name))
 					pUps[obj.gameObject.name] += 1;
 				else
 					pUps.Add (obj.gameObject.name, 1);
-=======
+				Debug.Log ("Name : " + obj.gameObject.name);
+
 				//Debug.Log ("PU count = " + puCount);
->>>>>>> 7f853c7b56682524a12e199e4f03e8c4c420da4d
+
 			}
 		}
 				
