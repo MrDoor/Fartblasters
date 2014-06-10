@@ -105,6 +105,7 @@ public class EndLevelControl : MonoBehaviour {
 			else
 			{
 				Application.LoadLevel (nextLevel);
+				Time.timeScale = 1;
 			}
 		}
 	}

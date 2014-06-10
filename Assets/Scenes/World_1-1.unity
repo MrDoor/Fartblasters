@@ -10693,6 +10693,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   win: 0
+  secretLevel: 0
+  nextLevel: ' '
 --- !u!212 &1350549140
 SpriteRenderer:
   m_ObjectHideFlags: 0
