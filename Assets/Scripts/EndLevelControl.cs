@@ -25,8 +25,6 @@ public class EndLevelControl : MonoBehaviour {
 		Debug.Log ("End Block Collison: " + coll.gameObject.tag);
 		if (coll.tag == "Player") 
 		{
-						//PlayerPrefs.SetInt ("loaded level", Application.loadedLevel);
-						//Application.LoadLevel ("test_winMenu_Nick");
 			PlayerControl.levelTime.Stop ();
 			win = true;
 			int num = Application.loadedLevel;
