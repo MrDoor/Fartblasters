@@ -5,7 +5,9 @@ public class CollectFood : MonoBehaviour
 {
 	public float pickupJuice	= 5.0f;
 	private bool isDebugFood	= false;
+private float destroyTime		= 0.0f;
 	public bool isChecked = false;
+	
 	//private Animator foodAnimator;
 
 	void Start()
@@ -41,7 +43,7 @@ public class CollectFood : MonoBehaviour
 	
 	void checkFoodType( PlayerControl pControl )
 	{
-		float destroyTime = 0.0f;
+		//float destroyTime = 0.0f;
 		if( this.gameObject.name.Equals("Jalapeno") )
 		{	
 			pControl.transform.rigidbody2D.AddForce( pControl.transform.rigidbody2D.velocity.normalized * 4000 );	
@@ -69,7 +71,7 @@ public class CollectFood : MonoBehaviour
 		}
 
 		StartCoroutine ( "StopEating", pControl );
-		Destroy( this.gameObject, destroyTime );
+		//Destroy( this.gameObject, destroyTime );
 
 	}
 
@@ -85,7 +87,8 @@ public class CollectFood : MonoBehaviour
 
 	IEnumerator StopEating( PlayerControl pControl )
 	{
-		yield return new WaitForSeconds ( .25f );
+		yield return new WaitForSeconds ( destroyTime - .01f );
 		pControl.SetIsEating ( false );
+		Destroy( this.gameObject );
 	}
 }

@@ -28,7 +28,7 @@ public class DBFunctions : MonoBehaviour {
 		}
 		catch(SqliteException e)
 		{
-			Debug.Log ("DATABASE ERROR: " + e + "Could NOT connect to database");
+			Debug.Log ("DATABASE ERROR: " + e + " Could NOT connect to database");
 			con.Close ();
 		}
 	}

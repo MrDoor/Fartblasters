@@ -3,7 +3,10 @@ using System.Collections;
 
 public class PauseScript : MonoBehaviour {
 
+	public Texture2D btn_pause;
 	// Use this for initialization
+	private float boxSize = 100f;
+	private Rect backgroundRect;
 	private bool paused = false;
 	void Start () {
 	
@@ -13,6 +16,7 @@ public class PauseScript : MonoBehaviour {
 	void Update () {
 	
 	}
+	
 	void OnMouseUpAsButton()
 	{
 		Pause ();
@@ -35,6 +39,15 @@ public class PauseScript : MonoBehaviour {
 
 	void OnGUI()
 	{
+		float left		= 20;
+		float top		= Screen.height - 80;
+		float width		= boxSize;
+		float height	= boxSize / 2;
+		
+		backgroundRect = new Rect(left, top, width, height);
+		GUI.DrawTexture(backgroundRect, btn_pause);	
+		
+	
 				if (paused) {
 						/*GUIStyle textStyle = new GUIStyle();
 			textStyle.normal.textColor = Color.red;
