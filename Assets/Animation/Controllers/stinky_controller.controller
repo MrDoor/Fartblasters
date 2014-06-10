@@ -906,9 +906,6 @@ StateMachine:
       first: {fileID: 110215041}
       second:
       - {fileID: 110143876}
-    data:
-      first: {fileID: 0}
-      second: []
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 360, y: -192, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
