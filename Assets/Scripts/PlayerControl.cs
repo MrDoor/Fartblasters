@@ -15,18 +15,14 @@ public class PlayerControl : MonoBehaviour
     private bool isStopped  = false;
     private bool isEating	= false;
 
-	// Pull Line	
-	public float maxLineLength = 1.5f;
-	public float minLineLength = 0.6f;	
+	// Pull Line
+    public PullLine pullLine;
 
-	private const int maxLineVerts		= 2;
-	private const int maxFartClouds		= 6;
-	private const int maxTrajectoryDots = 6;
-	private Transform[] fartClouds;
+    // Trajectory Dots
+    private const int maxTrajectoryDots = 6;
+    private float dotDelay              = 0.5f;
+    private float dotTime;
 	private Transform[] trajectoryDots;
-	private float pullFraction			= 0.0f;
-	private float pullDist				= 0.0f;
-	private float juiceToUse			= 0.0f;
 
 	// Launch
 	public float maxLaunchForce			= 4500.0f;
@@ -86,6 +82,11 @@ public class PlayerControl : MonoBehaviour
 
 	void Start()
 	{
+        if(pullLine == null)
+        {
+            Debug.LogError("PlayerControl PullLine is null! Set in Editor.");
+        }
+
 		//levelTime = new System.Timers.Timer(1000);
 		levelTime = new Timer (1000);
 		resetCount ();
@@ -103,7 +104,8 @@ public class PlayerControl : MonoBehaviour
 	{
 		groundCheck = transform.Find( "groundCheck" );
 		groundCheck2 = transform.Find( "groundCheck2" );
-		PullLine_Init( transform );
+		pullLine.Init();
+        TrajectoryDots_Init( transform );
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
@@ -227,7 +229,8 @@ public class PlayerControl : MonoBehaviour
 		Launch( transform );
 
 		Launch_Reset();
-		PullLine_Reset();
+		pullLine.Reset();
+        TrajectoryDots_Reset();
 		
 		//Zooming in and out		
 		if( zoomOn )
@@ -250,9 +253,9 @@ public class PlayerControl : MonoBehaviour
 
 	void OnMouseDrag()
 	{
-		Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
-		PullLine_PositionClouds( transform.position, pullEndPoint );
-		PullLine_PositionTrajectoryDots( transform.position, pullEndPoint );
+        Vector3 pullEndPoint = pullLine.GetEndPoint( transform.position );
+		pullLine.PositionClouds( transform.position, pullEndPoint );
+        TrajectoryDots_Position( transform.position, pullEndPoint );
 	}
 	
 	//public TextAsset txtAsst;
@@ -586,125 +589,38 @@ public class PlayerControl : MonoBehaviour
     	return isEating;
     }
 
-	// Pull Line Control
-	// -------------------------------------------------------------------------------------
-
-	public void PullLine_Init( Transform myTransform )
-	{
-		pullFraction	= 0.0f;
-		juiceToUse		= 0.0f;
-		pullDist		= 0.0f;
-		fartClouds		= null;
-		trajectoryDots	= null;
-		dotTime 		= Time.time + dotDelay;
-		
-		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
-		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Enemies" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
-
-		Transform pullContainer 		= myTransform.FindChild( "pullContainer" );
-		Transform trajectoryContainer 	= myTransform.FindChild( "trajectoryDotContainer" );
-		// TODO: Change this to assert
-		if( pullContainer )
-		{
-			fartClouds = new Transform[ maxFartClouds ];
-			for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
-			{
-				fartClouds[ cloudIndex ] = pullContainer.FindChild( "FartCloud" + cloudIndex ); 
-			}
-			
-			trajectoryDots = new Transform[ maxTrajectoryDots ];
-			for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-			{
-				trajectoryDots[ dotIndex ] = trajectoryContainer.FindChild( "TrajectoryDot" + dotIndex ); 
-			}
-		}
-	}
-	
-	public void PullLine_Reset()
-	{
-		pullFraction	= 0.0f;
-		juiceToUse		= 0.0f;
-		pullDist		= 0.0f;
-
-		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
-		{
-			fartClouds[ cloudIndex ].transform.position = transform.position; 
-		}
-		
-		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-		{
-			trajectoryDots[ dotIndex ].transform.position = transform.position; 
-		}
-	}
-	
-	public Vector3 PullLine_GetDirection( Vector3 playerPos )
-	{
-		Vector3 pullDir = new Vector3( 0, 0, 0 );
-		
-		if( Launch_GetAllowed() )
-		{
-			Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-			playerPos.z = 0.0f;
-			mouseWorldPos.z = 0.0f;
-			pullDir = playerPos - mouseWorldPos;
-		}
-		
-		return pullDir;
-	}
-	
-	public float PullLine_GetFraction()
-	{
-		return pullFraction;
-	}
-	
-	public Vector3 PullLine_GetEndPoint( Vector3 playerPos )
-	{
-		Vector3 pullEndPoint	= playerPos;		
-		Vector3 pullDir			= PullLine_GetDirection( playerPos );
-		float lineLength		= 0.0f;
-		Vector3 launchDir		= new Vector3( 0.0f, 0.0f, 0.0f );
-
-		pullFraction	= 0.0f;
-		juiceToUse		= 0.0f;
-		pullDist		= pullDir.magnitude;
-		
-		if( pullDist >= minLineLength )
-		{
-			launchDir		= pullDir / pullDist;
-			lineLength		= Mathf.Min( pullDist, maxLineLength );			
-			pullFraction	= ( lineLength - minLineLength ) / ( maxLineLength - minLineLength );
-			juiceToUse		= maxJuiceUsedPerLaunch * pullFraction;
-			pullEndPoint	= playerPos - ( launchDir * lineLength );
-		}
-		
-		Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
+    
+    // Trajectory Dots
+    // -------------------------------------------------------------------------------------
+    public void TrajectoryDots_Init( Transform myTransform )
+    {
+        trajectoryDots  = null;
+        dotTime         = Time.time + dotDelay;
         
-        SetIsStopped( false );
-		
-		return pullEndPoint;
-	}
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Enemies" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
 
-	public bool PullLine_IsHolding()
-	{
-		return pullDist >= minLineLength;
-	}
+        Transform trajectoryContainer   = myTransform.FindChild( "trajectoryDotContainer" );
 
-	public void PullLine_PositionClouds( Vector3 playerPos, Vector3 pullEndPoint )
-	{
-		Vector3 direction = playerPos - pullEndPoint;
-		float stepDistance = 1.0f / maxFartClouds;
+        if( trajectoryContainer )
+        {            
+            trajectoryDots = new Transform[ maxTrajectoryDots ];
+            for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+            {
+                trajectoryDots[ dotIndex ] = trajectoryContainer.FindChild( "TrajectoryDot" + dotIndex ); 
+            }
+        }
+    }
 
-		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
-		{
-			float stepAmount = ( cloudIndex * Mathf.Pow( ( stepDistance + 0.004f ), 1.05f ) );
-			Vector3 step = direction * stepAmount;
-			fartClouds[ maxFartClouds - cloudIndex - 1 ].transform.position = pullEndPoint + step; 
-		}
-	}
+    public void TrajectoryDots_Reset()
+    {
+        for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
+        {
+            trajectoryDots[ dotIndex ].transform.position = transform.position; 
+        }
+    }
 	
-	private float dotDelay = .5f;
-	private float dotTime;
-	public void PullLine_PositionTrajectoryDots( Vector3 playerPos, Vector3 pullEndPoint )
+    public void TrajectoryDots_Position( Vector3 playerPos, Vector3 pullEndPoint )
 	{	
 	/*			
 		Vector3 direction = playerPos - pullEndPoint;		
@@ -722,14 +638,14 @@ public class PlayerControl : MonoBehaviour
 		
 		if( Time.time >= dotTime )
 		{
-			PullLine_LaunchTrajectoryDot();
+            TrajectoryDots_Launch();
 		}
 	}
 	
-	public void PullLine_LaunchTrajectoryDot()
+    public void TrajectoryDots_Launch()
 	{		
 		dotTime = Time.time + dotDelay;
-		float pullPercent = PullLine_GetFraction();
+        float pullPercent = pullLine.GetFraction();
 		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
 		GameObject newDot = (GameObject)Instantiate( trajectoryDot, this.transform.position, Quaternion.identity );
 		newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
@@ -803,30 +719,30 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	public float Launch_GetPotentialJuice()
-	{
-		return juiceToUse;
+    {
+        float potentialLaunchJuice = maxJuiceUsedPerLaunch * pullLine.GetFraction();
+        
+        if( potentialLaunchJuice > currentLaunchJuice )
+        {
+            potentialLaunchJuice = currentLaunchJuice;
+        }       
+
+        return potentialLaunchJuice;
 	}
 	
 	public void Launch( Transform transform )
 	{
-		float pullPercent = PullLine_GetFraction();
-		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
+		float pullPercent           = pullLine.GetFraction();
+        float potentialLaunchJuice  = Launch_GetPotentialJuice();
+		float launchForce           = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
 
-		if( juiceToUse > currentLaunchJuice )
-		{
-			juiceToUse = currentLaunchJuice;
-		}		
-		
 		this.collider2D.transform.parent = null;
 
-		currentLaunchJuice -= juiceToUse;
-		juiceToUse = 0.0f;
+        currentLaunchJuice -= potentialLaunchJuice;
 
 		Launch_SetAllowed( false );
 
-		// TODO: assert if not transform.rigidbody2D
-		transform.rigidbody2D.AddForce( launchDir * launchForce );	
-		
+		transform.rigidbody2D.AddForce( launchDir * launchForce );		
 		
 		if(launchDir != Vector2.zero)
 		{
@@ -856,7 +772,7 @@ public class PlayerControl : MonoBehaviour
 		}
 		else
 		{
-			bool isHolding = PullLine_IsHolding();
+//			bool isHolding = pullLine.IsHolding();
 		
 			/*
 			if( inVortex )
@@ -902,9 +818,9 @@ public class PlayerControl : MonoBehaviour
 
 	public void Animation_UpdateFacingDir()
 	{
-		if( PullLine_IsHolding() )
+		if( pullLine.IsHolding() )
 		{
-			Vector3 pullDir = PullLine_GetDirection( transform.position );
+			Vector3 pullDir = pullLine.GetDirection( transform.position );
 
 			if( Animation_GetFacingRight() )
 			{
