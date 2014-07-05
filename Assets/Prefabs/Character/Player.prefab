@@ -264,6 +264,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400030}
+  - 114: {fileID: 11400008}
   m_Layer: 0
   m_Name: trajectoryDotContainer
   m_TagString: Untagged
@@ -1236,6 +1237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pullLine: {fileID: 11400006}
+  trajectoryDots: {fileID: 11400008}
   maxLaunchForce: 4000
   minLaunchForce: 2000
   maxJuiceUsedPerLaunch: 10
@@ -1243,7 +1245,6 @@ MonoBehaviour:
   maxHealth: 60
   testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
   showTestAnim: 1
-  trajectoryDot: {fileID: 100000, guid: 1c641e68a91de4c489d2674c388e29d8, type: 2}
   debugSpawnFoodObj: {fileID: 100000, guid: 1bac4c1e40383de478de1856e6fab7b5, type: 2}
   zoomOn: 0
   maxZoom: 5
@@ -1289,7 +1290,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControl: {fileID: 11400000}
   maxLineLength: 1.5
-  minLineLength: .600000024
+  minLineLength: .300000012
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337110c5a4783ce43b978302fa56dc39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControl: {fileID: 11400000}
+  trajectoryDotPrefab: {fileID: 100000, guid: 1c641e68a91de4c489d2674c388e29d8, type: 2}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

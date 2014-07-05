@@ -19,10 +19,7 @@ public class PlayerControl : MonoBehaviour
     public PullLine pullLine;
 
     // Trajectory Dots
-    private const int maxTrajectoryDots = 6;
-    private float dotDelay              = 0.5f;
-    private float dotTime;
-	private Transform[] trajectoryDots;
+    public TrajectoryDots trajectoryDots;
 
 	// Launch
 	public float maxLaunchForce			= 4500.0f;
@@ -53,9 +50,6 @@ public class PlayerControl : MonoBehaviour
     // Sounds
     private AudioSource playerBodyAudioSource;
     private AudioHandler fartSource;
-    
-    //Trajectory
-    public GameObject trajectoryDot;
 
 	// Debug
 	public GameObject debugSpawnFoodObj;
@@ -105,7 +99,7 @@ public class PlayerControl : MonoBehaviour
 		groundCheck = transform.Find( "groundCheck" );
 		groundCheck2 = transform.Find( "groundCheck2" );
 		pullLine.Init();
-        TrajectoryDots_Init( transform );
+        trajectoryDots.Init();
 		Launch_Init();
 		Animation_Init();
 		isStuck = false;
@@ -230,7 +224,7 @@ public class PlayerControl : MonoBehaviour
 
 		Launch_Reset();
 		pullLine.Reset();
-        TrajectoryDots_Reset();
+        trajectoryDots.Reset();
 		
 		//Zooming in and out		
 		if( zoomOn )
@@ -255,7 +249,7 @@ public class PlayerControl : MonoBehaviour
 	{
         Vector3 pullEndPoint = pullLine.GetEndPoint( transform.position );
 		pullLine.PositionClouds( transform.position, pullEndPoint );
-        TrajectoryDots_Position( transform.position, pullEndPoint );
+        trajectoryDots.Position( transform.position, pullEndPoint );
 	}
 	
 	//public TextAsset txtAsst;
@@ -589,69 +583,6 @@ public class PlayerControl : MonoBehaviour
     	return isEating;
     }
 
-    
-    // Trajectory Dots
-    // -------------------------------------------------------------------------------------
-    public void TrajectoryDots_Init( Transform myTransform )
-    {
-        trajectoryDots  = null;
-        dotTime         = Time.time + dotDelay;
-        
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Enemies" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
-
-        Transform trajectoryContainer   = myTransform.FindChild( "trajectoryDotContainer" );
-
-        if( trajectoryContainer )
-        {            
-            trajectoryDots = new Transform[ maxTrajectoryDots ];
-            for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-            {
-                trajectoryDots[ dotIndex ] = trajectoryContainer.FindChild( "TrajectoryDot" + dotIndex ); 
-            }
-        }
-    }
-
-    public void TrajectoryDots_Reset()
-    {
-        for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-        {
-            trajectoryDots[ dotIndex ].transform.position = transform.position; 
-        }
-    }
-	
-    public void TrajectoryDots_Position( Vector3 playerPos, Vector3 pullEndPoint )
-	{	
-	/*			
-		Vector3 direction = playerPos - pullEndPoint;		
-		Vector3 dotEndPoint = playerPos + ( direction / 3 );
-		float stepDistance = 4.0f / maxTrajectoryDots;
-		
-		Debug.Log ( "pullEndPoint = " + pullEndPoint + " direction = " + direction );
-		
-		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-		{
-			float stepAmount = ( dotIndex * Mathf.Pow( ( stepDistance + 0.0004f ), 1.001f ) );
-			Vector3 step = direction * stepAmount;
-			trajectoryDots[ maxTrajectoryDots - dotIndex - 1 ].transform.position = dotEndPoint + step ; 			
-		}*/
-		
-		if( Time.time >= dotTime )
-		{
-            TrajectoryDots_Launch();
-		}
-	}
-	
-    public void TrajectoryDots_Launch()
-	{		
-		dotTime = Time.time + dotDelay;
-        float pullPercent = pullLine.GetFraction();
-		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
-		GameObject newDot = (GameObject)Instantiate( trajectoryDot, this.transform.position, Quaternion.identity );
-		newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
-		StartCoroutine ( Destroy_Now( newDot, 1f ) );
-	}
-
 
 	// Launch Control
 	// -------------------------------------------------------------------------------------
@@ -689,6 +620,11 @@ public class PlayerControl : MonoBehaviour
 	{
 		launchDir = direction;
 	}
+
+    public Vector2 Launch_GetDir()
+    {
+        return launchDir;
+    }
 	
 	public void Launch_SetAllowed( bool isAllowed )
 	{
@@ -729,12 +665,17 @@ public class PlayerControl : MonoBehaviour
 
         return potentialLaunchJuice;
 	}
+
+    public float Launch_GetLaunchForce()
+    {
+        float pullPercent = pullLine.GetFraction();
+        return minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
+    }
 	
 	public void Launch( Transform transform )
 	{
-		float pullPercent           = pullLine.GetFraction();
         float potentialLaunchJuice  = Launch_GetPotentialJuice();
-		float launchForce           = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
+        float launchForce           = Launch_GetLaunchForce();
 
 		this.collider2D.transform.parent = null;
 
@@ -946,21 +887,17 @@ public class PlayerControl : MonoBehaviour
 
 	public void Destroy_Self( GameObject go, float delayTime )
 	{
-		StartCoroutine( Destroy_Now( go, delayTime ) );
+		StartCoroutine( Util.Destroy_Now( go, delayTime, () => Debug_DecDebugObj(go) ) );
 	}
 
-	public IEnumerator Destroy_Now( GameObject go, float delayTime )
-	{
-		yield return new WaitForSeconds( delayTime );
-		if( go )
-		{
-            if( Util.IsObjectDebug( go ) )
-			{
-				Debug_DecFoodCount();
-			}
-			Destroy( go );
-		}
-	}
+    private void Debug_DecDebugObj(GameObject go)
+    {
+        if( Util.IsObjectDebug( go ) )
+        {
+            Debug_DecFoodCount();
+        }
+    }
+
 	//DB Counts
 	//--------------------------------------------------------------------------------------------
 	public static void resetCount()
