@@ -58,6 +58,7 @@ GameObject:
   - 82: {fileID: 8200016}
   - 82: {fileID: 8200018}
   - 82: {fileID: 8200020}
+  - 114: {fileID: 11400010}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1238,10 +1239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullLine: {fileID: 11400006}
   trajectoryDots: {fileID: 11400008}
-  maxLaunchForce: 4000
-  minLaunchForce: 2000
-  maxJuiceUsedPerLaunch: 10
-  launchesAvailable: 10
+  launchControl: {fileID: 11400010}
   maxHealth: 60
   testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
   showTestAnim: 1
@@ -1289,6 +1287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 11400000}
+  launchControl: {fileID: 11400010}
   maxLineLength: 1.5
   minLineLength: .300000012
 --- !u!114 &11400008
@@ -1302,8 +1301,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337110c5a4783ce43b978302fa56dc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 11400000}
+  launchControl: {fileID: 11400010}
   trajectoryDotPrefab: {fileID: 100000, guid: 1c641e68a91de4c489d2674c388e29d8, type: 2}
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6e6f8e531d2f2488421a3df361828e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControl: {fileID: 11400000}
+  pullLine: {fileID: 11400006}
+  maxLaunchForce: 4000
+  minLaunchForce: 2000
+  maxJuiceUsedPerLaunch: 10
+  launchesAvailable: 10
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

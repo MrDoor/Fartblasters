@@ -4,6 +4,7 @@ using System.Collections;
 public class PullLine : MonoBehaviour 
 {
     public PlayerControl playerControl;
+    public LaunchControl launchControl;
     public float maxLineLength = 1.5f;
     public float minLineLength = 0.4f; 
     
@@ -11,9 +12,8 @@ public class PullLine : MonoBehaviour
     private const int maxFartClouds     = 6;
     private float pullFraction          = 0.0f;
     private float pullDist              = 0.0f;
-    
-    // Pull Line Control
-    // -------------------------------------------------------------------------------------
+
+
     
     public void Init()
     {
@@ -42,7 +42,7 @@ public class PullLine : MonoBehaviour
     {
         Vector3 pullDir = new Vector3( 0, 0, 0 );
         
-        if( playerControl.Launch_GetAllowed() )
+        if( launchControl.GetAllowed() )
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
             playerPos.z = 0.0f;
@@ -76,7 +76,7 @@ public class PullLine : MonoBehaviour
             pullEndPoint    = playerPos - ( launchDir * lineLength );
         }
         
-        playerControl.Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
+        launchControl.SetDir( new Vector2( launchDir.x, launchDir.y ) );
         playerControl.SetIsStopped( false );
         
         return pullEndPoint;

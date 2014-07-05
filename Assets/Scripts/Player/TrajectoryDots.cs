@@ -3,13 +3,15 @@ using System.Collections;
 
 public class TrajectoryDots : MonoBehaviour 
 {
-    public PlayerControl playerControl;
+    public LaunchControl launchControl;
     public GameObject trajectoryDotPrefab;
     
     private Transform[] trajectoryDots;
     private const int maxTrajectoryDots = 6;
     private float dotDelay              = 0.5f;
     private float dotTime               = 0f;
+
+
 
     public void Init()
     {
@@ -61,8 +63,8 @@ public class TrajectoryDots : MonoBehaviour
     {       
         dotTime = Time.time + dotDelay;
 
-        float launchForce = playerControl.Launch_GetLaunchForce();
-        Vector2 launchDir = playerControl.Launch_GetDir();
+        float launchForce = launchControl.GetLaunchForce();
+        Vector2 launchDir = launchControl.GetDir();
 
         GameObject newDot = (GameObject)Instantiate( trajectoryDotPrefab, this.transform.position, Quaternion.identity );
         newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );

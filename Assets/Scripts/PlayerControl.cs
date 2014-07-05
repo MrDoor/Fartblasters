@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
 	// Player Control
 	private Transform groundCheck;
 	private Transform groundCheck2;
+
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
@@ -15,23 +16,16 @@ public class PlayerControl : MonoBehaviour
     private bool isStopped  = false;
     private bool isEating	= false;
 
+    private bool bouncyBlockHitLast = false;
+
 	// Pull Line
     public PullLine pullLine;
 
     // Trajectory Dots
     public TrajectoryDots trajectoryDots;
 
-	// Launch
-	public float maxLaunchForce			= 4500.0f;
-	public float minLaunchForce			= 2000.0f;
-	public float maxJuiceUsedPerLaunch	= 10;
-	public float launchesAvailable		= 10;
-
-	private float maxLaunchJuice		= 0.0f;
-	private float currentLaunchJuice	= 0.0f;	
-	private bool launchAllowed			= false;
-	private bool bouncyBlockHitLast		= false;
-	private Vector2 launchDir;
+	// Launch Control
+    public LaunchControl launchControl;
 	
 	// Health
 	public float maxHealth				= 100f;
@@ -100,7 +94,7 @@ public class PlayerControl : MonoBehaviour
 		groundCheck2 = transform.Find( "groundCheck2" );
 		pullLine.Init();
         trajectoryDots.Init();
-		Launch_Init();
+		launchControl.Init();
 		Animation_Init();
 		isStuck = false;
         isStopped = false;
@@ -135,7 +129,7 @@ public class PlayerControl : MonoBehaviour
 		}
 		
 		Animation_Update( onGround );
-		Launch_Update( onGround, bouncyBlockHitLast );
+        launchControl.UpdatePermission( onGround, bouncyBlockHitLast );
 
 		// TODO: Put in a check to only allow this in debug
 		Debug_CheckSpawnFood();
@@ -143,8 +137,9 @@ public class PlayerControl : MonoBehaviour
 		if (Input.GetKeyDown ("d") && onGround) 
 		{
 			//added for sticky block testing
-			if (this.transform.rigidbody2D.gravityScale == 0) {
-					this.transform.rigidbody2D.gravityScale = 1;
+			if (this.transform.rigidbody2D.gravityScale == 0) 
+            {
+                this.transform.rigidbody2D.gravityScale = 1;
 			}
 			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
 			scoochPoot ();		
@@ -152,8 +147,9 @@ public class PlayerControl : MonoBehaviour
 		else if (Input.GetKeyDown ("a") && onGround) 
 		{
 			//added for sticky block testing
-			if (this.transform.rigidbody2D.gravityScale == 0) {
-					this.transform.rigidbody2D.gravityScale = 1;
+			if (this.transform.rigidbody2D.gravityScale == 0) 
+            {
+				this.transform.rigidbody2D.gravityScale = 1;
 			}
 			this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
 			scoochPoot ();
@@ -167,7 +163,7 @@ public class PlayerControl : MonoBehaviour
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
 				this.transform.rigidbody2D.AddForce ( new Vector2 ( Animation_GetFacingRight() ? hopX : -hopX, hopY ) );//hop!	
 				fartSource.PlayClip(Random.Range( 0, fartSource.farts.Length ));
-				currentLaunchJuice -= 1;
+				launchControl.DecrementCurrentJuice( 1 );
 								
 			}
 		}
@@ -214,15 +210,16 @@ public class PlayerControl : MonoBehaviour
 		{
 			Destroy( go );
 		}
+
 		//added for sticky block testing
 		if(this.transform.rigidbody2D.gravityScale == 0) 
 		{
 			this.transform.rigidbody2D.gravityScale = 1;
 		}
 		
-		Launch( transform );
+		launchControl.Launch( transform );
 
-		Launch_Reset();
+		launchControl.Reset();
 		pullLine.Reset();
         trajectoryDots.Reset();
 		
@@ -584,114 +581,6 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-	// Launch Control
-	// -------------------------------------------------------------------------------------
-	
-	public void Launch_Init()
-	{
-		launchAllowed		= false;
-		maxLaunchJuice		= maxJuiceUsedPerLaunch * launchesAvailable;
-		currentLaunchJuice	= maxLaunchJuice;
-		launchDir.Set( 0.0f, 0.0f );
-	}
-	
-	public void Launch_Reset()
-	{
-		launchAllowed	= false;
-		launchDir.Set( 0.0f, 0.0f );
-	}
-
-	public void Launch_Update( bool onGround, bool bouncyBlockHitLast )
-	{
-		// Player is only allowed to launch if they're resting on a block
-		// TODO: Will probably have to add more checks to set launch allowed
-		//		 Does he need to be at rest as well?
-		if( ( onGround || bouncyBlockHitLast ) && Launch_GetCurrentJuice() > 0.0f )
-		{
-			Launch_SetAllowed( true );
-		}
-		else
-		{
-			Launch_SetAllowed( false );
-		}
-	}
-
-	public void Launch_SetDir( Vector2 direction )
-	{
-		launchDir = direction;
-	}
-
-    public Vector2 Launch_GetDir()
-    {
-        return launchDir;
-    }
-	
-	public void Launch_SetAllowed( bool isAllowed )
-	{
-		launchAllowed = isAllowed;
-	}
-	
-	public bool Launch_GetAllowed()
-	{
-		return launchAllowed;
-	}
-
-	public float Launch_GetMaxJuice()
-	{
-		return maxLaunchJuice;
-	}
-
-	public float Launch_GetCurrentJuice()
-	{
-		return currentLaunchJuice;
-	}
-
-	public void Launch_IncCurrentJuice( float amount )
-	{
-		if( amount > 0.0f && currentLaunchJuice < maxLaunchJuice )
-		{
-			currentLaunchJuice = Mathf.Min( maxLaunchJuice, currentLaunchJuice + amount );
-		}
-	}
-
-	public float Launch_GetPotentialJuice()
-    {
-        float potentialLaunchJuice = maxJuiceUsedPerLaunch * pullLine.GetFraction();
-        
-        if( potentialLaunchJuice > currentLaunchJuice )
-        {
-            potentialLaunchJuice = currentLaunchJuice;
-        }       
-
-        return potentialLaunchJuice;
-	}
-
-    public float Launch_GetLaunchForce()
-    {
-        float pullPercent = pullLine.GetFraction();
-        return minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
-    }
-	
-	public void Launch( Transform transform )
-	{
-        float potentialLaunchJuice  = Launch_GetPotentialJuice();
-        float launchForce           = Launch_GetLaunchForce();
-
-		this.collider2D.transform.parent = null;
-
-        currentLaunchJuice -= potentialLaunchJuice;
-
-		Launch_SetAllowed( false );
-
-		transform.rigidbody2D.AddForce( launchDir * launchForce );		
-		
-		if(launchDir != Vector2.zero)
-		{
-			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();			
-			farts[(int)Random.Range(0, farts.Length)].Play ();
-		}
-	}
-
 
 	bool willHit = false;
 	// Animation Control
@@ -813,7 +702,7 @@ public class PlayerControl : MonoBehaviour
 	// Sound    
     // -------------------------------------------------------------------------------------
 
-    void Sound_Init()
+    public void Sound_Init()
     {
         try
         {
@@ -830,12 +719,17 @@ public class PlayerControl : MonoBehaviour
         } 
     }
     
-    void scoochPoot()
+    public void scoochPoot()
     {   
         if( !playerBodyAudioSource.isPlaying )
         {
             playerBodyAudioSource.Play();              
         }  
+    }
+
+    public AudioSource[] GetAudioSources()
+    {
+        return this.gameObject.GetComponents<AudioSource>();
     }
 	
 
