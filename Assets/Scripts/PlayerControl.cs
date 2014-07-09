@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour
     private bool isEating	= false;
 
     private bool bouncyBlockHitLast = false;
+    public int amplifyBounceCount = 0;
 
 	// Pull Line
     public PullLine pullLine;
@@ -74,7 +75,7 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.LogError("PlayerControl PullLine is null! Set in Editor.");
         }
-
+        amplifyBounceCount = 0;
 		//levelTime = new System.Timers.Timer(1000);
 		levelTime = new Timer (1000);
 		resetCount ();
@@ -126,6 +127,7 @@ public class PlayerControl : MonoBehaviour
 		else if( onGround )
 		{
 			bouncyBlockHitLast = false;
+            amplifyBounceCount = 0;
 		}
 		
 		Animation_Update( onGround );
