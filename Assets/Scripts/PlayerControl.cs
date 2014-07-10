@@ -65,8 +65,11 @@ public class PlayerControl : MonoBehaviour
 	//DB counts
 	public static int puCount			= 0;
 	public static Timer levelTime;
-	public static int playTime = 0;
+	public static int playTime 			= 0;
 	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
+
+	//Death Position
+	public Vector3 deathSpot;
 
 	void Start()
 	{
@@ -412,6 +415,7 @@ public class PlayerControl : MonoBehaviour
 	
 	public void Health_KillPlayer ()
 	{
+		deathSpot = this.transform.position;
 		currentHealth = 0;
 		hControl.updateHealth ( 0 );
 		this.transform.collider2D.isTrigger = true;
