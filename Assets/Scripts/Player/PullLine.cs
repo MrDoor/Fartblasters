@@ -5,13 +5,14 @@ public class PullLine : MonoBehaviour
 {
     public PlayerControl playerControl;
     public LaunchControl launchControl;
-    public float maxLineLength = 1.5f;
-    public float minLineLength = 0.4f; 
+
+    public float maxLineLength;
+    public float minLineLength; 
     
     private Transform[] fartClouds;
-    private const int maxFartClouds     = 6;
-    private float pullFraction          = 0.0f;
-    private float pullDist              = 0.0f;
+    private const int maxFartClouds = 6;
+    private float pullFraction      = 0.0f;
+    private float pullDist          = 0.0f;
 
 
     
