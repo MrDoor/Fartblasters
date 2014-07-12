@@ -69,9 +69,6 @@ public class PlayerControl : MonoBehaviour
 	public static int playTime 			= 0;
 	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
 
-	//Death Position
-	public Vector3 deathSpot;
-
 	void Start()
 	{
         if(pullLine == null)
@@ -417,7 +414,9 @@ public class PlayerControl : MonoBehaviour
 	
 	public void Health_KillPlayer ()
 	{
-		deathSpot = this.transform.position;
+		PlayerPrefs.SetFloat ( "deathSpotX", this.transform.position.x );
+		PlayerPrefs.SetFloat ( "deathSpotY", this.transform.position.y );
+		PlayerPrefs.SetInt ( "died", 1 );
 		currentHealth = 0;
 		hControl.updateHealth ( 0 );
 		this.transform.collider2D.isTrigger = true;

@@ -13,7 +13,7 @@ public class ClawController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		maxDistance = this.transform.position.x + ( movementZone / 2 );
-		minDistance = this.transform.position.x - ( movementZone / 2 );		
+		minDistance = this.transform.position.x - ( movementZone / 2 );	
 	}
 	
 	// Update is called once per frame
@@ -41,10 +41,13 @@ public class ClawController : MonoBehaviour {
 		}
 		else if(Input.GetKey("down"))
 		{
-			Vector2 newPosition = this.transform.position;
-			newPosition.y = newPosition.y - movementSpeed / 100;
-			
-			this.transform.position = newPosition;
+			if ( this.transform.position.y >= Camera.main.orthographicSize + 1 )
+			{
+				Vector2 newPosition = this.transform.position;
+				newPosition.y = newPosition.y - movementSpeed / 100;
+				
+				this.transform.position = newPosition;
+			}
 		}
 		else if(Input.GetKey("up"))
 		{
