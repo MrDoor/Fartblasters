@@ -331,6 +331,14 @@ public class PlayerControl : MonoBehaviour
 			willHit = false;
 		}
 	}
+
+    void OnCollisionEnter2D( Collision2D coll )
+    {
+        if( coll.gameObject.layer != 13 )
+        {
+            amplifyBounceCount = 0;
+        }
+    }
 	
 	// Not sure if this should go here or in a different script file?
 	// Camera Zoom

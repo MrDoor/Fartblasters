@@ -5,13 +5,21 @@ public class AmplifyBouncy : MonoBehaviour
 {
 	public static float bounceForce;
 
-    private static readonly int maxBounceCount      = 4;
-    private static readonly float startForce        = 7f;
-    private static readonly float forceIncAmount    = 0.3f; 
+    private float forceIncAmount;
+
+    private static readonly int maxBounceCount          = 4;
+    private static readonly float startForce            = 7f;
+    private static readonly float startForceIncAmount   = 3f;
+    private static readonly float forceReductPercent    = 0.7f;
+    private static readonly float minVelocityMag        = 4f;
+    private static readonly float maxVelocityMag        = 15f;
+    private static readonly float minSqrMag             = 12f;
+    private static readonly float maxSqrMag             = 225f;
 
 	void Start () 
     {
-        bounceForce = startForce;
+        bounceForce     = startForce;
+        forceIncAmount  = startForceIncAmount;
 	}
 		
 	void OnCollisionEnter2D(Collision2D coll)
@@ -22,8 +30,26 @@ public class AmplifyBouncy : MonoBehaviour
 
             ContactPoint2D hit = coll.contacts[0];     // the first contact point
             Vector3 hitNormal = new Vector3( hit.normal.x, hit.normal.y, 0f );
-
             Vector3 velocity = Vector3.Reflect( -coll.relativeVelocity, -hitNormal );
+            Debug.LogWarning( "Velocity before normalization: " + velocity.ToString() + " sqrMag: " + velocity.sqrMagnitude.ToString() );
+
+            if( velocity.Equals(Vector3.zero) )
+            {
+                velocity = hitNormal;
+                velocity *= minVelocityMag;
+            }
+            else if( velocity.sqrMagnitude < minSqrMag )
+            {
+                velocity.Normalize();
+                velocity *= minVelocityMag;
+                Debug.LogWarning( "Velocity after normalization: " + velocity.ToString() );
+            }
+            else if( velocity.sqrMagnitude > maxSqrMag )
+            {
+                velocity.Normalize();
+                velocity *= maxVelocityMag;
+                Debug.LogWarning( "Velocity after normalization: " + velocity.ToString() );
+            }
 
             pControl.transform.rigidbody2D.velocity = Vector2.zero;
             pControl.transform.rigidbody2D.AddForce( new Vector2( velocity.x, velocity.y ) * bounceForce * 100 );       
@@ -33,14 +59,18 @@ public class AmplifyBouncy : MonoBehaviour
                 if( pControl.amplifyBounceCount == 0 )
                 {
                     bounceForce = startForce;
+                    forceIncAmount = startForceIncAmount;
                 }
                 else
                 {
+                    forceIncAmount *= forceReductPercent;
                     bounceForce += forceIncAmount;
                 }
             }
 
             pControl.amplifyBounceCount++;
+            
+            Debug.LogWarning( "AmplifyBounceCount: " + pControl.amplifyBounceCount.ToString() + " bounceForce: " + bounceForce.ToString() );
 		}
 	}
 }
