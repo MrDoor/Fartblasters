@@ -11,12 +11,15 @@ public class CameraFollow : MonoBehaviour
 	public Vector2 minXAndY;		// The minimum x and y coordinates the camera can have.
 		
 	private Transform player;		// Reference to the player's transform.
-	
-	
+		
 	void Awake ()
 	{
 		GameObject playerGO = Util.SafeGameObjectFind("Player");
-		player = playerGO.transform;
+		if ( !player )
+		{
+			playerGO = Util.SafeGameObjectFind( "PlayerSpawn" );
+			player = playerGO.transform;
+		}
 		
 		//StartCoroutine ( MoveTo ( player.transform ) );
 		//Camera.main.orthographicSize = 3;			
@@ -39,6 +42,11 @@ public class CameraFollow : MonoBehaviour
 	void FixedUpdate ()
 	{
 		TrackPlayer();
+	}
+	
+	public void SetPlayer ( Transform player_ )
+	{
+		player = player_;
 	}
 	
 	void TrackPlayer ()

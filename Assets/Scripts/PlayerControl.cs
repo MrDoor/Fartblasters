@@ -66,7 +66,7 @@ public class PlayerControl : MonoBehaviour
 	//DB counts
 	public static int puCount			= 0;
 	public static Timer levelTime;
-	public static int playTime = 0;
+	public static int playTime 			= 0;
 	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
 
 	void Start()
@@ -422,6 +422,9 @@ public class PlayerControl : MonoBehaviour
 	
 	public void Health_KillPlayer ()
 	{
+		PlayerPrefs.SetFloat ( "deathSpotX", this.transform.position.x );
+		PlayerPrefs.SetFloat ( "deathSpotY", this.transform.position.y );
+		PlayerPrefs.SetInt ( "died", 1 );
 		currentHealth = 0;
 		hControl.updateHealth ( 0 );
 		this.transform.collider2D.isTrigger = true;

@@ -66,6 +66,7 @@ GameObject:
   - 50: {fileID: 5000004}
   - 114: {fileID: 11400000}
   - 233: {fileID: 23300006}
+  - 61: {fileID: 6100000}
   m_Layer: 0
   m_Name: block
   m_TagString: Untagged
@@ -253,6 +254,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400028}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -276,6 +292,7 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400020}
   - {fileID: 400016}
+  - {fileID: 400028}
   m_Father: {fileID: 0}
 --- !u!4 &400002
 Transform:
@@ -420,6 +437,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
+--- !u!4 &400028
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.537466288, y: .265986919, z: -.00903320312}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400000}
 --- !u!50 &5000000
 Rigidbody2D:
   m_ObjectHideFlags: 1
@@ -428,7 +456,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100002}
   m_Mass: 30
   m_LinearDrag: 0
-  m_AngularDrag: 2.5
+  m_AngularDrag: 2
   m_GravityScale: 3
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -443,7 +471,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100004}
   m_Mass: 30
   m_LinearDrag: 0
-  m_AngularDrag: 2.5
+  m_AngularDrag: 2
   m_GravityScale: 3
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -458,7 +486,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100006}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: .0500000007
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 1
@@ -488,7 +516,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100010}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -503,7 +531,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100012}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -518,7 +546,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100014}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -533,7 +561,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100016}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -548,7 +576,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100018}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -563,7 +591,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100020}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -578,7 +606,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100022}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -593,7 +621,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100024}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -608,7 +636,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 100026}
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -671,6 +699,17 @@ PolygonCollider2D:
       - {x: -.0860519409, y: -.221172273}
       - {x: -.0132508278, y: -.228065133}
       - {x: .15273571, y: -.180288613}
+--- !u!61 &6100000
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .319999993, y: .319999993}
+  m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -686,6 +725,8 @@ MonoBehaviour:
   rightClaw: {fileID: 100002}
   movementZone: 4
   movementSpeed: 2
+  maxDistance: 0
+  minDistance: 0
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -996,7 +1037,7 @@ DistanceJoint2D:
   m_ConnectedRigidBody: {fileID: 5000004}
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_Distance: 5
+  m_Distance: 4
 --- !u!233 &23300000
 HingeJoint2D:
   m_ObjectHideFlags: 1
@@ -1010,7 +1051,7 @@ HingeJoint2D:
   m_ConnectedAnchor: {x: .0900000036, y: -.0299999993}
   m_UseMotor: 1
   m_Motor:
-    m_MotorSpeed: -100
+    m_MotorSpeed: -300
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
@@ -1024,12 +1065,12 @@ HingeJoint2D:
   m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_CollideConnected: 0
-  m_ConnectedRigidBody: {fileID: 5000000}
-  m_Anchor: {x: .109999999, y: 0}
+  m_ConnectedRigidBody: {fileID: 5000006}
+  m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_UseMotor: 1
   m_Motor:
-    m_MotorSpeed: 100
+    m_MotorSpeed: 300
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
@@ -1042,10 +1083,10 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000002}
-  m_Anchor: {x: 0, y: .349999994}
-  m_ConnectedAnchor: {x: 0, y: -.150000006}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000024}
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1062,7 +1103,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 100006}
   m_Enabled: 1
   m_CollideConnected: 0
-  m_ConnectedRigidBody: {fileID: 5000016}
+  m_ConnectedRigidBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1080,8 +1121,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000012}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000022}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1099,8 +1140,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000018}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000012}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1118,8 +1159,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000010}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000008}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1137,8 +1178,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000022}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000020}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1156,8 +1197,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100018}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000020}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000004}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1175,8 +1216,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000024}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000010}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1194,8 +1235,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100022}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000014}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000016}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1213,8 +1254,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100024}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000008}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000014}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
@@ -1232,8 +1273,8 @@ HingeJoint2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100026}
   m_Enabled: 1
-  m_CollideConnected: 1
-  m_ConnectedRigidBody: {fileID: 5000006}
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000018}
   m_Anchor: {x: 0, y: .349999994}
   m_ConnectedAnchor: {x: 0, y: -.150000006}
   m_UseMotor: 0
