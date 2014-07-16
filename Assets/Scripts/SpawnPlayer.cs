@@ -21,7 +21,7 @@ public class SpawnPlayer : MonoBehaviour {
 		switch ( tempSpawnCheck )
 		{
 			case 1	: 		spawnSpot = deathSpot;
-							spawnSpot.y += Camera.main.orthographicSize + 2;
+							spawnSpot.y += (Camera.main.orthographicSize / 2) + 1f;
 							newClaw = (GameObject)Instantiate ( claw, spawnSpot, Quaternion.identity );
 							newClaw.name = newClaw.name.Replace( "(Clone)", "" );
 							break;

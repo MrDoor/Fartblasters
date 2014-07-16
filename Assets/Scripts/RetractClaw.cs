@@ -27,8 +27,9 @@ public class RetractClaw : MonoBehaviour {
 			PlayerPrefs.SetInt("died", 0);
 			StartCoroutine ( "Retract" );
 		}
-		else
+		else if ( coll.CompareTag ( "Ground" ) )
 		{
+			AdjustClaw ( 1f );
 			Debug.Log ( coll.tag );
 		}
 	}
@@ -44,5 +45,19 @@ public class RetractClaw : MonoBehaviour {
 		}
 		claw.enabled = false;
 		Destroy( Util.SafeGameObjectFind ( "Claw_With_Player" ) , 3f );
+	}
+	
+	void AdjustClaw( float amount )
+	{
+		try
+		{
+			Vector3 newPosition = claw.transform.position;
+			newPosition.y += amount;
+			claw.transform.position = Vector3.Lerp( claw.transform.position, newPosition, Time.deltaTime );
+		}
+		catch ( UnityException ue )
+		{
+			Debug.LogError ( "Error: " + ue.ToString() );
+		}
 	}
 }

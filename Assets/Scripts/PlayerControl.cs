@@ -142,7 +142,9 @@ public class PlayerControl : MonoBehaviour
 			if (this.transform.rigidbody2D.gravityScale == 0) 
             {
                 this.transform.rigidbody2D.gravityScale = 1;
-			}
+			}			
+			
+			SetRespawn();
 			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
 			scoochPoot ();		
 		} 
@@ -161,6 +163,11 @@ public class PlayerControl : MonoBehaviour
 			if ( canHop )
 			{
 				canHop = false;
+				
+				if ( onGround )
+				{
+					SetRespawn();				
+				}
 				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
 				this.transform.rigidbody2D.AddForce ( new Vector2 ( Animation_GetFacingRight() ? hopX : -hopX, hopY ) );//hop!	
@@ -219,6 +226,7 @@ public class PlayerControl : MonoBehaviour
 			this.transform.rigidbody2D.gravityScale = 1;
 		}
 		
+		SetRespawn();
 		launchControl.Launch( transform );
 
 		launchControl.Reset();
@@ -422,8 +430,6 @@ public class PlayerControl : MonoBehaviour
 	
 	public void Health_KillPlayer ()
 	{
-		PlayerPrefs.SetFloat ( "deathSpotX", this.transform.position.x );
-		PlayerPrefs.SetFloat ( "deathSpotY", this.transform.position.y );
 		PlayerPrefs.SetInt ( "died", 1 );
 		currentHealth = 0;
 		hControl.updateHealth ( 0 );
@@ -593,7 +599,12 @@ public class PlayerControl : MonoBehaviour
     	return isEating;
     }
 
-
+	public void SetRespawn()
+	{
+		PlayerPrefs.SetFloat ( "deathSpotX", this.transform.position.x );
+		PlayerPrefs.SetFloat ( "deathSpotY", this.transform.position.y );
+		Debug.Log ( "Respawn Spot: " + this.transform.position.x + ", " + this.transform.position.y );
+	}
 
 	bool willHit = false;
 	// Animation Control

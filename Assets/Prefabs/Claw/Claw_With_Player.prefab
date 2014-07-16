@@ -333,6 +333,7 @@ GameObject:
   - 212: {fileID: 21200028}
   - 50: {fileID: 5000004}
   - 233: {fileID: 23300002}
+  - 232: {fileID: 23200002}
   m_Layer: 0
   m_Name: claw_top
   m_TagString: Untagged
@@ -533,6 +534,7 @@ GameObject:
   - 60: {fileID: 6000002}
   - 50: {fileID: 5000024}
   - 233: {fileID: 23300022}
+  - 232: {fileID: 23200004}
   m_Layer: 26
   m_Name: right_claw
   m_TagString: Untagged
@@ -2660,6 +2662,30 @@ DistanceJoint2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100046}
+  m_Enabled: 1
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000016}
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_Distance: 4
+--- !u!232 &23200002
+DistanceJoint2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100038}
+  m_Enabled: 1
+  m_CollideConnected: 0
+  m_ConnectedRigidBody: {fileID: 5000016}
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_Distance: 3.75
+--- !u!232 &23200004
+DistanceJoint2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100060}
   m_Enabled: 1
   m_CollideConnected: 0
   m_ConnectedRigidBody: {fileID: 5000016}
