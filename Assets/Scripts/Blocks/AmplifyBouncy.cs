@@ -31,7 +31,6 @@ public class AmplifyBouncy : MonoBehaviour
             ContactPoint2D hit = coll.contacts[0];     // the first contact point
             Vector3 hitNormal = new Vector3( hit.normal.x, hit.normal.y, 0f );
             Vector3 velocity = Vector3.Reflect( -coll.relativeVelocity, -hitNormal );
-            Debug.LogWarning( "Velocity before normalization: " + velocity.ToString() + " sqrMag: " + velocity.sqrMagnitude.ToString() );
 
             if( velocity.Equals(Vector3.zero) )
             {
@@ -42,13 +41,11 @@ public class AmplifyBouncy : MonoBehaviour
             {
                 velocity.Normalize();
                 velocity *= minVelocityMag;
-                Debug.LogWarning( "Velocity after normalization: " + velocity.ToString() );
             }
             else if( velocity.sqrMagnitude > maxSqrMag )
             {
                 velocity.Normalize();
                 velocity *= maxVelocityMag;
-                Debug.LogWarning( "Velocity after normalization: " + velocity.ToString() );
             }
 
             pControl.transform.rigidbody2D.velocity = Vector2.zero;
@@ -69,8 +66,6 @@ public class AmplifyBouncy : MonoBehaviour
             }
 
             pControl.amplifyBounceCount++;
-            
-            Debug.LogWarning( "AmplifyBounceCount: " + pControl.amplifyBounceCount.ToString() + " bounceForce: " + bounceForce.ToString() );
 		}
 	}
 }
