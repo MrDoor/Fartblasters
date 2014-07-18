@@ -23,7 +23,7 @@ private float destroyTime		= 0.0f;
 			PlayerControl pControl = obj.GetComponent<PlayerControl>();
 			if( pControl )
 			{
-				pControl.Launch_IncCurrentJuice( pickupJuice );
+				pControl.launchControl.IncrementCurrentJuice( pickupJuice );
 
 				if( isDebugFood )
 				{

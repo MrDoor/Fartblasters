@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
 	// Player Control
 	private Transform groundCheck;
 	private Transform groundCheck2;
+
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
@@ -15,30 +16,17 @@ public class PlayerControl : MonoBehaviour
     private bool isStopped  = false;
     private bool isEating	= false;
 
-	// Pull Line	
-	public float maxLineLength = 1.5f;
-	public float minLineLength = 0.6f;	
+    private bool bouncyBlockHitLast = false;
+    public int amplifyBounceCount = 0;
 
-	private const int maxLineVerts		= 2;
-	private const int maxFartClouds		= 6;
-	private const int maxTrajectoryDots = 6;
-	private Transform[] fartClouds;
-	private Transform[] trajectoryDots;
-	private float pullFraction			= 0.0f;
-	private float pullDist				= 0.0f;
-	private float juiceToUse			= 0.0f;
+	// Pull Line
+    public PullLine pullLine;
 
-	// Launch
-	public float maxLaunchForce			= 4500.0f;
-	public float minLaunchForce			= 2000.0f;
-	public float maxJuiceUsedPerLaunch	= 10;
-	public float launchesAvailable		= 10;
+    // Trajectory Dots
+    public TrajectoryDots trajectoryDots;
 
-	private float maxLaunchJuice		= 0.0f;
-	private float currentLaunchJuice	= 0.0f;	
-	private bool launchAllowed			= false;
-	private bool bouncyBlockHitLast		= false;
-	private Vector2 launchDir;
+	// Launch Control
+    public LaunchControl launchControl;
 	
 	// Health
 	public float maxHealth				= 100f;
@@ -57,9 +45,6 @@ public class PlayerControl : MonoBehaviour
     // Sounds
     private AudioSource playerBodyAudioSource;
     private AudioHandler fartSource;
-    
-    //Trajectory
-    public GameObject trajectoryDot;
 
 	// Debug
 	public GameObject debugSpawnFoodObj;
@@ -81,11 +66,16 @@ public class PlayerControl : MonoBehaviour
 	//DB counts
 	public static int puCount			= 0;
 	public static Timer levelTime;
-	public static int playTime = 0;
+	public static int playTime 			= 0;
 	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
 
 	void Start()
 	{
+        if(pullLine == null)
+        {
+            Debug.LogError("PlayerControl PullLine is null! Set in Editor.");
+        }
+        amplifyBounceCount = 0;
 		//levelTime = new System.Timers.Timer(1000);
 		levelTime = new Timer (1000);
 		resetCount ();
@@ -103,8 +93,9 @@ public class PlayerControl : MonoBehaviour
 	{
 		groundCheck = transform.Find( "groundCheck" );
 		groundCheck2 = transform.Find( "groundCheck2" );
-		PullLine_Init( transform );
-		Launch_Init();
+		pullLine.Init();
+        trajectoryDots.Init();
+		launchControl.Init();
 		Animation_Init();
 		isStuck = false;
         isStopped = false;
@@ -136,10 +127,11 @@ public class PlayerControl : MonoBehaviour
 		else if( onGround )
 		{
 			bouncyBlockHitLast = false;
+            amplifyBounceCount = 0;
 		}
 		
 		Animation_Update( onGround );
-		Launch_Update( onGround, bouncyBlockHitLast );
+        launchControl.UpdatePermission( onGround, bouncyBlockHitLast );
 
 		// TODO: Put in a check to only allow this in debug
 		Debug_CheckSpawnFood();
@@ -147,17 +139,21 @@ public class PlayerControl : MonoBehaviour
 		if (Input.GetKeyDown ("d") && onGround) 
 		{
 			//added for sticky block testing
-			if (this.transform.rigidbody2D.gravityScale == 0) {
-					this.transform.rigidbody2D.gravityScale = 1;
-			}
+			if (this.transform.rigidbody2D.gravityScale == 0) 
+            {
+                this.transform.rigidbody2D.gravityScale = 1;
+			}			
+			
+			SetRespawn();
 			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
 			scoochPoot ();		
 		} 
 		else if (Input.GetKeyDown ("a") && onGround) 
 		{
 			//added for sticky block testing
-			if (this.transform.rigidbody2D.gravityScale == 0) {
-					this.transform.rigidbody2D.gravityScale = 1;
+			if (this.transform.rigidbody2D.gravityScale == 0) 
+            {
+				this.transform.rigidbody2D.gravityScale = 1;
 			}
 			this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
 			scoochPoot ();
@@ -168,10 +164,15 @@ public class PlayerControl : MonoBehaviour
 			{
 				canHop = false;
 				
+				if ( onGround )
+				{
+					SetRespawn();				
+				}
+				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
 				this.transform.rigidbody2D.AddForce ( new Vector2 ( Animation_GetFacingRight() ? hopX : -hopX, hopY ) );//hop!	
 				fartSource.PlayClip(Random.Range( 0, fartSource.farts.Length ));
-				currentLaunchJuice -= 1;
+				launchControl.DecrementCurrentJuice( 1 );
 								
 			}
 		}
@@ -218,16 +219,19 @@ public class PlayerControl : MonoBehaviour
 		{
 			Destroy( go );
 		}
+
 		//added for sticky block testing
 		if(this.transform.rigidbody2D.gravityScale == 0) 
 		{
 			this.transform.rigidbody2D.gravityScale = 1;
 		}
 		
-		Launch( transform );
+		SetRespawn();
+		launchControl.Launch( transform );
 
-		Launch_Reset();
-		PullLine_Reset();
+		launchControl.Reset();
+		pullLine.Reset();
+        trajectoryDots.Reset();
 		
 		//Zooming in and out		
 		if( zoomOn )
@@ -250,9 +254,9 @@ public class PlayerControl : MonoBehaviour
 
 	void OnMouseDrag()
 	{
-		Vector3 pullEndPoint = PullLine_GetEndPoint( transform.position );
-		PullLine_PositionClouds( transform.position, pullEndPoint );
-		PullLine_PositionTrajectoryDots( transform.position, pullEndPoint );
+        Vector3 pullEndPoint = pullLine.GetEndPoint( transform.position );
+		pullLine.PositionClouds( transform.position, pullEndPoint );
+        trajectoryDots.Position( transform.position, pullEndPoint );
 	}
 	
 	//public TextAsset txtAsst;
@@ -335,6 +339,14 @@ public class PlayerControl : MonoBehaviour
 			willHit = false;
 		}
 	}
+
+    void OnCollisionEnter2D( Collision2D coll )
+    {
+        if( coll.gameObject.layer != 13 )
+        {
+            amplifyBounceCount = 0;
+        }
+    }
 	
 	// Not sure if this should go here or in a different script file?
 	// Camera Zoom
@@ -418,6 +430,7 @@ public class PlayerControl : MonoBehaviour
 	
 	public void Health_KillPlayer ()
 	{
+		PlayerPrefs.SetInt ( "died", 1 );
 		currentHealth = 0;
 		hControl.updateHealth ( 0 );
 		this.transform.collider2D.isTrigger = true;
@@ -586,255 +599,12 @@ public class PlayerControl : MonoBehaviour
     	return isEating;
     }
 
-	// Pull Line Control
-	// -------------------------------------------------------------------------------------
-
-	public void PullLine_Init( Transform myTransform )
+	public void SetRespawn()
 	{
-		pullFraction	= 0.0f;
-		juiceToUse		= 0.0f;
-		pullDist		= 0.0f;
-		fartClouds		= null;
-		trajectoryDots	= null;
-		dotTime 		= Time.time + dotDelay;
-		
-		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
-		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Enemies" ), LayerMask.NameToLayer( "TrajectoryDot" ), true);
-
-		Transform pullContainer 		= myTransform.FindChild( "pullContainer" );
-		Transform trajectoryContainer 	= myTransform.FindChild( "trajectoryDotContainer" );
-		// TODO: Change this to assert
-		if( pullContainer )
-		{
-			fartClouds = new Transform[ maxFartClouds ];
-			for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
-			{
-				fartClouds[ cloudIndex ] = pullContainer.FindChild( "FartCloud" + cloudIndex ); 
-			}
-			
-			trajectoryDots = new Transform[ maxTrajectoryDots ];
-			for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-			{
-				trajectoryDots[ dotIndex ] = trajectoryContainer.FindChild( "TrajectoryDot" + dotIndex ); 
-			}
-		}
+		PlayerPrefs.SetFloat ( "deathSpotX", this.transform.position.x );
+		PlayerPrefs.SetFloat ( "deathSpotY", this.transform.position.y );
+		Debug.Log ( "Respawn Spot: " + this.transform.position.x + ", " + this.transform.position.y );
 	}
-	
-	public void PullLine_Reset()
-	{
-		pullFraction	= 0.0f;
-		juiceToUse		= 0.0f;
-		pullDist		= 0.0f;
-
-		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
-		{
-			fartClouds[ cloudIndex ].transform.position = transform.position; 
-		}
-		
-		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-		{
-			trajectoryDots[ dotIndex ].transform.position = transform.position; 
-		}
-	}
-	
-	public Vector3 PullLine_GetDirection( Vector3 playerPos )
-	{
-		Vector3 pullDir = new Vector3( 0, 0, 0 );
-		
-		if( Launch_GetAllowed() )
-		{
-			Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-			playerPos.z = 0.0f;
-			mouseWorldPos.z = 0.0f;
-			pullDir = playerPos - mouseWorldPos;
-		}
-		
-		return pullDir;
-	}
-	
-	public float PullLine_GetFraction()
-	{
-		return pullFraction;
-	}
-	
-	public Vector3 PullLine_GetEndPoint( Vector3 playerPos )
-	{
-		Vector3 pullEndPoint	= playerPos;		
-		Vector3 pullDir			= PullLine_GetDirection( playerPos );
-		float lineLength		= 0.0f;
-		Vector3 launchDir		= new Vector3( 0.0f, 0.0f, 0.0f );
-
-		pullFraction	= 0.0f;
-		juiceToUse		= 0.0f;
-		pullDist		= pullDir.magnitude;
-		
-		if( pullDist >= minLineLength )
-		{
-			launchDir		= pullDir / pullDist;
-			lineLength		= Mathf.Min( pullDist, maxLineLength );			
-			pullFraction	= ( lineLength - minLineLength ) / ( maxLineLength - minLineLength );
-			juiceToUse		= maxJuiceUsedPerLaunch * pullFraction;
-			pullEndPoint	= playerPos - ( launchDir * lineLength );
-		}
-		
-		Launch_SetDir( new Vector2( launchDir.x, launchDir.y ) );
-        
-        SetIsStopped( false );
-		
-		return pullEndPoint;
-	}
-
-	public bool PullLine_IsHolding()
-	{
-		return pullDist >= minLineLength;
-	}
-
-	public void PullLine_PositionClouds( Vector3 playerPos, Vector3 pullEndPoint )
-	{
-		Vector3 direction = playerPos - pullEndPoint;
-		float stepDistance = 1.0f / maxFartClouds;
-
-		for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
-		{
-			float stepAmount = ( cloudIndex * Mathf.Pow( ( stepDistance + 0.004f ), 1.05f ) );
-			Vector3 step = direction * stepAmount;
-			fartClouds[ maxFartClouds - cloudIndex - 1 ].transform.position = pullEndPoint + step; 
-		}
-	}
-	
-	private float dotDelay = .5f;
-	private float dotTime;
-	public void PullLine_PositionTrajectoryDots( Vector3 playerPos, Vector3 pullEndPoint )
-	{	
-	/*			
-		Vector3 direction = playerPos - pullEndPoint;		
-		Vector3 dotEndPoint = playerPos + ( direction / 3 );
-		float stepDistance = 4.0f / maxTrajectoryDots;
-		
-		Debug.Log ( "pullEndPoint = " + pullEndPoint + " direction = " + direction );
-		
-		for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
-		{
-			float stepAmount = ( dotIndex * Mathf.Pow( ( stepDistance + 0.0004f ), 1.001f ) );
-			Vector3 step = direction * stepAmount;
-			trajectoryDots[ maxTrajectoryDots - dotIndex - 1 ].transform.position = dotEndPoint + step ; 			
-		}*/
-		
-		if( Time.time >= dotTime )
-		{
-			PullLine_LaunchTrajectoryDot();
-		}
-	}
-	
-	public void PullLine_LaunchTrajectoryDot()
-	{		
-		dotTime = Time.time + dotDelay;
-		float pullPercent = PullLine_GetFraction();
-		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
-		GameObject newDot = (GameObject)Instantiate( trajectoryDot, this.transform.position, Quaternion.identity );
-		newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
-		StartCoroutine ( Destroy_Now( newDot, 1f ) );
-	}
-
-
-	// Launch Control
-	// -------------------------------------------------------------------------------------
-	
-	public void Launch_Init()
-	{
-		launchAllowed		= false;
-		maxLaunchJuice		= maxJuiceUsedPerLaunch * launchesAvailable;
-		currentLaunchJuice	= maxLaunchJuice;
-		launchDir.Set( 0.0f, 0.0f );
-	}
-	
-	public void Launch_Reset()
-	{
-		launchAllowed	= false;
-		launchDir.Set( 0.0f, 0.0f );
-	}
-
-	public void Launch_Update( bool onGround, bool bouncyBlockHitLast )
-	{
-		// Player is only allowed to launch if they're resting on a block
-		// TODO: Will probably have to add more checks to set launch allowed
-		//		 Does he need to be at rest as well?
-		if( ( onGround || bouncyBlockHitLast ) && Launch_GetCurrentJuice() > 0.0f )
-		{
-			Launch_SetAllowed( true );
-		}
-		else
-		{
-			Launch_SetAllowed( false );
-		}
-	}
-
-	public void Launch_SetDir( Vector2 direction )
-	{
-		launchDir = direction;
-	}
-	
-	public void Launch_SetAllowed( bool isAllowed )
-	{
-		launchAllowed = isAllowed;
-	}
-	
-	public bool Launch_GetAllowed()
-	{
-		return launchAllowed;
-	}
-
-	public float Launch_GetMaxJuice()
-	{
-		return maxLaunchJuice;
-	}
-
-	public float Launch_GetCurrentJuice()
-	{
-		return currentLaunchJuice;
-	}
-
-	public void Launch_IncCurrentJuice( float amount )
-	{
-		if( amount > 0.0f && currentLaunchJuice < maxLaunchJuice )
-		{
-			currentLaunchJuice = Mathf.Min( maxLaunchJuice, currentLaunchJuice + amount );
-		}
-	}
-
-	public float Launch_GetPotentialJuice()
-	{
-		return juiceToUse;
-	}
-	
-	public void Launch( Transform transform )
-	{
-		float pullPercent = PullLine_GetFraction();
-		float launchForce = minLaunchForce + ( ( maxLaunchForce - minLaunchForce ) * pullPercent );
-
-		if( juiceToUse > currentLaunchJuice )
-		{
-			juiceToUse = currentLaunchJuice;
-		}		
-		
-		this.collider2D.transform.parent = null;
-
-		currentLaunchJuice -= juiceToUse;
-		juiceToUse = 0.0f;
-
-		Launch_SetAllowed( false );
-
-		// TODO: assert if not transform.rigidbody2D
-		transform.rigidbody2D.AddForce( launchDir * launchForce );	
-		
-		
-		if(launchDir != Vector2.zero)
-		{
-			AudioSource[] farts = this.gameObject.GetComponents<AudioSource>();			
-			farts[(int)Random.Range(0, farts.Length)].Play ();
-		}
-	}
-
 
 	bool willHit = false;
 	// Animation Control
@@ -856,7 +626,7 @@ public class PlayerControl : MonoBehaviour
 		}
 		else
 		{
-			bool isHolding = PullLine_IsHolding();
+//			bool isHolding = pullLine.IsHolding();
 		
 			/*
 			if( inVortex )
@@ -902,9 +672,9 @@ public class PlayerControl : MonoBehaviour
 
 	public void Animation_UpdateFacingDir()
 	{
-		if( PullLine_IsHolding() )
+		if( pullLine.IsHolding() )
 		{
-			Vector3 pullDir = PullLine_GetDirection( transform.position );
+			Vector3 pullDir = pullLine.GetDirection( transform.position );
 
 			if( Animation_GetFacingRight() )
 			{
@@ -956,7 +726,7 @@ public class PlayerControl : MonoBehaviour
 	// Sound    
     // -------------------------------------------------------------------------------------
 
-    void Sound_Init()
+    public void Sound_Init()
     {
         try
         {
@@ -973,12 +743,17 @@ public class PlayerControl : MonoBehaviour
         } 
     }
     
-    void scoochPoot()
+    public void scoochPoot()
     {   
         if( !playerBodyAudioSource.isPlaying )
         {
             playerBodyAudioSource.Play();              
         }  
+    }
+
+    public AudioSource[] GetAudioSources()
+    {
+        return this.gameObject.GetComponents<AudioSource>();
     }
 	
 
@@ -1030,21 +805,17 @@ public class PlayerControl : MonoBehaviour
 
 	public void Destroy_Self( GameObject go, float delayTime )
 	{
-		StartCoroutine( Destroy_Now( go, delayTime ) );
+		StartCoroutine( Util.Destroy_Now( go, delayTime, () => Debug_DecDebugObj(go) ) );
 	}
 
-	public IEnumerator Destroy_Now( GameObject go, float delayTime )
-	{
-		yield return new WaitForSeconds( delayTime );
-		if( go )
-		{
-            if( Util.IsObjectDebug( go ) )
-			{
-				Debug_DecFoodCount();
-			}
-			Destroy( go );
-		}
-	}
+    private void Debug_DecDebugObj(GameObject go)
+    {
+        if( Util.IsObjectDebug( go ) )
+        {
+            Debug_DecFoodCount();
+        }
+    }
+
 	//DB Counts
 	//--------------------------------------------------------------------------------------------
 	public static void resetCount()

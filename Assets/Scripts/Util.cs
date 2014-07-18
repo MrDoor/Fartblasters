@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Util
@@ -39,6 +40,7 @@ public class Util
 	{
 		return go.tag.Equals( "Debug" );
 	}
+
 	public static void setLevel(string index)
 	{
 		level = index;
@@ -47,5 +49,20 @@ public class Util
 	public static string  getlevel()
 	{
 		return level;
-		}
+	}
+
+    
+    public static IEnumerator Destroy_Now( GameObject go, float delayTime, Action callback = null )
+    {
+        yield return new WaitForSeconds( delayTime );
+        if( go )
+        {
+            if(callback != null)
+            {
+                callback();
+            }
+
+            MonoBehaviour.Destroy( go );
+        }
+    }
 }

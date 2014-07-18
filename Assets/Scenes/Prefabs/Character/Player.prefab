@@ -58,6 +58,7 @@ GameObject:
   - 82: {fileID: 8200016}
   - 82: {fileID: 8200018}
   - 82: {fileID: 8200020}
+  - 114: {fileID: 11400010}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -184,8 +185,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400020}
+  - 114: {fileID: 11400006}
   m_Layer: 0
-  m_Name: pullContainer
+  m_Name: pullLineContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,6 +265,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400030}
+  - 114: {fileID: 11400008}
   m_Layer: 0
   m_Name: trajectoryDotContainer
   m_TagString: Untagged
@@ -330,7 +333,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.9002428, y: -9.71378899, z: -.0500488281}
+  m_LocalPosition: {x: -15.8708086, y: -10.1941156, z: -.0500488281}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -530,7 +533,7 @@ Rigidbody2D:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!58 &5800000
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -548,7 +551,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: 1
@@ -1203,7 +1206,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3f04fdb407fd69b42bfc7aa7d0a2d8e5, type: 2}
   m_CullingMode: 0
   m_ApplyRootMotion: 0
-  m_AnimatePhysics: 1
+  m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -1216,19 +1219,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01981e76030fc6f42a31e69299565f2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLineLength: 2
-  minLineLength: .400000006
-  maxLaunchForce: 5200
-  minLaunchForce: 3000
-  maxJuiceUsedPerLaunch: 10
-  launchesAvailable: 10
+  amplifyBounceCount: 0
+  pullLine: {fileID: 11400006}
+  trajectoryDots: {fileID: 11400008}
+  launchControl: {fileID: 11400010}
   maxHealth: 60
   testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
   showTestAnim: 1
-  trajectoryDot: {fileID: 100000, guid: 1c641e68a91de4c489d2674c388e29d8, type: 2}
   debugSpawnFoodObj: {fileID: 100000, guid: 1bac4c1e40383de478de1856e6fab7b5, type: 2}
+  zoomOn: 0
   maxZoom: 5
   minZoom: 4
+  hopX: 800
+  hopY: 1600
+  canHop: 1
+  deathSpot: {x: 0, y: 0, z: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1240,17 +1245,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42d2e83b02273c47bca1c0a6f5a5a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pAnimator: {fileID: 9500000}
+  pControl: {fileID: 11400000}
+  pullLine: {fileID: 11400006}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65b9dd039a0db4a4fa6a2a5956e9dfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ff5880f053cd44e882bbe3fd1590eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControl: {fileID: 11400000}
+  launchControl: {fileID: 11400010}
+  maxLineLength: 1.5
+  minLineLength: .300000012
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337110c5a4783ce43b978302fa56dc39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchControl: {fileID: 11400010}
+  trajectoryDotPrefab: {fileID: 100000, guid: 1c641e68a91de4c489d2674c388e29d8, type: 2}
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6e6f8e531d2f2488421a3df361828e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControl: {fileID: 11400000}
+  pullLine: {fileID: 11400006}
+  maxLaunchForce: 4000
+  minLaunchForce: 2000
+  maxJuiceUsedPerLaunch: 10
+  launchesAvailable: 10
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

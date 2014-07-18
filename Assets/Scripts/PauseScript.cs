@@ -14,10 +14,10 @@ public class PauseScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 	
-	void OnMouseUpAsButton()
+	void OnMouseUp()
 	{
 		Pause ();
 	}
@@ -40,13 +40,19 @@ public class PauseScript : MonoBehaviour {
 	void OnGUI()
 	{
 		float left		= 20;
-		float top		= Screen.height - 80;
+		float top		= (Screen.height / 2f) + (Screen.height / 2.5f);
 		float width		= boxSize;
 		float height	= boxSize / 2;
 		
-		backgroundRect = new Rect(left, top, width, height);
-		GUI.DrawTexture(backgroundRect, btn_pause);	
-		
+		Debug.Log ( Screen.height );
+		//backgroundRect = new Rect(left, top, width, height);
+		backgroundRect = new Rect(50f, top, 100f, 40f);
+		//GUI.DrawTexture(backgroundRect, btn_pause);
+		GUI.Box ( backgroundRect, "" );	
+		if( GUI.Button ( backgroundRect, "Pause" ) )
+		{
+			Pause();
+		}		
 	
 				if (paused) {
 						/*GUIStyle textStyle = new GUIStyle();
