@@ -121,7 +121,7 @@ public class LackieSoldier : MonoBehaviour
 		{
 			Debug.Log( "Player!" );
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			pControl.Health_DefaultHit(this.transform);
+			pControl.playerHealth.Hit( this.transform );
 			StartCoroutine( "IgnorePlayer" );
 		}
 		else
@@ -181,7 +181,7 @@ public class LackieSoldier : MonoBehaviour
 		{
 			Debug.Log( "Player!" );
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			pControl.Health_DefaultHit(this.transform);
+            pControl.playerHealth.Hit( this.transform );
 		}
 	}
 	

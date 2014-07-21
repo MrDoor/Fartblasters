@@ -3,10 +3,11 @@ using System.Collections;
 
 public class CollectFood : MonoBehaviour 
 {
-	public float pickupJuice	= 5.0f;
+    public float pickupJuice    = 5.0f;
+    public bool isChecked       = false;
+
 	private bool isDebugFood	= false;
-private float destroyTime		= 0.0f;
-	public bool isChecked = false;
+    private float destroyTime	= 0.0f;
 	
 	//private Animator foodAnimator;
 
@@ -57,22 +58,20 @@ private float destroyTime		= 0.0f;
 		}
 		else
 		{
-			if(this.gameObject.tag.Equals("Health"))
+			if( this.gameObject.tag.Equals( "Health" ) )
 			{
-				pControl.Health_IncHealth(pickupJuice);
+				pControl.playerHealth.IncHealth( pickupJuice );
 				Debug.Log ( "Health inc by " + pickupJuice );
 			}			
-			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag);
+			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag );
 			this.audio.Play();
 			destroyTime = this.audio.clip.length;
 			this.transform.renderer.enabled = false;
-			pControl.SetIsEating ( true );
-
+			pControl.SetIsEating( true );
 		}
 
 		StartCoroutine ( "StopEating", pControl );
 		//Destroy( this.gameObject, destroyTime );
-
 	}
 
 	public void Check()

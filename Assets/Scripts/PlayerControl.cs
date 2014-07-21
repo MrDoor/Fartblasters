@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     private bool inVortex 	= false;
     private bool isStopped  = false;
     private bool isEating	= false;
+    private bool isAlive    = true;
 
     private bool bouncyBlockHitLast = false;
     public int amplifyBounceCount = 0;
@@ -29,9 +30,7 @@ public class PlayerControl : MonoBehaviour
     public LaunchControl launchControl;
 	
 	// Health
-	public float maxHealth				= 100f;
-	private float currentHealth			= 0.0f;
-	private float lastHit				= 0.0f;
+    public PlayerHealth playerHealth;
 
 	// Animation
 	public AnimationClip testAnimation;
@@ -100,7 +99,7 @@ public class PlayerControl : MonoBehaviour
 		isStuck = false;
         isStopped = false;
         Sound_Init();
-        Health_init();
+        playerHealth.Init();
 	}
 
 	void Update () 
@@ -179,7 +178,7 @@ public class PlayerControl : MonoBehaviour
 		//Added to test dying transition menu
 		else if (Input.GetKeyDown ("x")) 
 		{
-			Health_DecHealth( 100.0f );
+			playerHealth.DecHealth( 100.0f );
 		}
 	}
 
@@ -262,7 +261,7 @@ public class PlayerControl : MonoBehaviour
 	//public TextAsset txtAsst;
 	void OnGUI()
 	{
-		if(!alive)
+		if(!isAlive)
 		{			
 			GUIStyle textStyle = new GUIStyle();
 			textStyle.normal.textColor = Color.red;
@@ -317,11 +316,14 @@ public class PlayerControl : MonoBehaviour
 				pickUp.Check();
 				puCount ++;
 
-
 				if (pUps.ContainsKey (obj.gameObject.name))
+                {
 					pUps[obj.gameObject.name] += 1;
+                }
 				else
+                {
 					pUps.Add (obj.gameObject.name, 1);
+                }
 				Debug.Log ("Name : " + obj.gameObject.name);
 			}
 		}
@@ -376,144 +378,18 @@ public class PlayerControl : MonoBehaviour
 		yield break;
 	}
 	
+	public void StartDying()
+    {
+        this.transform.collider2D.isTrigger = true;
+        StartCoroutine( Die() );
+    }	
 	
-	// Health
-	// -------------------------------------------------------------------------------------
-	HealthControl hControl;
-	bool alive = true;
-
-	public void Health_init()
-	{
-		currentHealth 	= maxHealth;
-		lastHit 		= Time.time;
-		hControl		= (HealthControl)GameObject.Find( "Health" ).GetComponent<HealthControl>();
-		hControl.updateHealth(currentHealth);
-	}
-	
-	public float Health_GetCurrentHealth()
-	{
-		return currentHealth;
-	}
-	
-	public void Health_DecHealth()
-	{
-		if( Time.time >= lastHit )
-		{
-			currentHealth -= 10f;
-		}
-	}
-	
-	public void Health_DecHealth( float amount )
-	{
-		if( Time.time >= lastHit )
-		{
-			currentHealth -= amount;
-		}
-	}
-	
-	public void Health_IncHealth( float amount )
-	{
-		if( currentHealth + amount < maxHealth )
-		{
-			currentHealth += amount;
-		}
-		else
-		{
-			currentHealth = maxHealth;
-		}
-		hControl.updateHealth( currentHealth );
-	}
-	
-	public void Health_KillPlayer ()
-	{
-		PlayerPrefs.SetInt ( "died", 1 );
-		currentHealth = 0;
-		hControl.updateHealth ( 0 );
-		this.transform.collider2D.isTrigger = true;
-		StartCoroutine( "Die" );
-	}
-	
-	/*
-	public void Health_DefaultHit()
-	{
-		if(Time.time > lastHit)
-		{
-			Health_DecHealth();
-			if( currentHealth <= 0 )
-			{
-				//DIE!
-				StartCoroutine( "Die" );
-			}
-			else
-			{
-				lastHit = Time.time + 3;//Invincibility time	
-				if( facingRight )
-				{			
-					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
-				}
-				else
-				{
-					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
-				}
-			}
-		}
-	}
-	*/
-	
-	public void Health_DefaultHit(Transform hitter)
-	{
-		if(Time.time > lastHit)
-		{
-			Health_DecHealth();
-			StartCoroutine( "Health_DamageFlash" );			
-			hControl.updateHealth( currentHealth );
-			if( currentHealth <= 0 )
-			{
-				//DIE!
-				this.transform.collider2D.isTrigger = true;
-				StartCoroutine( "Die" );
-			}
-			else
-			{
-				lastHit = Time.time + 3;//Invincibility time
-				this.transform.rigidbody2D.velocity = Vector3.zero;	
-				if(this.transform.position.x > hitter.position.x)
-				{
-					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
-				}
-				else
-				{
-					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
-				}				
-			}
-		}
-	}
-	
-	private int flashCount = 20;
-	IEnumerator Health_DamageFlash()
-	{
-		bool colorSwitch = false;
-		for(int i=0;i<flashCount;i++)
-		{
-			if(colorSwitch)
-			{				
-				this.transform.Find("body").renderer.material.color = Color.white;
-			}
-			else
-			{				
-				this.transform.Find("body").renderer.material.color = Color.red;
-			}
-			colorSwitch = !colorSwitch;
-			yield return new WaitForSeconds(.10f);
-		}
-	}
-	
-	IEnumerator Die()
+	private IEnumerator Die()
 	{
 		//Debug.Log ( "Dying" );
 		levelTime.Stop ();
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
-		alive = false;
+		isAlive = false;
 		DBFunctions.updateTimesDied (1);
 		Time.timeScale = 0;
 		yield return new WaitForSeconds(4f);

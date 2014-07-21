@@ -21,8 +21,8 @@ public class HealthControl : MonoBehaviour {
 	
 	}
 	
-	void OnGUI() {
-		//GUI.Label(new Rect(0,0,Screen.width,Screen.height),pControl.Health_GetCurrentHealth().ToString());	
+	void OnGUI() 
+    {	
 			
 		float left		= Screen.width / 30;
 		float top		= Screen.height / 60;
