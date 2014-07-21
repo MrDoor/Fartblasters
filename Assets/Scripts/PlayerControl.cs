@@ -312,7 +312,6 @@ public class PlayerControl : MonoBehaviour
 		{
 			CollectFood pickUp = obj.GetComponent<CollectFood>();
 
-
 			if(!pickUp.getCheck ())
 			{	
 				pickUp.Check();
@@ -324,9 +323,6 @@ public class PlayerControl : MonoBehaviour
 				else
 					pUps.Add (obj.gameObject.name, 1);
 				Debug.Log ("Name : " + obj.gameObject.name);
-
-				//Debug.Log ("PU count = " + puCount);
-
 			}
 		}
 				

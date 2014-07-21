@@ -7,7 +7,7 @@ using System;
 
 public class DBFunctions : MonoBehaviour {
 
-	public static SqliteConnection con = new SqliteConnection ("Data Source=Assets/TestDB");
+	public static SqliteConnection con;
 	public static SqliteCommand cmd;
 	// Use this for initialization
 	void Start () {
@@ -23,7 +23,10 @@ public class DBFunctions : MonoBehaviour {
 	{
 		try
 		{
-			con = new SqliteConnection ("Data Source=Assets/TestDB");
+			//Debug.Log ("Loaded File" + Resources.Load("testDB").name );
+			//Resources.Load("testDB");
+			con = new SqliteConnection ("Data Source=" + Application.dataPath + "/TestDB");
+			//con = new SqliteConnection("Data Source = Assets/Resources/TestDB");
 			con.Open ();
 		}
 		catch(SqliteException e)
@@ -82,7 +85,7 @@ public class DBFunctions : MonoBehaviour {
 		//temporary check for index out of bounds
 		
 		if (levelIndex >= Application.levelCount)
-			levelIndex = Application.levelCount-1;
+			levelIndex = Application.levelCount-2;
 		
 		string update = "UPDATE PlayerInfo SET levelProgress = " + levelIndex + " WHERE levelProgress < " + levelIndex + ";";
 		try{
@@ -190,7 +193,7 @@ public class DBFunctions : MonoBehaviour {
 			else
 			{
 				reader.Close();
-				cmd.CommandText = "INSERT INTO PickUpInfo VALUES('" + name + "', 0.75, " + count + ";";
+				cmd.CommandText = "INSERT INTO PickUpInfo VALUES('" + name + "', 0.75, " + count + ");";
 				cmd.ExecuteNonQuery();
 			}
 

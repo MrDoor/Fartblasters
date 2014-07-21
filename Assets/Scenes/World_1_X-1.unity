@@ -336,6 +336,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: f0d5c80a0098c6443bdfaa09890f65af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+<<<<<<< HEAD
+=======
 --- !u!1 &51910782
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +416,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: .319999993, y: .319999993}
   m_Center: {x: 0, y: 0}
+>>>>>>> a75750c45ac666711519ce212e268f1405f0833a
 --- !u!1 &63094833
 GameObject:
   m_ObjectHideFlags: 0
