@@ -118,7 +118,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		// TODO: Find a way to do this that doesn't involve two line casts
-		layerMask = Constants.BLOCKLAYER_BOUNCY; 
+        layerMask = Constants.LAYER_MASK_BOUNCY_BLOCK; 
 		if( Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) )
 		{
 			bouncyBlockHitLast = true;
@@ -338,7 +338,7 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionEnter2D( Collision2D coll )
     {
-        if( coll.gameObject.layer != 13 )
+        if( coll.gameObject.layer != Constants.LAYER_INDEX_BOUNCY_BLOCK )
         {
             amplifyBounceCount = 0;
         }
