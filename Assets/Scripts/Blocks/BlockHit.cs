@@ -24,7 +24,7 @@ public class BlockHit : MonoBehaviour {
 			pControl = (PlayerControl)coll.gameObject.GetComponent<PlayerControl>();
 			if(pControl != null)
 			{
-				pControl.Animation_PlayAnimation ( "HitWall" );
+				pControl.playerAnimation.PlayAnimation( "HitWall" );
 			}
 		}
 		*/

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-enum Direction
+public enum Direction
 {
     NONE,
     LEFT,

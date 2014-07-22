@@ -1243,8 +1243,7 @@ MonoBehaviour:
   trajectoryDots: {fileID: 11400008}
   launchControl: {fileID: 11400010}
   playerHealth: {fileID: 11400012}
-  testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
-  showTestAnim: 1
+  playerAnimation: {fileID: 11400002}
   debugSpawnFoodObj: {fileID: 100000, guid: 1bac4c1e40383de478de1856e6fab7b5, type: 2}
   zoomOn: 0
   maxZoom: 5
@@ -1263,9 +1262,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42d2e83b02273c47bca1c0a6f5a5a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pAnimator: {fileID: 9500000}
-  pControl: {fileID: 11400000}
+  playerAnimator: {fileID: 9500000}
+  playerControl: {fileID: 11400000}
   pullLine: {fileID: 11400006}
+  testAnimation: {fileID: 7400000, guid: a17911563c5d5874ea1fedabfbfe04d4, type: 2}
+  showTestAnim: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

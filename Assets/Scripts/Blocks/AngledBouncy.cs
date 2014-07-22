@@ -24,7 +24,7 @@ public class AngledBouncy : MonoBehaviour {
 		{			
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 			/*
-			if ( pControl.Animation_GetFacingRight() )
+			if ( pControl.playerAnimation.isFacingRight )
 			{
 				pControl.transform.rigidbody2D.velocity = Vector2.zero;
 				pControl.transform.rigidbody2D.AddForce( new Vector2(-500, 500) * bounceForce );
