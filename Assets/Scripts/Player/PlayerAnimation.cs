@@ -28,10 +28,12 @@ public class PlayerAnimation : MonoBehaviour
             playerAnimator.SetBool( "isEating",    playerControl.GetIsEating() );
 		}
 
+/*
         if( showTestAnim && !string.IsNullOrEmpty( testAnimation.name ) && Input.GetButton( "Test Anim" ) )
         {
             playerAnimator.Play( testAnimation.name );
         }
+*/
         
         UpdateFacingDir();
 	}

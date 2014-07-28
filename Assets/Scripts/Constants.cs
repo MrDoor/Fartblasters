@@ -29,7 +29,7 @@ public class Constants
     public const int LAYER_INDEX_FALLING_BLOCK     = 22;
     public const int LAYER_INDEX_BOOST_BLOCK       = 23;
 
-    
+    public const int LAYER_INDEX_WALL			   = 25;
     public const int LAYER_INDEX_GROUND_BLOCK      = 26;
 
     //------------------------------------------------------    
@@ -48,7 +48,7 @@ public class Constants
     public const int LAYER_MASK_FALLING_BLOCK     = 1 << LAYER_INDEX_FALLING_BLOCK;
     public const int LAYER_MASK_BOOST_BLOCK       = 1 << LAYER_INDEX_BOOST_BLOCK;
     
-    
+	public const int LAYER_MASK_WALL		      = 1 << LAYER_INDEX_WALL;
     public const int LAYER_MASK_GROUND_BLOCK      = 1 << LAYER_INDEX_GROUND_BLOCK;
 
     // Bit flag mask for blocks that you can land on
@@ -59,5 +59,6 @@ public class Constants
                                         LAYER_MASK_DISAPPEAR_BLOCK  | 
                                         LAYER_MASK_MOVING_BLOCK     | 
                                         LAYER_MASK_FALLING_BLOCK    |
+                                        LAYER_MASK_WALL				|
                                         LAYER_MASK_GROUND_BLOCK;
 }

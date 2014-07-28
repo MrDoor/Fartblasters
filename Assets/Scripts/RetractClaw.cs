@@ -24,12 +24,13 @@ public class RetractClaw : MonoBehaviour {
 	{
 		if( coll.tag.Equals( "Player" ) )
 		{
+			coll.gameObject.transform.parent = null;
 			PlayerPrefs.SetInt("died", 0);
 			StartCoroutine ( "Retract" );
 		}
 		else if ( coll.CompareTag ( "Ground" ) )
 		{
-			AdjustClaw ( 1f );
+			RaiseClaw ( 1f );
 			Debug.Log ( coll.tag );
 		}
 	}
@@ -47,7 +48,7 @@ public class RetractClaw : MonoBehaviour {
 		Destroy( Util.SafeGameObjectFind ( "Claw_With_Player" ) , 3f );
 	}
 	
-	void AdjustClaw( float amount )
+	void RaiseClaw( float amount )
 	{
 		try
 		{
