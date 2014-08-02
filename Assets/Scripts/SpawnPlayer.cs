@@ -27,14 +27,15 @@ public class SpawnPlayer : MonoBehaviour {
 							break;
 			default		:	spawnSpot = Util.SafeGameObjectFind( "PlayerSpawn" ).transform.position;
 							newPlayer = (GameObject)Instantiate ( player, spawnSpot, Quaternion.identity );
-							newPlayer.name = newPlayer.name.Replace( "(Clone)", "" );
+							newPlayer.name = newPlayer.name.Replace( "(Clone)", "" );							
 							break;
 		}
 		newFartMeter = (FartometerControl)Instantiate ( fartMeter, new Vector3 ( 0, 0 ,0 ), Quaternion.identity );
 		newFartMeter.name = newFartMeter.name.Replace( "(Clone)", "" );
 		//Camera.main.camera.GetComponent<CameraFollow>().SetPlayer ( newPlayer.transform );
-		GameObject pObj = GameObject.Find ( "Player" );
+		GameObject pObj = GameObject.FindGameObjectWithTag ( "Player" );
 		Camera.main.GetComponent<CameraFollow>().SetPlayer ( pObj.transform );
+		Debug.Log ( "MainCamera.PlayerSet = true" );
 		//camera.GetComponent<CameraFollow>().SetPlayer ( newPlayer.transform );
 	}
 	

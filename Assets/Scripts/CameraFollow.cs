@@ -14,11 +14,19 @@ public class CameraFollow : MonoBehaviour
 		
 	void Awake ()
 	{
-		GameObject playerGO = Util.SafeGameObjectFind("Player");
-		if ( !player )
+		try
+		{			
+			GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+			if ( !player )
+			{
+				playerGO = Util.SafeGameObjectFind( "PlayerSpawn" );
+				player = playerGO.transform;
+			}
+		}
+		catch ( UnityException ue )
 		{
-			playerGO = Util.SafeGameObjectFind( "PlayerSpawn" );
-			player = playerGO.transform;
+			Debug.Log ( "Could not find player: " + ue.ToString() );
+			
 		}
 		
 		//StartCoroutine ( MoveTo ( player.transform ) );
@@ -47,6 +55,7 @@ public class CameraFollow : MonoBehaviour
 	public void SetPlayer ( Transform player_ )
 	{
 		player = player_;
+		Debug.Log ( "player = " + player.name );
 	}
 	
 	void TrackPlayer ()
