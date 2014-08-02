@@ -72,6 +72,30 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
+    
+	public void Hit( Transform hitter, float damageAmount )
+	{
+		if( Time.time > lastHit )
+		{
+			DecHealth( damageAmount );
+			StartCoroutine( DamageFlash() );         
+			if( currentHealth <= 0 )
+			{
+				playerControl.StartDying();
+			}
+			else
+			{
+				lastHit = Time.time + invinvibilityTime;
+				this.transform.rigidbody2D.velocity = Vector3.zero; 
+				Vector2 dir = new Vector2( hitDirection.x, hitDirection.y );
+				if(this.transform.position.x <= hitter.position.x)
+				{
+					dir.x *= -1;
+				}               
+				this.transform.rigidbody2D.AddForce( dir * hitForce );
+			}
+		}
+	}
 
     IEnumerator DamageFlash()
     {

@@ -14,7 +14,8 @@ public class Constants
 {
     // These are hard coded to the values of the layers in the editor
     // Have to update by hand if they change
-    
+    	
+	public const int LAYER_INDEX_ENEMIES	       = 9;
     public const int LAYER_INDEX_DEFAULT_BLOCK     = 11;
     public const int LAYER_INDEX_SLIPPERY_BLOCK    = 12;
     public const int LAYER_INDEX_BOUNCY_BLOCK      = 13;
@@ -28,12 +29,13 @@ public class Constants
     public const int LAYER_INDEX_MOVING_BLOCK      = 21;
     public const int LAYER_INDEX_FALLING_BLOCK     = 22;
     public const int LAYER_INDEX_BOOST_BLOCK       = 23;
-
+    
     public const int LAYER_INDEX_WALL			   = 25;
     public const int LAYER_INDEX_GROUND_BLOCK      = 26;
 
     //------------------------------------------------------    
-
+	
+	public const int LAYER_MASK_ENEMIES			  = 1 << LAYER_INDEX_ENEMIES;
     public const int LAYER_MASK_DEFAULT_BLOCK     = 1 << LAYER_INDEX_DEFAULT_BLOCK;
     public const int LAYER_MASK_SLIPPERY_BLOCK    = 1 << LAYER_INDEX_SLIPPERY_BLOCK;
     public const int LAYER_MASK_BOUNCY_BLOCK      = 1 << LAYER_INDEX_BOUNCY_BLOCK;
@@ -52,13 +54,14 @@ public class Constants
     public const int LAYER_MASK_GROUND_BLOCK      = 1 << LAYER_INDEX_GROUND_BLOCK;
 
     // Bit flag mask for blocks that you can land on
-    public const int LayerMask_Ground = LAYER_MASK_DEFAULT_BLOCK    | 
+	public const int LayerMask_Ground = LAYER_MASK_ENEMIES			|
+										LAYER_MASK_DEFAULT_BLOCK    | 
                                         LAYER_MASK_SLIPPERY_BLOCK   | 
                                         LAYER_MASK_STICKY_BLOCK     | 
                                         LAYER_MASK_STOP_BLOCK       |
                                         LAYER_MASK_DISAPPEAR_BLOCK  | 
                                         LAYER_MASK_MOVING_BLOCK     | 
                                         LAYER_MASK_FALLING_BLOCK    |
-                                        LAYER_MASK_WALL				|
+										LAYER_MASK_WALL				|
                                         LAYER_MASK_GROUND_BLOCK;
 }
