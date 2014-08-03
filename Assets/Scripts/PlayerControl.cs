@@ -384,7 +384,8 @@ public class PlayerControl : MonoBehaviour
 	
 	private IEnumerator Die()
 	{
-		//Debug.Log ( "Dying" );
+		//Debug.Log ( "Dying" );		
+		PlayerPrefs.SetInt( "died", 1 );
 		levelTime.Stop ();
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
 		isAlive = false;
