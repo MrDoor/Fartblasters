@@ -18,7 +18,7 @@ public class KillLine : MonoBehaviour {
 		if( coll.gameObject.CompareTag ( "Player" ) )
 		{
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-			pControl.Health_KillPlayer();
+			pControl.playerHealth.KillPlayer();
 		}
 	}
 }

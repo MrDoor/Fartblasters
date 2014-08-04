@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-enum Direction
+public enum Direction
 {
     NONE,
     LEFT,
@@ -14,30 +14,54 @@ public class Constants
 {
     // These are hard coded to the values of the layers in the editor
     // Have to update by hand if they change
-    public const int BLOCKLAYER_DEFAULT     = 1 << 11;
-    public const int BLOCKLAYER_SLIPPERY    = 1 << 12;
-    public const int BLOCKLAYER_BOUNCY      = 1 << 13;
-    public const int BLOCKLAYER_STICKY      = 1 << 14;
-    public const int BLOCKLAYER_TELEPORT1   = 1 << 15;
-    public const int BLOCKLAYER_TELEPORT2   = 1 << 16;
-    public const int BLOCKLAYER_STOP        = 1 << 17;
-    public const int BLOCKLAYER_MAGNET      = 1 << 18;
-    public const int BLOCKLAYER_VORTEX      = 1 << 19;
-    public const int BLOCKLAYER_DISAPPEAR   = 1 << 20;  
-    public const int BLOCKLAYER_MOVING      = 1 << 21;
-    public const int BLOCKLAYER_FALLING     = 1 << 22;
-    public const int BLOCKLAYER_BOOST       = 1 << 23;
+    	
+	public const int LAYER_INDEX_ENEMIES	       = 9;
+    public const int LAYER_INDEX_DEFAULT_BLOCK     = 11;
+    public const int LAYER_INDEX_SLIPPERY_BLOCK    = 12;
+    public const int LAYER_INDEX_BOUNCY_BLOCK      = 13;
+    public const int LAYER_INDEX_STICKY_BLOCK      = 14;
+    public const int LAYER_INDEX_TELEPORT1_BLOCK   = 15;
+    public const int LAYER_INDEX_TELEPORT2_BLOCK   = 16;
+    public const int LAYER_INDEX_STOP_BLOCK        = 17;
+    public const int LAYER_INDEX_MAGNET_BLOCK      = 18;
+    public const int LAYER_INDEX_VORTEX_BLOCK      = 19;
+    public const int LAYER_INDEX_DISAPPEAR_BLOCK   = 20;  
+    public const int LAYER_INDEX_MOVING_BLOCK      = 21;
+    public const int LAYER_INDEX_FALLING_BLOCK     = 22;
+    public const int LAYER_INDEX_BOOST_BLOCK       = 23;
     
+    public const int LAYER_INDEX_WALL			   = 25;
+    public const int LAYER_INDEX_GROUND_BLOCK      = 26;
+
+    //------------------------------------------------------    
+	
+	public const int LAYER_MASK_ENEMIES			  = 1 << LAYER_INDEX_ENEMIES;
+    public const int LAYER_MASK_DEFAULT_BLOCK     = 1 << LAYER_INDEX_DEFAULT_BLOCK;
+    public const int LAYER_MASK_SLIPPERY_BLOCK    = 1 << LAYER_INDEX_SLIPPERY_BLOCK;
+    public const int LAYER_MASK_BOUNCY_BLOCK      = 1 << LAYER_INDEX_BOUNCY_BLOCK;
+    public const int LAYER_MASK_STICKY_BLOCK      = 1 << LAYER_INDEX_STICKY_BLOCK;
+    public const int LAYER_MASK_TELEPORT1_BLOCK   = 1 << LAYER_INDEX_TELEPORT1_BLOCK;
+    public const int LAYER_MASK_TELEPORT2_BLOCK   = 1 << LAYER_INDEX_TELEPORT2_BLOCK;
+    public const int LAYER_MASK_STOP_BLOCK        = 1 << LAYER_INDEX_STOP_BLOCK;
+    public const int LAYER_MASK_MAGNET_BLOCK      = 1 << LAYER_INDEX_MAGNET_BLOCK;
+    public const int LAYER_MASK_VORTEX_BLOCK      = 1 << LAYER_INDEX_VORTEX_BLOCK;
+    public const int LAYER_MASK_DISAPPEAR_BLOCK   = 1 << LAYER_INDEX_DISAPPEAR_BLOCK;  
+    public const int LAYER_MASK_MOVING_BLOCK      = 1 << LAYER_INDEX_MOVING_BLOCK;
+    public const int LAYER_MASK_FALLING_BLOCK     = 1 << LAYER_INDEX_FALLING_BLOCK;
+    public const int LAYER_MASK_BOOST_BLOCK       = 1 << LAYER_INDEX_BOOST_BLOCK;
     
-	public const int BLOCKLAYER_GROUND      = 1 << 26;
+	public const int LAYER_MASK_WALL		      = 1 << LAYER_INDEX_WALL;
+    public const int LAYER_MASK_GROUND_BLOCK      = 1 << LAYER_INDEX_GROUND_BLOCK;
 
     // Bit flag mask for blocks that you can land on
-    public const int LayerMask_Ground = BLOCKLAYER_DEFAULT      | 
-                                        BLOCKLAYER_SLIPPERY     | 
-                                        BLOCKLAYER_STICKY       | 
-                                        BLOCKLAYER_STOP         |
-                                        BLOCKLAYER_DISAPPEAR    | 
-                                        BLOCKLAYER_MOVING       | 
-                                        BLOCKLAYER_FALLING		|
-                                        BLOCKLAYER_GROUND;
+	public const int LayerMask_Ground = LAYER_MASK_ENEMIES			|
+										LAYER_MASK_DEFAULT_BLOCK    | 
+                                        LAYER_MASK_SLIPPERY_BLOCK   | 
+                                        LAYER_MASK_STICKY_BLOCK     | 
+                                        LAYER_MASK_STOP_BLOCK       |
+                                        LAYER_MASK_DISAPPEAR_BLOCK  | 
+                                        LAYER_MASK_MOVING_BLOCK     | 
+                                        LAYER_MASK_FALLING_BLOCK    |
+										LAYER_MASK_WALL				|
+                                        LAYER_MASK_GROUND_BLOCK;
 }

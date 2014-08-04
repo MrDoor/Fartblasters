@@ -44,7 +44,6 @@ public class PauseScript : MonoBehaviour {
 		float width		= boxSize;
 		float height	= boxSize / 2;
 		
-		Debug.Log ( Screen.height );
 		//backgroundRect = new Rect(left, top, width, height);
 		backgroundRect = new Rect(50f, top, 100f, 40f);
 		//GUI.DrawTexture(backgroundRect, btn_pause);

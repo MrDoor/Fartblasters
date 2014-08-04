@@ -15,8 +15,13 @@ public class PlayerControl : MonoBehaviour
     private bool inVortex 	= false;
     private bool isStopped  = false;
     private bool isEating	= false;
+    private bool isAlive    = true;
+    private bool willHit    = false;
 
     private bool bouncyBlockHitLast = false;
+    private float lastXPos          = 0.0f;
+    private Direction movingDir     = Direction.RIGHT;
+        
     public int amplifyBounceCount = 0;
 
 	// Pull Line
@@ -29,18 +34,10 @@ public class PlayerControl : MonoBehaviour
     public LaunchControl launchControl;
 	
 	// Health
-	public float maxHealth				= 100f;
-	private float currentHealth			= 0.0f;
-	private float lastHit				= 0.0f;
+    public PlayerHealth playerHealth;
 
 	// Animation
-	public AnimationClip testAnimation;
-	public bool showTestAnim	= true;
-
-	private Animator playerAnimator;
-	private bool facingRight	= true;
-	private float lastXPos		= 0.0f;
-	private Direction movingDir	= Direction.RIGHT;
+    public PlayerAnimation playerAnimation;
 
     // Sounds
     private AudioSource playerBodyAudioSource;
@@ -77,7 +74,7 @@ public class PlayerControl : MonoBehaviour
         }
         amplifyBounceCount = 0;
 		//levelTime = new System.Timers.Timer(1000);
-		levelTime = new Timer (1000);
+		levelTime = new Timer( 1000 );
 		resetCount ();
 		levelTime.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 		levelTime.Enabled = true;
@@ -92,15 +89,17 @@ public class PlayerControl : MonoBehaviour
 	void Awake()
 	{
 		groundCheck = transform.Find( "groundCheck" );
-		groundCheck2 = transform.Find( "groundCheck2" );
+        groundCheck2 = transform.Find( "groundCheck2" );
+        
+        isStuck = false;
+        isStopped = false;
+
 		pullLine.Init();
         trajectoryDots.Init();
 		launchControl.Init();
-		Animation_Init();
-		isStuck = false;
-        isStopped = false;
+        playerAnimation.Init();
         Sound_Init();
-        Health_init();
+        playerHealth.Init();
 	}
 
 	void Update () 
@@ -119,7 +118,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		// TODO: Find a way to do this that doesn't involve two line casts
-		layerMask = Constants.BLOCKLAYER_BOUNCY; 
+        layerMask = Constants.LAYER_MASK_BOUNCY_BLOCK; 
 		if( Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) )
 		{
 			bouncyBlockHitLast = true;
@@ -130,7 +129,6 @@ public class PlayerControl : MonoBehaviour
             amplifyBounceCount = 0;
 		}
 		
-		Animation_Update( onGround );
         launchControl.UpdatePermission( onGround, bouncyBlockHitLast );
 
 		// TODO: Put in a check to only allow this in debug
@@ -170,7 +168,7 @@ public class PlayerControl : MonoBehaviour
 				}
 				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
-				this.transform.rigidbody2D.AddForce ( new Vector2 ( Animation_GetFacingRight() ? hopX : -hopX, hopY ) );//hop!	
+                this.transform.rigidbody2D.AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
 				fartSource.PlayClip(Random.Range( 0, fartSource.farts.Length ));
 				launchControl.DecrementCurrentJuice( 1 );
 								
@@ -179,7 +177,7 @@ public class PlayerControl : MonoBehaviour
 		//Added to test dying transition menu
 		else if (Input.GetKeyDown ("x")) 
 		{
-			Health_DecHealth( 100.0f );
+			playerHealth.DecHealth( 100.0f );
 		}
 	}
 
@@ -209,8 +207,7 @@ public class PlayerControl : MonoBehaviour
 				movingDir = Direction.NONE;
 			}
 			lastXPos = transform.position.x;
-		}
-		
+		}		
 	}
 	
 	void OnMouseUp()
@@ -262,7 +259,7 @@ public class PlayerControl : MonoBehaviour
 	//public TextAsset txtAsst;
 	void OnGUI()
 	{
-		if(!alive)
+		if(!isAlive)
 		{			
 			GUIStyle textStyle = new GUIStyle();
 			textStyle.normal.textColor = Color.red;
@@ -306,31 +303,30 @@ public class PlayerControl : MonoBehaviour
 	}
 	
 	//Testing for prewall collision detection
-	 void OnTriggerEnter2D(Collider2D obj)
+	void OnTriggerEnter2D( Collider2D obj )
 	{	
-		if (obj.gameObject.tag.Equals ("PickUp")) 
+		if( obj.gameObject.tag.Equals("PickUp") ) 
 		{
 			CollectFood pickUp = obj.GetComponent<CollectFood>();
 
-
-			if(!pickUp.getCheck ())
+			if( !pickUp.getCheck() )
 			{	
 				pickUp.Check();
 				puCount ++;
 
-
-				if (pUps.ContainsKey (obj.gameObject.name))
+				if( pUps.ContainsKey( obj.gameObject.name ) )
+                {
 					pUps[obj.gameObject.name] += 1;
+                }
 				else
-					pUps.Add (obj.gameObject.name, 1);
-				Debug.Log ("Name : " + obj.gameObject.name);
-
-				//Debug.Log ("PU count = " + puCount);
-
+                {
+					pUps.Add( obj.gameObject.name, 1 );
+                }
+				Debug.Log( "Name : " + obj.gameObject.name );
 			}
 		}
 				
-		if(obj.gameObject.tag.Equals( "Block" ))
+		if( obj.gameObject.tag.Equals( "Block" ) )
 		{
 			willHit = true;
 		}
@@ -342,7 +338,7 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionEnter2D( Collision2D coll )
     {
-        if( coll.gameObject.layer != 13 )
+        if( coll.gameObject.layer != Constants.LAYER_INDEX_BOUNCY_BLOCK )
         {
             amplifyBounceCount = 0;
         }
@@ -380,144 +376,19 @@ public class PlayerControl : MonoBehaviour
 		yield break;
 	}
 	
+	public void StartDying()
+    {
+        this.transform.collider2D.isTrigger = true;
+        StartCoroutine( Die() );
+    }	
 	
-	// Health
-	// -------------------------------------------------------------------------------------
-	HealthControl hControl;
-	bool alive = true;
-
-	public void Health_init()
+	private IEnumerator Die()
 	{
-		currentHealth 	= maxHealth;
-		lastHit 		= Time.time;
-		hControl		= (HealthControl)GameObject.Find( "Health" ).GetComponent<HealthControl>();
-		hControl.updateHealth(currentHealth);
-	}
-	
-	public float Health_GetCurrentHealth()
-	{
-		return currentHealth;
-	}
-	
-	public void Health_DecHealth()
-	{
-		if( Time.time >= lastHit )
-		{
-			currentHealth -= 10f;
-		}
-	}
-	
-	public void Health_DecHealth( float amount )
-	{
-		if( Time.time >= lastHit )
-		{
-			currentHealth -= amount;
-		}
-	}
-	
-	public void Health_IncHealth( float amount )
-	{
-		if( currentHealth + amount < maxHealth )
-		{
-			currentHealth += amount;
-		}
-		else
-		{
-			currentHealth = maxHealth;
-		}
-		hControl.updateHealth( currentHealth );
-	}
-	
-	public void Health_KillPlayer ()
-	{
-		PlayerPrefs.SetInt ( "died", 1 );
-		currentHealth = 0;
-		hControl.updateHealth ( 0 );
-		this.transform.collider2D.isTrigger = true;
-		StartCoroutine( "Die" );
-	}
-	
-	/*
-	public void Health_DefaultHit()
-	{
-		if(Time.time > lastHit)
-		{
-			Health_DecHealth();
-			if( currentHealth <= 0 )
-			{
-				//DIE!
-				StartCoroutine( "Die" );
-			}
-			else
-			{
-				lastHit = Time.time + 3;//Invincibility time	
-				if( facingRight )
-				{			
-					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
-				}
-				else
-				{
-					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
-				}
-			}
-		}
-	}
-	*/
-	
-	public void Health_DefaultHit(Transform hitter)
-	{
-		if(Time.time > lastHit)
-		{
-			Health_DecHealth();
-			StartCoroutine( "Health_DamageFlash" );			
-			hControl.updateHealth( currentHealth );
-			if( currentHealth <= 0 )
-			{
-				//DIE!
-				this.transform.collider2D.isTrigger = true;
-				StartCoroutine( "Die" );
-			}
-			else
-			{
-				lastHit = Time.time + 3;//Invincibility time
-				this.transform.rigidbody2D.velocity = Vector3.zero;	
-				if(this.transform.position.x > hitter.position.x)
-				{
-					this.transform.rigidbody2D.AddForce(new Vector2(30, 10) * 50);
-				}
-				else
-				{
-					this.transform.rigidbody2D.AddForce(new Vector2(-30, 10) * 50);
-				}				
-			}
-		}
-	}
-	
-	private int flashCount = 20;
-	IEnumerator Health_DamageFlash()
-	{
-		bool colorSwitch = false;
-		for(int i=0;i<flashCount;i++)
-		{
-			if(colorSwitch)
-			{				
-				this.transform.Find("body").renderer.material.color = Color.white;
-			}
-			else
-			{				
-				this.transform.Find("body").renderer.material.color = Color.red;
-			}
-			colorSwitch = !colorSwitch;
-			yield return new WaitForSeconds(.10f);
-		}
-	}
-	
-	IEnumerator Die()
-	{
-		//Debug.Log ( "Dying" );
+		//Debug.Log ( "Dying" );		
+		PlayerPrefs.SetInt( "died", 1 );
 		levelTime.Stop ();
 		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
-		alive = false;
+		isAlive = false;
 		DBFunctions.updateTimesDied (1);
 		Time.timeScale = 0;
 		yield return new WaitForSeconds(4f);
@@ -605,124 +476,17 @@ public class PlayerControl : MonoBehaviour
 		PlayerPrefs.SetFloat ( "deathSpotY", this.transform.position.y );
 		Debug.Log ( "Respawn Spot: " + this.transform.position.x + ", " + this.transform.position.y );
 	}
-
-	bool willHit = false;
-	// Animation Control
-	// -------------------------------------------------------------------------------------
-
-	public void Animation_Init()
-	{
-		playerAnimator	= transform.Find( "body" ).GetComponent( "Animator" ) as Animator;
-		lastXPos		= transform.position.x;
-	}
-
-	public void Animation_Update( bool onGround )
-	{
-		if( showTestAnim && !string.IsNullOrEmpty( testAnimation.name ) && Input.GetButton( "Test Anim" ) )
-		{
-			// TODO: Add check to make sure the Animator HAS an animation with this name
-			//		 Put in debug warning about the Animator state has a different name than this one.
-			playerAnimator.Play( testAnimation.name );
-		}
-		else
-		{
-//			bool isHolding = pullLine.IsHolding();
-		
-			/*
-			if( inVortex )
-			{
-				playerAnimator.Play ("Vortex");
-			}
-			else if( isMoving && !isHolding )
-			{
-				playerAnimator.Play ( "flying" );	
-			}
-			else if( isHolding )
-			{
-				playerAnimator.Play( "HoldingItIn" );
-			}
-			else if( onGround )
-			{
-				playerAnimator.Play( "Idle" );
-			}	
-			*/
-		
-		}
-
-		Animation_UpdateFacingDir();
-	}
-
-	public void Animation_SetFacingRight( bool isFacingRight )
-	{
-		facingRight = isFacingRight;
-	}
-
-	public bool Animation_GetFacingRight()
-	{
-		return facingRight;
-	}
-
-	public void Animation_FlipHorizontal( bool isFacingRight )
-	{
-		Vector3 newLocalScale = transform.localScale;
-		newLocalScale.x *= -1;
-		transform.localScale = newLocalScale;
-		Animation_SetFacingRight( isFacingRight );
-	}
-
-	public void Animation_UpdateFacingDir()
-	{
-		if( pullLine.IsHolding() )
-		{
-			Vector3 pullDir = pullLine.GetDirection( transform.position );
-
-			if( Animation_GetFacingRight() )
-			{
-				if( pullDir.x < 0 )
-				{
-					Animation_FlipHorizontal( false );
-				}
-			}
-			else
-			{
-				if( pullDir.x > 0 )
-				{
-					Animation_FlipHorizontal( true );
-				}
-			}
-		}
-		else
-		{
-			if( Animation_GetFacingRight() )
-			{
-				if( movingDir == Direction.LEFT )
-				{
-					Animation_FlipHorizontal( false );
-				}
-			}
-			else
-			{
-				if( movingDir == Direction.RIGHT )
-				{
-					Animation_FlipHorizontal( true );
-				}
-			}
-		}
-	}
 	
-	public void Animation_PlayAnimation(string animationName)
-	{
-		try
-		{		
-			playerAnimator.Play( animationName );
-		}
-		catch(UnityException ue)
-		{
-			Debug.LogError ( "Error: " + ue.ToString() );
-		}
-	}	
-	
-	
+	public void SetLastXPos( float lastX )
+    {
+        lastXPos = lastX;
+    }
+
+    public Direction GetMovingDir()
+    {
+        return movingDir;
+    }
+
 	// Sound    
     // -------------------------------------------------------------------------------------
 
