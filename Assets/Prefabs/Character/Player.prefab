@@ -61,6 +61,7 @@ GameObject:
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400012}
   - 114: {fileID: 11400014}
+  - 114: {fileID: 11400016}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1246,9 +1247,6 @@ MonoBehaviour:
   playerHealth: {fileID: 11400012}
   playerAnimation: {fileID: 11400002}
   foodSpawner: {fileID: 11400014}
-  zoomOn: 0
-  maxZoom: 5
-  minZoom: 4
   hopX: 800
   hopY: 1600
   canHop: 1
@@ -1351,6 +1349,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodPrefab: {fileID: 100000, guid: 1bac4c1e40383de478de1856e6fab7b5, type: 2}
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1e10c41303ecb4d99b0332101047cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomOn: 0
+  maxZoom: 5
+  minZoom: 4
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

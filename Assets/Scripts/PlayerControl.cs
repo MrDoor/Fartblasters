@@ -44,12 +44,7 @@ public class PlayerControl : MonoBehaviour
     private AudioHandler fartSource;
 
     // Food spawner
-    public FoodSpawner foodSpawner;
-	
-	// Zoom
-	public bool zoomOn					= false;
-	public int maxZoom					= 5;
-	public int minZoom					= 4;
+    public FoodSpawner foodSpawner;	
 	
 	// Hop	
 	public float hopX 					= 1000f;
@@ -224,24 +219,6 @@ public class PlayerControl : MonoBehaviour
 		launchControl.Reset();
 		pullLine.Reset();
         trajectoryDots.Reset();
-		
-		//Zooming in and out		
-		if( zoomOn )
-		{
-			StopCoroutine("zoomOut");
-			StartCoroutine("zoomIn");		
-		}
-		
-	}
-	
-	void OnMouseDown()
-	{
-		//Zooming in and out
-		if( zoomOn )
-		{	
-			StopCoroutine("zoomIn");				
-			StartCoroutine("zoomOut");
-		}		
 	}
 
 	void OnMouseDrag()
@@ -261,7 +238,7 @@ public class PlayerControl : MonoBehaviour
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
 
-			GUI.Label(new Rect(700,200 ,Screen.width,Screen.height),"Game Over", textStyle);
+			GUI.Label(new Rect(700, 200, Screen.width, Screen.height), "Game Over", textStyle);
 
 
 			//GUI.Label (new Rect (750, 250, 300, 50), "GAME OVER");
@@ -338,38 +315,6 @@ public class PlayerControl : MonoBehaviour
             amplifyBounceCount = 0;
         }
     }
-	
-	// Not sure if this should go here or in a different script file?
-	// Camera Zoom
-	// -------------------------------------------------------------------------------------
-	
-	IEnumerator zoomOut()
-	{		
-		while(Camera.main.orthographicSize <= maxZoom)
-		{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,maxZoom + 1, Time.deltaTime * 1.25f);						
-			yield return new WaitForSeconds(.025f);
-		}		
-		yield break;		
-	}
-	
-	IEnumerator zoomIn()
-	{
-		yield return new WaitForSeconds(1.25f);
-		while(Camera.main.orthographicSize > minZoom)
-		{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,minZoom, Time.deltaTime * .2f);
-			//Could not figure this out so I just added this crap.  Needs to be redone.
-			if(Camera.main.orthographicSize <= .31)
-			{
-				Camera.main.orthographicSize = minZoom;
-				break;
-			}
-			yield return new WaitForSeconds(.025f);
-		}
-		
-		yield break;
-	}
 	
 	public void StartDying()
     {
