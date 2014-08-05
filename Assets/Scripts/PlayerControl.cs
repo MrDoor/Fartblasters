@@ -43,12 +43,8 @@ public class PlayerControl : MonoBehaviour
     private AudioSource playerBodyAudioSource;
     private AudioHandler fartSource;
 
-	// Debug
-	public GameObject debugSpawnFoodObj;
-
-	private int maxDebugFood			= 3;
-	private int debugFoodCount			= 0;
-	private float debugFoodDestroyTime	= 3.0f;
+    // Food spawner
+    public FoodSpawner foodSpawner;
 	
 	// Zoom
 	public bool zoomOn					= false;
@@ -131,8 +127,7 @@ public class PlayerControl : MonoBehaviour
 		
         launchControl.UpdatePermission( onGround, bouncyBlockHitLast );
 
-		// TODO: Put in a check to only allow this in debug
-		Debug_CheckSpawnFood();
+		foodSpawner.CheckSpawnFood();
 		
 		if (Input.GetKeyDown ("d") && onGround) 
 		{
@@ -520,65 +515,6 @@ public class PlayerControl : MonoBehaviour
         return this.gameObject.GetComponents<AudioSource>();
     }
 	
-
-	// Misc Debug (add new stuff above this)
-	// -------------------------------------------------------------------------------------
-	private void Debug_CheckSpawnFood()
-	{
-		if( Input.GetButtonDown( "Debug Spawn Food" ) )
-		{
-			Debug_SpawnFood();
-		}
-	}
-
-	private void Debug_SpawnFood()
-	{
-		if( debugSpawnFoodObj )
-		{
-			if( debugFoodCount < maxDebugFood )
-			{
-				float foodYOffset	= 1.5f;
-				Vector3 newFoodPos	= transform.position;
-				newFoodPos.y += foodYOffset;
-
-				GameObject newFood = (GameObject)Instantiate( debugSpawnFoodObj, newFoodPos, Quaternion.identity );
-				Debug_IncFoodCount();
-
-				Destroy_Self( newFood, debugFoodDestroyTime );
-			}
-			else
-			{
-				Debug.Log( "Debug Food Count: " + debugFoodCount );
-			}
-		}
-		else
-		{
-			Debug.Log( "Pressed Space but no prefab was set to Debug Spawn Food." );
-		}
-	}
-
-	public void Debug_DecFoodCount()
-	{
-		debugFoodCount--;
-	}
-
-	public void Debug_IncFoodCount()
-	{
-		debugFoodCount++;
-	}
-
-	public void Destroy_Self( GameObject go, float delayTime )
-	{
-		StartCoroutine( Util.Destroy_Now( go, delayTime, () => Debug_DecDebugObj(go) ) );
-	}
-
-    private void Debug_DecDebugObj(GameObject go)
-    {
-        if( Util.IsObjectDebug( go ) )
-        {
-            Debug_DecFoodCount();
-        }
-    }
 
 	//DB Counts
 	//--------------------------------------------------------------------------------------------

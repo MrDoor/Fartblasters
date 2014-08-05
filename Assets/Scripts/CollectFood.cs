@@ -28,7 +28,7 @@ public class CollectFood : MonoBehaviour
 
 				if( isDebugFood )
 				{
-					pControl.Debug_DecFoodCount();
+					pControl.foodSpawner.DecFoodCount();
 				}
 				
 				checkFoodType(pControl);
