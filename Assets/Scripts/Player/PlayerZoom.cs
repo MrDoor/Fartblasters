@@ -12,8 +12,8 @@ public class PlayerZoom : MonoBehaviour
     {      
         if( zoomOn )
         {
-            StopCoroutine( ZoomOut() );
-            StartCoroutine( ZoomIn() );       
+            StopCoroutine( "ZoomOut" );
+            StartCoroutine( "ZoomIn" );       
         }
     }
     
@@ -21,8 +21,8 @@ public class PlayerZoom : MonoBehaviour
     {
         if( zoomOn )
         {   
-            StopCoroutine( ZoomIn() );                
-            StartCoroutine( ZoomOut() );
+			StopCoroutine( "ZoomIn" );                
+			StartCoroutine( "ZoomOut" );
         }       
     }
 

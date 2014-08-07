@@ -68,6 +68,6 @@ public class TrajectoryDots : MonoBehaviour
 
         GameObject newDot = (GameObject)Instantiate( trajectoryDotPrefab, this.transform.position, Quaternion.identity );
         newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
-        StartCoroutine( Util.Destroy_Now( newDot, 1f ) );
+        StartCoroutine( Util.Destroy_Now( newDot, 1f, null ) );
     }
 }
