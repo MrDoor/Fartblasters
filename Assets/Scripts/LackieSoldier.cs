@@ -20,7 +20,7 @@ public class LackieSoldier : MonoBehaviour
 	void Start() 
 	{
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "Enemies" ), false);
-		groundCheck = transform.Find( "Lackie_Soldier_groundCheck" );
+		groundCheck = transform.Find( "Enemy_groundCheck" );
 		Animation_Init();
 		Move();
 	}

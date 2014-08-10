@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   m_Layer: 9
-  m_Name: Lackie_Soldier_groundCheck
+  m_Name: Drudge_groundCheck
   m_TagString: Enemy
   m_Icon: {fileID: -2065832391, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.78701091, y: -2.33082533, z: -.0500488281}
+  m_LocalPosition: {x: 7.31395149, y: -2.29894543, z: -.0500488281}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
