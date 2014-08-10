@@ -23,7 +23,10 @@ public class PlayerControl : MonoBehaviour
     private Direction movingDir     = Direction.RIGHT;
         
     public int amplifyBounceCount = 0;
-
+	
+	// Particle System
+	public ParticleSystem particleSystem;
+	
 	// Pull Line
     public PullLine pullLine;
 

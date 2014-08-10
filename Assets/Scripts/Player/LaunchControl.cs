@@ -129,5 +129,18 @@ public class LaunchControl : MonoBehaviour
             AudioSource[] farts = playerControl.GetAudioSources();         
             farts[(int)Random.Range(0, farts.Length)].Play ();
         }
+        
+        //Particle Emitter test
+        ParticleSystem particles = playerControl.particleSystem;
+        try
+		{
+			Debug.Log ( "Particles!" );
+			particles.Play();        
+        }
+        catch ( UnityException ue )
+		{
+			Debug.Log ( "No Particle System Found: " + ue.ToString() );        
+        }	
+        
     }
 }
