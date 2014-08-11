@@ -26,8 +26,8 @@ public class PlayerHealth : MonoBehaviour
         healthControl.updateHealth( currentHealth );
     }
             
-    public void DecHealth( float amount = defaultDamageAmount )
-    {
+    public void DecHealth( float amount )
+    {    	
         if( Time.time >= lastHit )
         {
             currentHealth = Mathf.Max( ( currentHealth - amount ), 0f );
@@ -53,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if( Time.time > lastHit )
         {
-            DecHealth();
+            DecHealth( defaultDamageAmount );
             StartCoroutine( DamageFlash() );         
             if( currentHealth <= 0 )
             {

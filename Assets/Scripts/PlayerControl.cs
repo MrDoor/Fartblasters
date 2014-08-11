@@ -23,7 +23,10 @@ public class PlayerControl : MonoBehaviour
     private Direction movingDir     = Direction.RIGHT;
         
     public int amplifyBounceCount = 0;
-
+	
+	// Particle System
+	public ParticleSystem particleSystem;
+	
 	// Pull Line
     public PullLine pullLine;
 
@@ -43,17 +46,8 @@ public class PlayerControl : MonoBehaviour
     private AudioSource playerBodyAudioSource;
     private AudioHandler fartSource;
 
-	// Debug
-	public GameObject debugSpawnFoodObj;
-
-	private int maxDebugFood			= 3;
-	private int debugFoodCount			= 0;
-	private float debugFoodDestroyTime	= 3.0f;
-	
-	// Zoom
-	public bool zoomOn					= false;
-	public int maxZoom					= 5;
-	public int minZoom					= 4;
+    // Food spawner
+    public FoodSpawner foodSpawner;	
 	
 	// Hop	
 	public float hopX 					= 1000f;
@@ -131,8 +125,7 @@ public class PlayerControl : MonoBehaviour
 		
         launchControl.UpdatePermission( onGround, bouncyBlockHitLast );
 
-		// TODO: Put in a check to only allow this in debug
-		Debug_CheckSpawnFood();
+		foodSpawner.CheckSpawnFood();
 		
 		if (Input.GetKeyDown ("d") && onGround) 
 		{
@@ -229,24 +222,6 @@ public class PlayerControl : MonoBehaviour
 		launchControl.Reset();
 		pullLine.Reset();
         trajectoryDots.Reset();
-		
-		//Zooming in and out		
-		if( zoomOn )
-		{
-			StopCoroutine("zoomOut");
-			StartCoroutine("zoomIn");		
-		}
-		
-	}
-	
-	void OnMouseDown()
-	{
-		//Zooming in and out
-		if( zoomOn )
-		{	
-			StopCoroutine("zoomIn");				
-			StartCoroutine("zoomOut");
-		}		
 	}
 
 	void OnMouseDrag()
@@ -266,7 +241,7 @@ public class PlayerControl : MonoBehaviour
 			textStyle.fontSize = 80;
 			textStyle.fontStyle = FontStyle.Bold;
 
-			GUI.Label(new Rect(700,200 ,Screen.width,Screen.height),"Game Over", textStyle);
+			GUI.Label(new Rect(700, 200, Screen.width, Screen.height), "Game Over", textStyle);
 
 
 			//GUI.Label (new Rect (750, 250, 300, 50), "GAME OVER");
@@ -343,38 +318,6 @@ public class PlayerControl : MonoBehaviour
             amplifyBounceCount = 0;
         }
     }
-	
-	// Not sure if this should go here or in a different script file?
-	// Camera Zoom
-	// -------------------------------------------------------------------------------------
-	
-	IEnumerator zoomOut()
-	{		
-		while(Camera.main.orthographicSize <= maxZoom)
-		{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,maxZoom + 1, Time.deltaTime * 1.25f);						
-			yield return new WaitForSeconds(.025f);
-		}		
-		yield break;		
-	}
-	
-	IEnumerator zoomIn()
-	{
-		yield return new WaitForSeconds(1.25f);
-		while(Camera.main.orthographicSize > minZoom)
-		{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,minZoom, Time.deltaTime * .2f);
-			//Could not figure this out so I just added this crap.  Needs to be redone.
-			if(Camera.main.orthographicSize <= .31)
-			{
-				Camera.main.orthographicSize = minZoom;
-				break;
-			}
-			yield return new WaitForSeconds(.025f);
-		}
-		
-		yield break;
-	}
 	
 	public void StartDying()
     {
@@ -520,65 +463,6 @@ public class PlayerControl : MonoBehaviour
         return this.gameObject.GetComponents<AudioSource>();
     }
 	
-
-	// Misc Debug (add new stuff above this)
-	// -------------------------------------------------------------------------------------
-	private void Debug_CheckSpawnFood()
-	{
-		if( Input.GetButtonDown( "Debug Spawn Food" ) )
-		{
-			Debug_SpawnFood();
-		}
-	}
-
-	private void Debug_SpawnFood()
-	{
-		if( debugSpawnFoodObj )
-		{
-			if( debugFoodCount < maxDebugFood )
-			{
-				float foodYOffset	= 1.5f;
-				Vector3 newFoodPos	= transform.position;
-				newFoodPos.y += foodYOffset;
-
-				GameObject newFood = (GameObject)Instantiate( debugSpawnFoodObj, newFoodPos, Quaternion.identity );
-				Debug_IncFoodCount();
-
-				Destroy_Self( newFood, debugFoodDestroyTime );
-			}
-			else
-			{
-				Debug.Log( "Debug Food Count: " + debugFoodCount );
-			}
-		}
-		else
-		{
-			Debug.Log( "Pressed Space but no prefab was set to Debug Spawn Food." );
-		}
-	}
-
-	public void Debug_DecFoodCount()
-	{
-		debugFoodCount--;
-	}
-
-	public void Debug_IncFoodCount()
-	{
-		debugFoodCount++;
-	}
-
-	public void Destroy_Self( GameObject go, float delayTime )
-	{
-		StartCoroutine( Util.Destroy_Now( go, delayTime, () => Debug_DecDebugObj(go) ) );
-	}
-
-    private void Debug_DecDebugObj(GameObject go)
-    {
-        if( Util.IsObjectDebug( go ) )
-        {
-            Debug_DecFoodCount();
-        }
-    }
 
 	//DB Counts
 	//--------------------------------------------------------------------------------------------

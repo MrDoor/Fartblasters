@@ -52,7 +52,7 @@ public class Util
 	}
 
     
-    public static IEnumerator Destroy_Now( GameObject go, float delayTime, Action callback = null )
+    public static IEnumerator Destroy_Now( GameObject go, float delayTime, Action callback )//had to remove defaults.  Unity said they weren't allowed.
     {
         yield return new WaitForSeconds( delayTime );
         if( go )
