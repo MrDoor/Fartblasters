@@ -16,6 +16,7 @@ public class LackieSoldier : MonoBehaviour
 	
 	private Animator playerAnimator;
 	private float lastXPos = 0.0f;
+	private int hopLimit = 0;	
 	
 	void Start() 
 	{
@@ -69,8 +70,39 @@ public class LackieSoldier : MonoBehaviour
 		lastXPos = transform.position.x;
 	}
 	
+	void Hop ()
+	{
+		Debug.Log ( "Hop!" );
+		if ( moveTo == Direction.RIGHT )
+		{
+			this.transform.rigidbody2D.AddForce( new Vector2 ( 200, 200) );
+			Debug.Log ( "Hop Right" );
+		}
+		else
+		{
+			this.transform.rigidbody2D.AddForce( new Vector2 ( -200, 200) );		
+			Debug.Log ( "Hop Left" );	
+		}
+	}
+	
 	void Move()
 	{
+		/*
+		if ( Mathf.Abs ( lastXPos ) - Mathf.Abs ( this.transform.position.x ) < .1f )
+		{
+			hopLimit++;
+			if ( hopLimit >= 10 )
+			{
+				Hop ();
+				hopLimit = 0;
+			}			
+		}
+		else
+		{
+			hopLimit = 0;
+		}
+		*/
+		
 		if( moveTo == Direction.RIGHT )
 		{
 			MoveRight();
@@ -110,7 +142,6 @@ public class LackieSoldier : MonoBehaviour
 		}
 		else
 		{
-			//Not WORKING!!
 			playerAnimator.Play( "lackie walk_right" );
 		}
 	}
