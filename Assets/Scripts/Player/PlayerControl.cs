@@ -43,8 +43,7 @@ public class PlayerControl : MonoBehaviour
     public PlayerAnimation playerAnimation;
 
     // Sounds
-    private AudioSource playerBodyAudioSource;
-    private AudioHandler fartSource;
+    public FartAudioController fartController;
 
     // Food spawner
     public FoodSpawner foodSpawner;	
@@ -67,7 +66,6 @@ public class PlayerControl : MonoBehaviour
             Debug.LogError("PlayerControl PullLine is null! Set in Editor.");
         }
         amplifyBounceCount = 0;
-		//levelTime = new System.Timers.Timer(1000);
 		levelTime = new Timer( 1000 );
 		resetCount ();
 		levelTime.Elapsed += new ElapsedEventHandler(OnTimedEvent);
@@ -92,7 +90,6 @@ public class PlayerControl : MonoBehaviour
         trajectoryDots.Init();
 		launchControl.Init();
         playerAnimation.Init();
-        Sound_Init();
         playerHealth.Init();
 	}
 
@@ -137,7 +134,7 @@ public class PlayerControl : MonoBehaviour
 			
 			SetRespawn();
 			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
-			scoochPoot ();		
+			fartController.PlayScoochPoot();		
 		} 
 		else if (Input.GetKeyDown ("a") && onGround) 
 		{
@@ -146,8 +143,8 @@ public class PlayerControl : MonoBehaviour
             {
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
-			this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
-			scoochPoot ();
+            this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
+            fartController.PlayScoochPoot();
 		}
 		else if ( Input.GetKeyDown ("w") )
 		{
@@ -162,7 +159,7 @@ public class PlayerControl : MonoBehaviour
 				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
                 this.transform.rigidbody2D.AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
-				fartSource.PlayClip(Random.Range( 0, fartSource.farts.Length ));
+                fartController.PlayScoochPoot();
 				launchControl.DecrementCurrentJuice( 1 );
 								
 			}
@@ -430,39 +427,6 @@ public class PlayerControl : MonoBehaviour
         return movingDir;
     }
 
-	// Sound    
-    // -------------------------------------------------------------------------------------
-
-    public void Sound_Init()
-    {
-        try
-        {
-            playerBodyAudioSource = this.transform.Find("body").audio;
-            if(!playerBodyAudioSource)
-            {
-                Debug.LogError("Init_Sound: could not find GameObject 'body'.");
-            }
-            fartSource = (AudioHandler)GameObject.Find("Fart_Audio_Source").GetComponent<AudioHandler>();            
-        }
-        catch(UnityException ue)
-        {
-            Debug.Log ("Error with getting body: " + ue.ToString());
-        } 
-    }
-    
-    public void scoochPoot()
-    {   
-        if( !playerBodyAudioSource.isPlaying )
-        {
-            playerBodyAudioSource.Play();              
-        }  
-    }
-
-    public AudioSource[] GetAudioSources()
-    {
-        return this.gameObject.GetComponents<AudioSource>();
-    }
-	
 
 	//DB Counts
 	//--------------------------------------------------------------------------------------------

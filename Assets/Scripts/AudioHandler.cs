@@ -1,26 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AudioHandler : MonoBehaviour {
+public class AudioHandler : MonoBehaviour 
+{
+    public AudioSource[] audioSources = new AudioSource[2];
 
-	public AudioClip[] farts = new AudioClip[12];
-	// Use this for initialization
-	void Start () {
-
-		this.audio.clip = farts[Random.Range(0, farts.Length)];
-		Debug.Log ("Playing Test Fart");
-		//this.audio.Play();
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
-	public void PlayClip ( int clipIndex )
-	{
-		this.audio.clip = farts[clipIndex];
-		this.audio.Play ();
-	}
+    public void PlayClip(AudioClip clip)
+    {
+        foreach(AudioSource source in audioSources)
+        {
+            if(!source.isPlaying)
+            {
+                source.clip = clip;
+                source.Play();
+                break;
+            }
+        }
+    }
 }

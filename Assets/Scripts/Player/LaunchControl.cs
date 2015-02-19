@@ -126,8 +126,7 @@ public class LaunchControl : MonoBehaviour
         
         if(launchDir != Vector2.zero)
         {
-            AudioSource[] farts = playerControl.GetAudioSources();         
-            farts[(int)Random.Range(0, farts.Length)].Play ();
+            playerControl.fartController.PlayFartByPullPercent( pullLine.GetFraction() );
         }
         
         //Particle Emitter test
