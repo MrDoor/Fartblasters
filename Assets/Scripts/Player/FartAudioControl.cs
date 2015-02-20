@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FartAudioController : MonoBehaviour 
+public class FartAudioControl : MonoBehaviour 
 {
     public AudioHandler audioHandler;
 

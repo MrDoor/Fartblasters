@@ -749,7 +749,7 @@ MonoBehaviour:
   launchControl: {fileID: 11400010}
   playerHealth: {fileID: 11400012}
   playerAnimation: {fileID: 11400002}
-  fartController: {fileID: 11456300}
+  fartControl: {fileID: 11456300}
   foodSpawner: {fileID: 11400014}
   hopX: 800
   hopY: 1600

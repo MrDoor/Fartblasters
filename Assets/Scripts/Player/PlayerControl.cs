@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour
     public PlayerAnimation playerAnimation;
 
     // Sounds
-    public FartAudioController fartController;
+    public FartAudioControl fartControl;
 
     // Food spawner
     public FoodSpawner foodSpawner;	
@@ -134,7 +134,7 @@ public class PlayerControl : MonoBehaviour
 			
 			SetRespawn();
 			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
-			fartController.PlayScoochPoot();		
+            fartControl.PlayScoochPoot();		
 		} 
 		else if (Input.GetKeyDown ("a") && onGround) 
 		{
@@ -144,7 +144,7 @@ public class PlayerControl : MonoBehaviour
 				this.transform.rigidbody2D.gravityScale = 1;
 			}
             this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
-            fartController.PlayScoochPoot();
+            fartControl.PlayScoochPoot();
 		}
 		else if ( Input.GetKeyDown ("w") )
 		{
@@ -159,7 +159,7 @@ public class PlayerControl : MonoBehaviour
 				
 				this.transform.rigidbody2D.velocity = Vector2.zero;	
                 this.transform.rigidbody2D.AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
-                fartController.PlayScoochPoot();
+                fartControl.PlayScoochPoot();
 				launchControl.DecrementCurrentJuice( 1 );
 								
 			}

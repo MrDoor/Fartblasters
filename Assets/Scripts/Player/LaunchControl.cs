@@ -126,7 +126,7 @@ public class LaunchControl : MonoBehaviour
         
         if(launchDir != Vector2.zero)
         {
-            playerControl.fartController.PlayFartByPullPercent( pullLine.GetFraction() );
+            playerControl.fartControl.PlayFartByPullPercent( pullLine.GetFraction() );
         }
         
         //Particle Emitter test
