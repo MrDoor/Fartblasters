@@ -4,6 +4,7 @@ using System.Collections;
 public class AmplifyBouncy : MonoBehaviour 
 {
 	public static float bounceForce;
+    public AudioSource audioSource;
 
     private float forceIncAmount;
 
@@ -66,6 +67,11 @@ public class AmplifyBouncy : MonoBehaviour
             }
 
             pControl.amplifyBounceCount++;
+
+            if(audioSource != null)
+            {
+                audioSource.audio.Play();
+            }
 		}
 	}
 }

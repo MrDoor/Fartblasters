@@ -5,6 +5,7 @@ public class CollectFood : MonoBehaviour
 {
     public float pickupJuice    = 5.0f;
     public bool isChecked       = false;
+    public AudioSource collectSound;
 
 	private bool isDebugFood	= false;
     private float destroyTime	= 0.0f;
