@@ -10,39 +10,27 @@ public class EndLevelControl : MonoBehaviour {
 	//If this is the end block IN the secret level set to true and give the name of the next level to go to .
 	public bool secretLevel = false;
 	public string nextLevel = " ";
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 
 	void OnTriggerEnter2D( Collider2D coll )
 	{
 		Debug.Log ("End Block Collison: " + coll.gameObject.tag);
 		if (coll.tag == "Player") 
 		{
-			PlayerControl.levelTime.Stop ();
 			win = true;
 			int num = Application.loadedLevel;
 			Time.timeScale = 0;
-			PlayerPrefs.SetInt ("loaded level", num);
-			DBFunctions.updateLevelComplete (num);
-			DBFunctions.updateLevelProgress (num + 1);
-			DBFunctions.updateLastLevel (num);
-			DBFunctions.updateLevelInfo (num, true, 5000, PlayerControl.playTime, false, PlayerControl.puCount);
-			foreach (KeyValuePair<string, int> pU in PlayerControl.pUps) 
-			{
-				DBFunctions.updatePickUp (pU.Key, pU.Value);
-			}
+			PlayerPrefs.SetInt("loaded level", num);
+			DBFunctions.updateLevelComplete(num);
+			DBFunctions.updateLevelProgress(num + 1);
+			DBFunctions.updateLastLevel(num);
+            StatsManager.Instance.EndLevelUpdate(num);
 		}
    }
 
-	void OnGUI () {
-		if (win ) 
+	void OnGUI() 
+    {
+		if(win) 
 		{
 			if(!secretLevel)
 			{
@@ -91,13 +79,13 @@ public class EndLevelControl : MonoBehaviour {
 				}
 				//----------------Level Stats----------------//
 
-				int[] tm = PlayerControl.getPlayTime ();
+                int[] tm = StatsManager.Instance.GetPlayTime();
 				textStyle.fontSize = 18;
 				textStyle.normal.textColor = Color.black;
 				textStyle.fontStyle= FontStyle.Bold;
 
 				GUI.Label (new Rect(910,190, 300, 50),"Your Score: ",textStyle);
-				GUI.Label (new Rect (920, 205, 300, 50), "Pick Up percentage: " + DBFunctions.calcPickUpPercentage (Application.loadedLevel, PlayerControl.puCount)+"%",textStyle);
+                GUI.Label (new Rect (920, 205, 300, 50), "Pick Up percentage: " + DBFunctions.calcPickUpPercentage (Application.loadedLevel, StatsManager.Instance.pickUpCount)+"%",textStyle);
 				GUI.Label (new Rect(920, 220, 300,50), "Level Time: " + tm[0] + " Min " + tm[1] + " Sec", textStyle);
 			}
 			else

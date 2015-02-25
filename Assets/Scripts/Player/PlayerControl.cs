@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Timers; 
 
 public class PlayerControl : MonoBehaviour 
 {
@@ -23,6 +21,11 @@ public class PlayerControl : MonoBehaviour
     private Direction movingDir     = Direction.RIGHT;
         
     public int amplifyBounceCount = 0;
+    
+    // Hop  
+    public float hopX                   = 1000f;
+    public float hopY                   = 2800f;
+    public bool canHop                  = true;
 	
 	// Particle System
 	public ParticleSystem particleSystem;
@@ -48,16 +51,7 @@ public class PlayerControl : MonoBehaviour
     // Food spawner
     public FoodSpawner foodSpawner;	
 	
-	// Hop	
-	public float hopX 					= 1000f;
-	public float hopY 					= 2800f;
-	public bool canHop					= true;
 
-	//DB counts
-	public static int puCount			= 0;
-	public static Timer levelTime;
-	public static int playTime 			= 0;
-	public static IDictionary<string, int> pUps = new Dictionary<string, int>();
 
 	void Start()
 	{
@@ -66,16 +60,7 @@ public class PlayerControl : MonoBehaviour
             Debug.LogError("PlayerControl PullLine is null! Set in Editor.");
         }
         amplifyBounceCount = 0;
-		levelTime = new Timer( 1000 );
-		resetCount ();
-		levelTime.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-		levelTime.Enabled = true;
-		levelTime.Start ();
-	}
-
-	private static void OnTimedEvent(System.Object source, ElapsedEventArgs e)
-	{
-		playTime++;
+        StatsManager.Instance.Init();
 	}
 	
 	void Awake()
@@ -284,17 +269,7 @@ public class PlayerControl : MonoBehaviour
 			if( !pickUp.getCheck() )
 			{	
 				pickUp.Check();
-				puCount ++;
-
-				if( pUps.ContainsKey( obj.gameObject.name ) )
-                {
-					pUps[obj.gameObject.name] += 1;
-                }
-				else
-                {
-					pUps.Add( obj.gameObject.name, 1 );
-                }
-				Debug.Log( "Name : " + obj.gameObject.name );
+                StatsManager.Instance.AddPickUp(obj.gameObject.name);
 			}
 		}
 				
@@ -326,8 +301,8 @@ public class PlayerControl : MonoBehaviour
 	{
 		//Debug.Log ( "Dying" );		
 		PlayerPrefs.SetInt( "died", 1 );
-		levelTime.Stop ();
-		PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
+        PlayerPrefs.SetInt ("currentLevel", Application.loadedLevel);
+        StatsManager.Instance.StopLevelTime();
 		isAlive = false;
 		DBFunctions.updateTimesDied (1);
 		Time.timeScale = 0;
@@ -348,6 +323,7 @@ public class PlayerControl : MonoBehaviour
 		//Application.LoadLevel ("test_death_menu_Nick");//Opens Death menu
 	}
 	
+
 	// Player Control
 	// -------------------------------------------------------------------------------------
 	public bool GetOnGround()
@@ -426,24 +402,4 @@ public class PlayerControl : MonoBehaviour
     {
         return movingDir;
     }
-
-
-	//DB Counts
-	//--------------------------------------------------------------------------------------------
-	public static void resetCount()
-	{	
-		puCount = 0;
-		playTime = 0;
-		pUps.Clear ();
-	}
-	public static int[] getPlayTime()
-	{
-		int[] lvlTimes = new int[2];
-		lvlTimes [0] = (playTime / 60);
-		lvlTimes [1] = (playTime % 60);
-
-		return lvlTimes;
-	}
-
-
 }

@@ -743,6 +743,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amplifyBounceCount: 0
+  hopX: 800
+  hopY: 1600
+  canHop: 1
   particleSystem: {fileID: 19800000}
   pullLine: {fileID: 11400006}
   trajectoryDots: {fileID: 11400008}
@@ -751,9 +754,6 @@ MonoBehaviour:
   playerAnimation: {fileID: 11400002}
   fartControl: {fileID: 11456300}
   foodSpawner: {fileID: 11400014}
-  hopX: 800
-  hopY: 1600
-  canHop: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

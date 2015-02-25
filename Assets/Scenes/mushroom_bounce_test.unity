@@ -1570,6 +1570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &286678384
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1704,7 +1705,7 @@ Transform:
   m_LocalScale: {x: 22, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
 --- !u!1 &305168920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2555,7 +2556,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
 --- !u!114 &432572005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3038,6 +3039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &500185749
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3425,7 +3427,7 @@ Transform:
   - {fileID: 975579317}
   - {fileID: 1731683691}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &541554540
 GameObject:
   m_ObjectHideFlags: 0
@@ -3924,6 +3926,7 @@ GameObject:
   - 212: {fileID: 612863826}
   - 68: {fileID: 612863825}
   - 114: {fileID: 612863824}
+  - 82: {fileID: 612863827}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -3955,6 +3958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 612863827}
 --- !u!68 &612863825
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -3994,6 +3998,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &612863827
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 291478402}
+  m_GameObject: {fileID: 612863822}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1001 &618291709
 Prefab:
   m_ObjectHideFlags: 0
@@ -4273,7 +4336,7 @@ Transform:
   - {fileID: 397144525}
   - {fileID: 1545849964}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!82 &646357490
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4367,6 +4430,10 @@ Prefab:
     - target: {fileID: 400014, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
@@ -4638,6 +4705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &683156592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4742,7 +4810,7 @@ Transform:
   - {fileID: 1360268695}
   - {fileID: 1945155816}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &710931813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5104,6 +5172,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
   m_RootGameObject: {fileID: 1136936773}
@@ -5136,7 +5208,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
 --- !u!114 &778828721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5677,6 +5749,7 @@ GameObject:
   - 212: {fileID: 863831149}
   - 68: {fileID: 863831148}
   - 114: {fileID: 863831147}
+  - 82: {fileID: 863831150}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -5708,6 +5781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 863831150}
 --- !u!68 &863831148
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -5747,6 +5821,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &863831150
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1990124170}
+  m_GameObject: {fileID: 863831145}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &869260572
 GameObject:
   m_ObjectHideFlags: 0
@@ -6477,7 +6610,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!114 &941769159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6529,7 +6662,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
@@ -6628,7 +6761,7 @@ Transform:
   - {fileID: 1368254133}
   - {fileID: 1955727397}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
 --- !u!114 &963563727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6642,17 +6775,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amplifyBounceCount: 0
+  hopX: 800
+  hopY: 1600
+  canHop: 1
   particleSystem: {fileID: 1955727398}
   pullLine: {fileID: 2144490724}
   trajectoryDots: {fileID: 1368254134}
   launchControl: {fileID: 963563740}
   playerHealth: {fileID: 963563741}
   playerAnimation: {fileID: 898382188}
-  fartController: {fileID: 963563730}
+  fartControl: {fileID: 963563730}
   foodSpawner: {fileID: 963563742}
-  hopX: 800
-  hopY: 1600
-  canHop: 1
 --- !u!58 &963563728
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6976,6 +7109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &995684800
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7140,6 +7274,10 @@ Prefab:
     - target: {fileID: 400014, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
@@ -7721,6 +7859,7 @@ GameObject:
   - 212: {fileID: 1096571121}
   - 68: {fileID: 1096571120}
   - 114: {fileID: 1096571119}
+  - 82: {fileID: 1096571123}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -7740,6 +7879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1096571123}
 --- !u!68 &1096571120
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -7791,6 +7931,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1044537867}
   m_RootOrder: 2
+--- !u!82 &1096571123
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1288642970}
+  m_GameObject: {fileID: 1096571118}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1097425051
 GameObject:
   m_ObjectHideFlags: 0
@@ -7853,6 +8052,7 @@ GameObject:
   - 212: {fileID: 1100422995}
   - 68: {fileID: 1100422994}
   - 114: {fileID: 1100422993}
+  - 82: {fileID: 1100422996}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -7884,6 +8084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1100422996}
 --- !u!68 &1100422994
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -7923,6 +8124,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &1100422996
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1933063483}
+  m_GameObject: {fileID: 1100422991}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1108738500
 GameObject:
   m_ObjectHideFlags: 0
@@ -8194,7 +8454,7 @@ Transform:
   - {fileID: 1146086974}
   - {fileID: 862661371}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &1143252973
 GameObject:
   m_ObjectHideFlags: 0
@@ -8257,6 +8517,7 @@ GameObject:
   - 212: {fileID: 1143489306}
   - 68: {fileID: 1143489305}
   - 114: {fileID: 1143489304}
+  - 82: {fileID: 1143489307}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -8288,6 +8549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1143489307}
 --- !u!68 &1143489305
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -8327,6 +8589,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &1143489307
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1944666511}
+  m_GameObject: {fileID: 1143489302}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1146086973
 GameObject:
   m_ObjectHideFlags: 0
@@ -8634,7 +8955,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60fb4790aaf5035418567e15cbc554be, type: 2}
@@ -8789,6 +9110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1190081382
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8954,7 +9276,7 @@ Transform:
   - {fileID: 1381158195}
   - {fileID: 884444038}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!1 &1211493376
 GameObject:
   m_ObjectHideFlags: 0
@@ -9059,6 +9381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1211493380
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9198,6 +9521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1218383712
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9388,6 +9712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1226120172
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9434,6 +9759,7 @@ GameObject:
   - 212: {fileID: 1249307648}
   - 68: {fileID: 1249307647}
   - 114: {fileID: 1249307646}
+  - 82: {fileID: 1249307649}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -9465,6 +9791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1249307649}
 --- !u!68 &1249307647
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -9504,6 +9831,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &1249307649
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1871863426}
+  m_GameObject: {fileID: 1249307644}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1255797899
 GameObject:
   m_ObjectHideFlags: 0
@@ -10358,7 +10744,7 @@ Transform:
   m_LocalScale: {x: .5, y: .5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1350792419
 GameObject:
   m_ObjectHideFlags: 0
@@ -10565,6 +10951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1357686320
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11207,6 +11594,7 @@ GameObject:
   - 212: {fileID: 1428366975}
   - 68: {fileID: 1428366974}
   - 114: {fileID: 1428366973}
+  - 82: {fileID: 1428366976}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -11238,6 +11626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1428366976}
 --- !u!68 &1428366974
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -11277,6 +11666,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &1428366976
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1909449428}
+  m_GameObject: {fileID: 1428366971}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1431317775
 GameObject:
   m_ObjectHideFlags: 0
@@ -12153,7 +12601,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
 --- !u!1 &1531721123
 GameObject:
   m_ObjectHideFlags: 0
@@ -12387,6 +12835,45 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9bc579ee6edaa5642a13b876eee5b928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &1549564346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1549564348}
+  - 114: {fileID: 1549564347}
+  m_Layer: 0
+  m_Name: StatsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1549564347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549564346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43a1e7227eb53439ef586adba4bd17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1549564348
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1549564346}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.2181177, y: -9.9300909, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!1 &1550986864
 GameObject:
   m_ObjectHideFlags: 0
@@ -13255,7 +13742,7 @@ Transform:
   - {fileID: 899718113}
   - {fileID: 1255797900}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
 --- !u!1001 &1663985171
 Prefab:
   m_ObjectHideFlags: 0
@@ -13342,7 +13829,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
 --- !u!1 &1685814734
 GameObject:
   m_ObjectHideFlags: 0
@@ -13371,7 +13858,7 @@ Transform:
   - {fileID: 784763609}
   - {fileID: 1631273359}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!1 &1686369109
 GameObject:
   m_ObjectHideFlags: 0
@@ -13527,6 +14014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1697774578
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13918,7 +14406,7 @@ Transform:
   - {fileID: 507405495}
   - {fileID: 653713235}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
 --- !u!1 &1784903271
 GameObject:
   m_ObjectHideFlags: 0
@@ -14185,6 +14673,7 @@ GameObject:
   - 212: {fileID: 1838002858}
   - 68: {fileID: 1838002857}
   - 114: {fileID: 1838002856}
+  - 82: {fileID: 1838002859}
   m_Layer: 13
   m_Name: bouncy_mushroom_med
   m_TagString: Untagged
@@ -14216,6 +14705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4d30f4e68f4b94c8a785366f6ff489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1838002859}
 --- !u!68 &1838002857
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -14255,6 +14745,65 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac0dd35453ad4894ebf749f598de0381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!82 &1838002859
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 48325074}
+  m_GameObject: {fileID: 1838002854}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d7002fd0da6be5a4794fb10136ef2d46, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1845527368
 GameObject:
   m_ObjectHideFlags: 0
@@ -14666,6 +15215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1932754181
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16236,6 +16786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupJuice: .75
   isChecked: 0
+  collectSound: {fileID: 0}
 --- !u!212 &1957771440
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16787,6 +17338,10 @@ Prefab:
       propertyPath: m_SortingOrder
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 10abd3bd6a53cd243866959c076ba3c2, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 10abd3bd6a53cd243866959c076ba3c2, type: 2}
   m_RootGameObject: {fileID: 1350549138}
@@ -16854,6 +17409,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
       propertyPath: parallaxScale
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 21200000, guid: 3f3e495ca7c31b846b4dc762c667a326, type: 2}
