@@ -381,7 +381,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 103654257
+  m_SortingLayerID: 352220229
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 696c0fd673f5817408da1d715a6185c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: .882352948}
@@ -3979,7 +3979,7 @@ GameObject:
   - 114: {fileID: 612863824}
   - 82: {fileID: 612863827}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4010,6 +4010,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 612863827}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &612863825
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -5775,7 +5780,7 @@ GameObject:
   - 114: {fileID: 863831147}
   - 82: {fileID: 863831150}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5806,6 +5811,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 863831150}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &863831148
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -7324,7 +7334,7 @@ GameObject:
   - 114: {fileID: 1096571119}
   - 82: {fileID: 1096571123}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7343,6 +7353,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1096571123}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &1096571120
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -7517,7 +7532,7 @@ GameObject:
   - 114: {fileID: 1100422993}
   - 82: {fileID: 1100422996}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7548,6 +7563,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1100422996}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &1100422994
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -7880,7 +7900,7 @@ GameObject:
   - 114: {fileID: 1143489304}
   - 82: {fileID: 1143489307}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7911,6 +7931,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1143489307}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &1143489305
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -9122,7 +9147,7 @@ GameObject:
   - 114: {fileID: 1249307646}
   - 82: {fileID: 1249307649}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9153,6 +9178,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1249307649}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &1249307647
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -10362,7 +10392,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 103654257
+  m_SortingLayerID: 352220229
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 696c0fd673f5817408da1d715a6185c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: .882352948}
@@ -10820,7 +10850,7 @@ GameObject:
   - 114: {fileID: 1428366973}
   - 82: {fileID: 1428366976}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10851,6 +10881,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1428366976}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &1428366974
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -11013,7 +11048,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 103654257
+  m_SortingLayerID: 352220229
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 696c0fd673f5817408da1d715a6185c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: .882352948}
@@ -14106,7 +14141,7 @@ GameObject:
   - 114: {fileID: 1838002856}
   - 82: {fileID: 1838002859}
   m_Layer: 13
-  m_Name: bouncy_mushroom_med
+  m_Name: BouncyMushroom_med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14137,6 +14172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1838002859}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!68 &1838002857
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -14877,7 +14917,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 103654257
+  m_SortingLayerID: 352220229
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 696c0fd673f5817408da1d715a6185c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: .882352948}

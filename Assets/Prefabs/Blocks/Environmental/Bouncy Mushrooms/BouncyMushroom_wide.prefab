@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 82: {fileID: 8277452}
   m_Layer: 0
-  m_Name: bouncy_mushroom_wide
+  m_Name: BouncyMushroom_wide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,6 +116,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8277452}
+  boingClips:
+  - {fileID: 8300000, guid: c489f481b8827604e9aa583752990208, type: 3}
+  - {fileID: 8300000, guid: 3024c70a85e8b3b48af594dcc72c5322, type: 3}
+  - {fileID: 8300000, guid: 8670bdd2a083ed449bf7bd496f2da0ee, type: 3}
+  - {fileID: 8300000, guid: 4aa6c7aa3fad9314785012c9f8617293, type: 3}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

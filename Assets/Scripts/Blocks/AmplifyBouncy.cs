@@ -5,6 +5,7 @@ public class AmplifyBouncy : MonoBehaviour
 {
 	public static float bounceForce;
     public AudioSource audioSource;
+    public AudioClip[] boingClips = new AudioClip[4];
 
     private float forceIncAmount;
 
@@ -70,6 +71,11 @@ public class AmplifyBouncy : MonoBehaviour
 
             if(audioSource != null)
             {
+                int boingIndex = Random.Range(0, boingClips.Length - 1);
+                if(boingClips[boingIndex] != null)
+                {
+                    audioSource.clip = boingClips[boingIndex];
+                }
                 audioSource.audio.Play();
             }
 		}
