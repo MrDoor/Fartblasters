@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Fartometer
+  m_Name: PlayerSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,10 +23,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6.75, y: -2.72000003, z: -.0199999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -35,13 +36,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d65e1348be33b41bc71161517f670e, type: 3}
+  m_Script: {fileID: 11500000, guid: bfa3c71aa27ae5646ad00a5979fdb725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundTexture: {fileID: 2800000, guid: 2097c17d121dee64ea41ee40469cf27f, type: 3}
-  fillTexture: {fileID: 2800000, guid: 54c4ba8b4ede20340a339adcb41f939c, type: 3}
-  backFillTexture: {fileID: 2800000, guid: 89e4ac6f317dfe7459ac1fa4bb94db02, type: 3}
-  capTexture: {fileID: 2800000, guid: 0674e432beb941c4aaa8e7fcd29fd046, type: 3}
+  player: {fileID: 100004, guid: 4faa5b9cf42c9274a82da9d20ac8728a, type: 2}
+  claw: {fileID: 100040, guid: aefb024b39ef78d4f871e4aeb4218c81, type: 2}
+  fartometer: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
