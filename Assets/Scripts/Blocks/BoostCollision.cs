@@ -7,14 +7,6 @@ public class BoostCollision : MonoBehaviour
 	public float xAxis = -0.9f;
 	public float yAxis = 0.0f;
 
-	void Start() 
-	{
-	}
-
-	void Update() 
-	{	
-	}
-
 	void OnTriggerEnter2D( Collider2D coll )
 	{
 		try

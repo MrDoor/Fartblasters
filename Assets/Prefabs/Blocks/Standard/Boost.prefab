@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8a0290ce8ee3846b836aa1ad2cd17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xAxis: -.899999976
+  xAxis: .899999976
   yAxis: 0
 --- !u!212 &21200000
 SpriteRenderer:

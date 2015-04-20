@@ -10,7 +10,7 @@ public class AmplifyBouncy : MonoBehaviour
     private float forceIncAmount;
 
     private static readonly int maxBounceCount          = 4;
-    private static readonly float startForce            = 7f;
+    private static readonly float startForce            = 70f;
     private static readonly float startForceIncAmount   = 3f;
     private static readonly float forceReductPercent    = 0.7f;
     private static readonly float minVelocityMag        = 4f;
@@ -26,10 +26,8 @@ public class AmplifyBouncy : MonoBehaviour
 		
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if( coll.gameObject.CompareTag( "Player" ) )
-		{			
-			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
-
+        if( IsBounceable( coll.gameObject ) )
+		{		
             ContactPoint2D hit = coll.contacts[0];     // the first contact point
             Vector3 hitNormal = new Vector3( hit.normal.x, hit.normal.y, 0f );
             Vector3 velocity = Vector3.Reflect( -coll.relativeVelocity, -hitNormal );
@@ -50,24 +48,30 @@ public class AmplifyBouncy : MonoBehaviour
                 velocity *= maxVelocityMag;
             }
 
-            pControl.transform.rigidbody2D.velocity = Vector2.zero;
-            pControl.transform.rigidbody2D.AddForce( new Vector2( velocity.x, velocity.y ) * bounceForce * 100 );       
+            coll.collider.rigidbody2D.velocity = Vector2.zero;
+            coll.collider.rigidbody2D.AddForce( new Vector2( velocity.x, velocity.y ) * bounceForce * coll.collider.rigidbody2D.mass );   
+        
+            // Only the player gets the amplifying effect    
+            PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
 
-            if( pControl.amplifyBounceCount < maxBounceCount )
+            if( pControl )
             {
-                if( pControl.amplifyBounceCount == 0 )
+                if( pControl.amplifyBounceCount < maxBounceCount )
                 {
-                    bounceForce = startForce;
-                    forceIncAmount = startForceIncAmount;
+                    if( pControl.amplifyBounceCount == 0 )
+                    {
+                        bounceForce = startForce;
+                        forceIncAmount = startForceIncAmount;
+                    }
+                    else
+                    {
+                        forceIncAmount *= forceReductPercent;
+                        bounceForce += forceIncAmount;
+                    }
                 }
-                else
-                {
-                    forceIncAmount *= forceReductPercent;
-                    bounceForce += forceIncAmount;
-                }
-            }
 
-            pControl.amplifyBounceCount++;
+                pControl.amplifyBounceCount++;
+            }
 
             if(audioSource != null)
             {
@@ -80,4 +84,9 @@ public class AmplifyBouncy : MonoBehaviour
             }
 		}
 	}
+
+    private bool IsBounceable(GameObject obj)
+    {
+        return true;//obj.CompareTag( "Player" );
+    }
 }
