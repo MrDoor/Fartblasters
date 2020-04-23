@@ -13,10 +13,10 @@ public class BoostCollision : MonoBehaviour
 		{
 			if( coll.tag == "Player" )
 			{
-				audio.PlayOneShot( audio.clip );
+				GetComponent<AudioSource>().PlayOneShot( GetComponent<AudioSource>().clip );
 
 				Vector2 boostDirection = new Vector2( xAxis, yAxis );
-				coll.gameObject.rigidbody2D.AddForce(boostDirection * FORCE);
+				coll.gameObject.GetComponent<Rigidbody2D>().AddForce(boostDirection * FORCE);
 			}
 		}
 		catch( UnityException ex )

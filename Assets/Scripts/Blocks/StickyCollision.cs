@@ -32,25 +32,25 @@ public class StickyCollision : MonoBehaviour
 				{
 					if( coll.transform.position.x > this.transform.position.x )
 					{
-						temp.x += this.renderer.bounds.size.x;
+						temp.x += this.GetComponent<Renderer>().bounds.size.x;
 					}
 					else
 					{
-						temp.x -= this.renderer.bounds.size.x;
+						temp.x -= this.GetComponent<Renderer>().bounds.size.x;
 					}
 				}			
 				else if( coll.transform.position.y > this.transform.position.y )
 				{
-					temp.y += this.renderer.bounds.size.y;
+					temp.y += this.GetComponent<Renderer>().bounds.size.y;
 				}
 				else
 				{
-					temp.y -= this.renderer.bounds.size.y;
+					temp.y -= this.GetComponent<Renderer>().bounds.size.y;
 				}			
 				
 				coll.transform.position = temp ;
-				coll.transform.rigidbody2D.gravityScale = 0;
-				coll.transform.rigidbody2D.velocity = Vector2.zero;
+				coll.transform.GetComponent<Rigidbody2D>().gravityScale = 0;
+				coll.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 				playerControlRef.SetIsStuck(true);	
 				nextLaunch = Time.time + 3.0f;	
 				canLaunch = false;

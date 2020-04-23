@@ -21,7 +21,7 @@ public class LackieSoldier : MonoBehaviour
 	void Start() 
 	{
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "Enemies" ), false);
-		groundCheck = transform.Find( "Enemy_groundCheck" );
+		groundCheck = transform.Find( "Lackie_Soldier_groundCheck" );
 		Animation_Init();
 		Move();
 	}
@@ -75,12 +75,12 @@ public class LackieSoldier : MonoBehaviour
 		Debug.Log ( "Hop!" );
 		if ( moveTo == Direction.RIGHT )
 		{
-			this.transform.rigidbody2D.AddForce( new Vector2 ( 200, 200) );
+			this.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2 ( 200, 200) );
 			Debug.Log ( "Hop Right" );
 		}
 		else
 		{
-			this.transform.rigidbody2D.AddForce( new Vector2 ( -200, 200) );		
+			this.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2 ( -200, 200) );		
 			Debug.Log ( "Hop Left" );	
 		}
 	}

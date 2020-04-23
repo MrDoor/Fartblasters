@@ -25,13 +25,13 @@ public class VortexCollision : MonoBehaviour
     {
 		if( ( timeToLaunch <= Time.time ) && ( timeToReLaunch <= Time.time ) && canLaunch )
 		{				
-            Debug.Log( "Gravity Scale before: " + playerControlRef.transform.rigidbody2D.gravityScale );
+            Debug.Log( "Gravity Scale before: " + playerControlRef.transform.GetComponent<Rigidbody2D>().gravityScale );
 			canLaunch = false;
 			timeToReLaunch = Time.time + 3.0f;
-            playerControlRef.transform.rigidbody2D.gravityScale = 1;			
+            playerControlRef.transform.GetComponent<Rigidbody2D>().gravityScale = 1;			
             playerControlRef.SetInVortex( false );
 			EjectFromVortex();
-            Debug.Log( "Gravity Scale after: " + playerControlRef.transform.rigidbody2D.gravityScale );			
+            Debug.Log( "Gravity Scale after: " + playerControlRef.transform.GetComponent<Rigidbody2D>().gravityScale );			
 		}
         else if( playerControlRef && playerControlRef.GetInVortex() )
 		{
@@ -56,14 +56,14 @@ public class VortexCollision : MonoBehaviour
 					try
 					{
 						Vector3 tempEnd = this.transform.position;
-						tempEnd = this.collider2D.transform.position;
+						tempEnd = this.GetComponent<Collider2D>().transform.position;
 						endMark = tempEnd;						
                         target = playerControlRef.transform;
                         //startMarker = playerControlRef.transform;
                         startMark = playerControlRef.transform.position;				
 						startTime = Time.time;				
-                        playerControlRef.transform.rigidbody2D.gravityScale = 0;
-                        playerControlRef.transform.rigidbody2D.velocity = Vector2.zero;
+                        playerControlRef.transform.GetComponent<Rigidbody2D>().gravityScale = 0;
+                        playerControlRef.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 						journeyLength = Vector3.Distance( startMark, endMark );
                         playerControlRef.SetInVortex( true );
 						timeToLaunch = Time.time + 3.0f;
@@ -98,6 +98,6 @@ public class VortexCollision : MonoBehaviour
 		Debug.Log("direction: " + direction.ToString() + " force: " + force + " direction*force = " + (direction * force));
 		endMark = Vector3.zero;
 		startMark = Vector3.zero;
-        playerControlRef.transform.rigidbody2D.AddForce(direction * force);
+        playerControlRef.transform.GetComponent<Rigidbody2D>().AddForce(direction * force);
 	}
 }

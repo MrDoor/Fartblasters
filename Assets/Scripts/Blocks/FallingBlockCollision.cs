@@ -40,17 +40,17 @@ public class FallingBlockCollision : MonoBehaviour
 		int blinkCount = (int)( totalBlinkTime_ / blinkTime );
 		for( int blinkIndex = 0; blinkIndex < blinkCount; blinkIndex++)
 		{
-			this.renderer.enabled = !this.renderer.enabled;//I love this :)
+			this.GetComponent<Renderer>().enabled = !this.GetComponent<Renderer>().enabled;//I love this :)
 			yield return new WaitForSeconds( blinkTime );
 		}
 		
-		this.renderer.enabled = true;
-		if( this.gameObject.rigidbody2D == null )
+		this.GetComponent<Renderer>().enabled = true;
+		if( this.gameObject.GetComponent<Rigidbody2D>() == null )
 		{
 			this.gameObject.AddComponent<Rigidbody2D>();
 		}
-		this.transform.rigidbody2D.gravityScale = 1;
-		this.transform.rigidbody2D.mass = 10;
+		this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
+		this.transform.GetComponent<Rigidbody2D>().mass = 10;
 	}	
 	
 	IEnumerator FadeOut()
@@ -58,7 +58,7 @@ public class FallingBlockCollision : MonoBehaviour
 		int blinkCount = (int)( totalBlinkTime_ / blinkTime );
 		for( int blinkIndex = 0; blinkIndex < blinkCount; blinkIndex++)
 		{
-			this.renderer.enabled = !this.renderer.enabled;
+			this.GetComponent<Renderer>().enabled = !this.GetComponent<Renderer>().enabled;
 			yield return new WaitForSeconds( blinkTime / 2 );
 		}
 		

@@ -20,9 +20,9 @@ public class BreakBlockCollision : MonoBehaviour {
 			PlayerControl pControl = obj.GetComponent<PlayerControl>();
 			if( pControl )
 			{
-				this.transform.renderer.enabled = false;
-				this.gameObject.collider2D.enabled = false;
-				pControl.transform.rigidbody2D.AddForce( pControl.transform.rigidbody2D.velocity.normalized * -3000 );
+				this.transform.GetComponent<Renderer>().enabled = false;
+				this.gameObject.GetComponent<Collider2D>().enabled = false;
+				pControl.transform.GetComponent<Rigidbody2D>().AddForce( pControl.transform.GetComponent<Rigidbody2D>().velocity.normalized * -3000 );
 				Debug.Log ("Break Block");
 			}
         }

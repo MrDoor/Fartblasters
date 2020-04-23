@@ -24,7 +24,7 @@ public class PullLine : MonoBehaviour
         fartClouds = new Transform[ maxFartClouds ];
         for( int cloudIndex = 0; cloudIndex < maxFartClouds; ++cloudIndex )
         {
-            fartClouds[ cloudIndex ] = transform.FindChild( "FartCloud" + cloudIndex ); 
+            fartClouds[ cloudIndex ] = transform.Find( "FartCloud" + cloudIndex ); 
         }
     }
     

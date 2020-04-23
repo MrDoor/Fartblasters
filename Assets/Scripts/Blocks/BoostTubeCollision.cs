@@ -40,8 +40,8 @@ public class BoostTubeCollision : MonoBehaviour
 
     private IEnumerator Boost( Collider2D coll )
     {
-        Vector3 collisionCenter = new Vector3(  this.gameObject.transform.position.x + boxCollider2D.center.x,
-                                                this.gameObject.transform.position.y + boxCollider2D.center.y,
+        Vector3 collisionCenter = new Vector3(  this.gameObject.transform.position.x + boxCollider2D.offset.x,
+                                                this.gameObject.transform.position.y + boxCollider2D.offset.y,
                                                 this.gameObject.transform.position.z );
         
         float moveTime = boostTubeControl.moveTime;
@@ -63,14 +63,14 @@ public class BoostTubeCollision : MonoBehaviour
         }
         
         // Play sound effect
-        audio.PlayOneShot( audio.clip );
+        GetComponent<AudioSource>().PlayOneShot( GetComponent<AudioSource>().clip );
 
         // Emit particles
         boostTubeControl.particleSystem.Play();
 
         // Add force
-        coll.rigidbody2D.velocity = Vector2.zero;
-        coll.rigidbody2D.AddForce( boostTubeControl.GetBoostDirection( this ) * boostTubeControl.boostForce * coll.rigidbody2D.mass );
+        coll.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        coll.GetComponent<Rigidbody2D>().AddForce( boostTubeControl.GetBoostDirection( this ) * boostTubeControl.boostForce * coll.GetComponent<Rigidbody2D>().mass );
     }
 
     private bool IsBoostable(GameObject obj)

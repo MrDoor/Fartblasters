@@ -48,11 +48,11 @@ public class CollectFood : MonoBehaviour
 		//float destroyTime = 0.0f;
 		if( this.gameObject.name.Equals("Jalapeno") )
 		{	
-			pControl.transform.rigidbody2D.AddForce( pControl.transform.rigidbody2D.velocity.normalized * 4000 );	
+			pControl.transform.GetComponent<Rigidbody2D>().AddForce( pControl.transform.GetComponent<Rigidbody2D>().velocity.normalized * 4000 );	
 			AudioSource[] sounds = this.gameObject.GetComponents<AudioSource>();
 			sounds[0].Play();		
 			sounds[1].PlayDelayed(sounds[0].clip.length);
-			this.transform.renderer.enabled = false;
+			this.transform.GetComponent<Renderer>().enabled = false;
 			destroyTime = sounds[1].clip.length;			
 			pControl.SetIsEating ( true );
 			//Debug.Log( "Fart Boost! AudioClipLength: " + audio.clip.length );
@@ -65,9 +65,9 @@ public class CollectFood : MonoBehaviour
 				Debug.Log ( "Health inc by " + pickupJuice );
 			}			
 			Debug.Log( this.gameObject.name + ":" + this.gameObject.tag );
-			this.audio.Play();
-			destroyTime = this.audio.clip.length;
-			this.transform.renderer.enabled = false;
+			this.GetComponent<AudioSource>().Play();
+			destroyTime = this.GetComponent<AudioSource>().clip.length;
+			this.transform.GetComponent<Renderer>().enabled = false;
 			pControl.SetIsEating( true );
 		}
 

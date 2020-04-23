@@ -62,13 +62,13 @@ public class PlayerHealth : MonoBehaviour
             else
             {
                 lastHit = Time.time + invinvibilityTime;
-                this.transform.rigidbody2D.velocity = Vector3.zero; 
+                this.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero; 
                 Vector2 dir = new Vector2( hitDirection.x, hitDirection.y );
                 if(this.transform.position.x <= hitter.position.x)
                 {
                     dir.x *= -1;
                 }               
-                this.transform.rigidbody2D.AddForce( dir * hitForce );
+                this.transform.GetComponent<Rigidbody2D>().AddForce( dir * hitForce );
             }
         }
     }
@@ -86,13 +86,13 @@ public class PlayerHealth : MonoBehaviour
 			else
 			{
 				lastHit = Time.time + invinvibilityTime;
-				this.transform.rigidbody2D.velocity = Vector3.zero; 
+				this.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero; 
 				Vector2 dir = new Vector2( hitDirection.x, hitDirection.y );
 				if(this.transform.position.x <= hitter.position.x)
 				{
 					dir.x *= -1;
 				}               
-				this.transform.rigidbody2D.AddForce( dir * hitForce );
+				this.transform.GetComponent<Rigidbody2D>().AddForce( dir * hitForce );
 			}
 		}
 	}

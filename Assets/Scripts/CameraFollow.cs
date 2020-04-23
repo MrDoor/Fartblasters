@@ -11,16 +11,21 @@ public class CameraFollow : MonoBehaviour
 	public Vector2 minXAndY;		// The minimum x and y coordinates the camera can have.
 		
 	private Transform player;		// Reference to the player's transform.
+    public GameObject playerGO;     // Reference to the player's GameObject.
 		
 	void Awake ()
 	{
 		try
-		{			
-			GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+		{	
+            if(playerGO == null) {
+                SetPlayerGameObject (GameObject.FindGameObjectWithTag("Player"));
+            }
+
 			if ( !player )
 			{
 				playerGO = Util.SafeGameObjectFind( "PlayerSpawn" );
 				player = playerGO.transform;
+                Debug.Log("Player found at: " + player.position);
 			}
 		}
 		catch ( UnityException ue )
@@ -28,7 +33,9 @@ public class CameraFollow : MonoBehaviour
 			Debug.Log ( "Could not find player: " + ue.ToString() );
 			
 		}
-		
+
+        //TrackPlayer();
+
 		//StartCoroutine ( MoveTo ( player.transform ) );
 		//Camera.main.orthographicSize = 3;			
 	}	
@@ -52,7 +59,16 @@ public class CameraFollow : MonoBehaviour
 		TrackPlayer();
 	}
 	
-	public void SetPlayer ( Transform player_ )
+    public void SetPlayerGameObject (GameObject playerGameObject) {
+        if(playerGameObject == null) {
+            Debug.Log("playerGameObject was null when trying to set the player object on main camera.");
+            return;
+        }
+        playerGO = playerGameObject;
+        SetPlayerTransform(playerGO.transform);
+    }
+
+	public void SetPlayerTransform ( Transform player_ )
 	{
 		player = player_;
 		Debug.Log ( "player = " + player.name );
@@ -63,21 +79,26 @@ public class CameraFollow : MonoBehaviour
 		// By default the target x and y coordinates of the camera are it's current x and y coordinates.
 		float targetX = transform.position.x;
 		float targetY = transform.position.y;
-		
-		// If the player has moved beyond the x margin...
-		if(CheckXMargin())
-			// ... the target x coordinate should be a Lerp between the camera's current x position and the player's current x position.
-			targetX = Mathf.Lerp(transform.position.x, player.position.x, xSmooth * Time.deltaTime);
-		
-		// If the player has moved beyond the y margin...
-		if(CheckYMargin())
-			// ... the target y coordinate should be a Lerp between the camera's current y position and the player's current y position.
-			targetY = Mathf.Lerp(transform.position.y, player.position.y, ySmooth * Time.deltaTime);
+
+        // If the player has moved beyond the x margin...
+        if (CheckXMargin())
+        {
+            // ... the target x coordinate should be a Lerp between the camera's current x position and the player's current x position.
+            targetX = Mathf.Lerp(transform.position.x, player.position.x, xSmooth * Time.deltaTime);
+        }
+
+        // If the player has moved beyond the y margin...
+        if (CheckYMargin())
+        {
+            // ... the target y coordinate should be a Lerp between the camera's current y position and the player's current y position.
+            targetY = Mathf.Lerp(transform.position.y, player.position.y, ySmooth * Time.deltaTime);
+        }
 		
 		// The target x and y coordinates should not be larger than the maximum or smaller than the minimum.
 		targetX = Mathf.Clamp(targetX, minXAndY.x, maxXAndY.x);
 		targetY = Mathf.Clamp(targetY, minXAndY.y, maxXAndY.y);
-		
+
+        Debug.Log("Moving camera to: " + targetX + ", " + targetY);
 		// Set the camera's position to the target position with the same z component.
 		transform.position = new Vector3(targetX, targetY, transform.position.z);
 	}

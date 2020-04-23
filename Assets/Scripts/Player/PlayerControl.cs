@@ -112,23 +112,23 @@ public class PlayerControl : MonoBehaviour
 		if (Input.GetKeyDown ("d") && onGround) 
 		{
 			//added for sticky block testing
-			if (this.transform.rigidbody2D.gravityScale == 0) 
+			if (this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
             {
-                this.transform.rigidbody2D.gravityScale = 1;
+                this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
 			}			
 			
 			SetRespawn();
-			this.transform.rigidbody2D.AddForce (new Vector2 (100, 500));//scooch!
+			this.transform.GetComponent<Rigidbody2D>().AddForce (new Vector2 (100, 500));//scooch!
             fartControl.PlayScoochPoot();		
 		} 
 		else if (Input.GetKeyDown ("a") && onGround) 
 		{
 			//added for sticky block testing
-			if (this.transform.rigidbody2D.gravityScale == 0) 
+			if (this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
             {
-				this.transform.rigidbody2D.gravityScale = 1;
+				this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
 			}
-            this.transform.rigidbody2D.AddForce (new Vector2 (-100, 500));//scooch!
+            this.transform.GetComponent<Rigidbody2D>().AddForce (new Vector2 (-100, 500));//scooch!
             fartControl.PlayScoochPoot();
 		}
 		else if ( Input.GetKeyDown ("w") )
@@ -142,8 +142,8 @@ public class PlayerControl : MonoBehaviour
 					SetRespawn();				
 				}
 				
-				this.transform.rigidbody2D.velocity = Vector2.zero;	
-                this.transform.rigidbody2D.AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
+				this.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;	
+                this.transform.GetComponent<Rigidbody2D>().AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
                 fartControl.PlayScoochPoot();
 				launchControl.DecrementCurrentJuice( 1 );
 								
@@ -158,11 +158,11 @@ public class PlayerControl : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		isMoving = ( transform.rigidbody2D.velocity.sqrMagnitude >= 0.01f || transform.rigidbody2D.angularVelocity >= 0.01f );
+		isMoving = ( transform.GetComponent<Rigidbody2D>().velocity.sqrMagnitude >= 0.01f || transform.GetComponent<Rigidbody2D>().angularVelocity >= 0.01f );
 		
-		if(!onGround && collider2D.transform.parent != null)
+		if(!onGround && GetComponent<Collider2D>().transform.parent != null)
 		{			
-			this.collider2D.transform.parent = null;
+			this.GetComponent<Collider2D>().transform.parent = null;
 		}
 
 		if( isMoving )
@@ -193,9 +193,9 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		//added for sticky block testing
-		if(this.transform.rigidbody2D.gravityScale == 0) 
+		if(this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
 		{
-			this.transform.rigidbody2D.gravityScale = 1;
+			this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
 		}
 		
 		SetRespawn();
@@ -293,7 +293,7 @@ public class PlayerControl : MonoBehaviour
 	
 	public void StartDying()
     {
-        this.transform.collider2D.isTrigger = true;
+        this.transform.GetComponent<Collider2D>().isTrigger = true;
         StartCoroutine( Die() );
     }	
 	

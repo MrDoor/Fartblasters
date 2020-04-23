@@ -18,10 +18,10 @@ public class MovableBlockControl : MonoBehaviour {
 	{
 		//Vector3 temp = new Vector3 ();
 		Vector2 temp = new Vector2 (.9f, .0f);
-		this.transform.rigidbody2D.gravityScale = 1;
+		this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
 		if (coll.gameObject.tag.Equals ("Player"))
 		{
-			this.transform.rigidbody2D.AddForce (temp * force);
+			this.transform.GetComponent<Rigidbody2D>().AddForce (temp * force);
 			Debug.Log (coll.gameObject.tag);
 		} 
 		else 

@@ -116,13 +116,13 @@ public class LaunchControl : MonoBehaviour
         float potentialLaunchJuice  = GetPotentialJuice();
         float launchForce           = GetLaunchForce();
         
-        this.collider2D.transform.parent = null;
+        this.GetComponent<Collider2D>().transform.parent = null;
         
         currentLaunchJuice -= potentialLaunchJuice;
         
         SetAllowed( false );
         
-        transform.rigidbody2D.AddForce( launchDir * launchForce );      
+        transform.GetComponent<Rigidbody2D>().AddForce( launchDir * launchForce );      
         
         if(launchDir != Vector2.zero)
         {

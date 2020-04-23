@@ -55,7 +55,7 @@ public class SpawnItem : MonoBehaviour {
 		GameObject newItem = (GameObject)Instantiate( item, spawnPoint.transform.position, Quaternion.identity );
 		float x = Random.Range(-200, 200);
 		float y = Random.Range(-200, 200);
-		newItem.transform.rigidbody2D.AddForce( new Vector2( x, y ) );
+		newItem.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2( x, y ) );
 	}
 	
 	IEnumerator SpawnItems()

@@ -24,7 +24,7 @@ public class DetectCollisionDistance : MonoBehaviour {
 			this.GetComponent<Animator>().SetFloat( "distFromWall",  Mathf.Abs ( pControl.transform.position.x - wallTransform.position.x ) );	
 			if( Mathf.Abs( pControl.transform.position.x - wallTransform.position.x ) < 3 )
 			{
-				if ( transform.parent.rigidbody2D.velocity.x >= 3 && !pControl.GetOnGround() )
+				if ( transform.parent.GetComponent<Rigidbody2D>().velocity.x >= 3 && !pControl.GetOnGround() )
 				{
 					//this.GetComponent<Animator>().SetBool ( "nearWall" , true );
 				}

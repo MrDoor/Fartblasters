@@ -48,8 +48,8 @@ public class AmplifyBouncy : MonoBehaviour
                 velocity *= maxVelocityMag;
             }
 
-            coll.collider.rigidbody2D.velocity = Vector2.zero;
-            coll.collider.rigidbody2D.AddForce( new Vector2( velocity.x, velocity.y ) * bounceForce * coll.collider.rigidbody2D.mass );   
+            coll.collider.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            coll.collider.GetComponent<Rigidbody2D>().AddForce( new Vector2( velocity.x, velocity.y ) * bounceForce * coll.collider.GetComponent<Rigidbody2D>().mass );   
         
             // Only the player gets the amplifying effect    
             PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
@@ -80,7 +80,7 @@ public class AmplifyBouncy : MonoBehaviour
                 {
                     audioSource.clip = boingClips[boingIndex];
                 }
-                audioSource.audio.Play();
+                audioSource.GetComponent<AudioSource>().Play();
             }
 		}
 	}

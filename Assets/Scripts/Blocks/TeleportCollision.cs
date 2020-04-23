@@ -55,18 +55,18 @@ public class TeleportCollision : MonoBehaviour
 
     public void Teleport( Collision2D coll, Vector3 newPos )
     {
-        Vector2 tempVelocity = playerControlRef.transform.rigidbody2D.velocity;
+        Vector2 tempVelocity = playerControlRef.transform.GetComponent<Rigidbody2D>().velocity;
         Vector3 tempPosition = newPos;
         if( coll.transform.position.x > this.transform.position.x )
         {
-            tempPosition.x -= this.renderer.bounds.size.x;
+            tempPosition.x -= this.GetComponent<Renderer>().bounds.size.x;
         }
         else
         {
-            tempPosition.x += this.renderer.bounds.size.x;
+            tempPosition.x += this.GetComponent<Renderer>().bounds.size.x;
         }
         playerControlRef.transform.position = tempPosition;
-        playerControlRef.transform.rigidbody2D.AddForce( tempVelocity );
+        playerControlRef.transform.GetComponent<Rigidbody2D>().AddForce( tempVelocity );
         nextTeleport = Time.time + 2;
         Debug.Log( "Teleport! " + nextTeleport );   
     }

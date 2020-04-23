@@ -39,11 +39,11 @@ public class DisappearBlockCollision : MonoBehaviour
 		int blinkCount = (int)( totalBlinkTime / blinkTime );
 		for( int blinkIndex = 0; blinkIndex < blinkCount; blinkIndex++ )
 		{
-			this.renderer.enabled = !this.renderer.enabled;
+			this.GetComponent<Renderer>().enabled = !this.GetComponent<Renderer>().enabled;
 			yield return new WaitForSeconds( blinkTime );
 		}
-		this.renderer.enabled = false;
-		this.gameObject.collider2D.enabled = false;
+		this.GetComponent<Renderer>().enabled = false;
+		this.gameObject.GetComponent<Collider2D>().enabled = false;
 
 		if( reappears )
 		{
@@ -58,12 +58,12 @@ public class DisappearBlockCollision : MonoBehaviour
 		int blinkCount = (int)( totalBlinkTime / blinkTime );
 		for( int blinkIndex = 0; blinkIndex < blinkCount; blinkIndex++ )
 		{
-			this.renderer.enabled = !this.renderer.enabled;
+			this.GetComponent<Renderer>().enabled = !this.GetComponent<Renderer>().enabled;
 			yield return new WaitForSeconds( blinkTime );
 		}
 
-		this.renderer.enabled = true;		
-		this.gameObject.collider2D.enabled = true;
+		this.GetComponent<Renderer>().enabled = true;		
+		this.gameObject.GetComponent<Collider2D>().enabled = true;
 		startDisappear = false;
 	}
 }

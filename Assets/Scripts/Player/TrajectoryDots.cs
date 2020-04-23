@@ -24,7 +24,7 @@ public class TrajectoryDots : MonoBehaviour
         trajectoryDots = new Transform[ maxTrajectoryDots ];
         for( int dotIndex = 0; dotIndex < maxTrajectoryDots; ++dotIndex )
         {
-            trajectoryDots[ dotIndex ] = transform.FindChild( "TrajectoryDot" + dotIndex ); 
+            trajectoryDots[ dotIndex ] = transform.Find( "TrajectoryDot" + dotIndex ); 
         }
     }
     
@@ -67,7 +67,7 @@ public class TrajectoryDots : MonoBehaviour
         Vector2 launchDir = launchControl.GetDir();
 
         GameObject newDot = (GameObject)Instantiate( trajectoryDotPrefab, this.transform.position, Quaternion.identity );
-        newDot.transform.rigidbody2D.AddForce( launchForce * launchDir );
+        newDot.transform.GetComponent<Rigidbody2D>().AddForce( launchForce * launchDir );
         StartCoroutine( Util.Destroy_Now( newDot, 1f, null ) );
     }
 }

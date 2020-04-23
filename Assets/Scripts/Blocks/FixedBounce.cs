@@ -25,17 +25,17 @@ public class FixedBounce : MonoBehaviour {
 		if ( coll.gameObject.CompareTag( "Player" ) )
 		{			
 			PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();	
-			pControl.transform.rigidbody2D.velocity = Vector2.zero;
+			pControl.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			
 			if ( this.transform.position.y < pControl.transform.position.y )
 			{
 				if ( pControl.playerAnimation.isFacingRight )
 				{
-					pControl.transform.rigidbody2D.AddForce( new Vector2(xForce, yForce) * bounceForce );
+					pControl.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(xForce, yForce) * bounceForce );
 				}
 				else
 				{				
-					pControl.transform.rigidbody2D.AddForce( new Vector2(-xForce, yForce) * bounceForce );
+					pControl.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(-xForce, yForce) * bounceForce );
 				}
 			}
 		}

@@ -42,8 +42,15 @@ public class SpawnPlayer : MonoBehaviour
             fartometer.playerControlRef = newPlayer.GetComponent<PlayerControl>();
         }
 
-		GameObject pObj = GameObject.FindGameObjectWithTag( "Player" );
-		Camera.main.GetComponent<CameraFollow>().SetPlayer( pObj.transform );
-		Debug.Log ( "MainCamera.PlayerSet = true" );
+        //GameObject pObj = GameObject.FindGameObjectWithTag( "Player" );
+        //Camera.main.GetComponent<CameraFollow>().SetPlayerGameObject(pObj);
+        if(newPlayer == null) {
+            Debug.Log("newPlayer was null");
+            return;
+        }
+        Camera.main.GetComponent<CameraFollow>().SetPlayerGameObject(newPlayer);
+        //Camera.main.GetComponent<CameraFollow>().SetPlayerTransform( pObj.transform );
+        Debug.Log ( "MainCamera.PlayerSet to:" );
+        Debug.Log(newPlayer.name );
 	}
 }

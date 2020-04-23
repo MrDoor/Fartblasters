@@ -38,17 +38,17 @@ public class AngledBouncy : MonoBehaviour {
 			Debug.Log ( "z: " + this.transform.eulerAngles.z );
 			switch ( (int)this.transform.eulerAngles.z )
 			{
-				case 0: 	pControl.transform.rigidbody2D.velocity = Vector2.zero;
-							pControl.transform.rigidbody2D.AddForce( new Vector2(200, 200) * bounceForce );
+				case 0: 	pControl.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+							pControl.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(200, 200) * bounceForce );
 							break;				
-				case 90: 	pControl.transform.rigidbody2D.velocity = Vector2.zero;
-							pControl.transform.rigidbody2D.AddForce( new Vector2(-300, -500) * bounceForce );
+				case 90: 	pControl.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+							pControl.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(-300, -500) * bounceForce );
 							break;
-				case 135: 	pControl.transform.rigidbody2D.velocity = Vector2.zero;
-							pControl.transform.rigidbody2D.AddForce( new Vector2(-500, -500) * bounceForce );
+				case 135: 	pControl.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+							pControl.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(-500, -500) * bounceForce );
 							break;
-				case 270: 	pControl.transform.rigidbody2D.velocity = Vector2.zero;
-							pControl.transform.rigidbody2D.AddForce( new Vector2(300, -700) * bounceForce );
+				case 270: 	pControl.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+							pControl.transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(300, -700) * bounceForce );
 							break;		
 			}
 			

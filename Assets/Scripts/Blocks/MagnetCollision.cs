@@ -18,7 +18,7 @@ public class MagnetCollision : MonoBehaviour
 	void Start() 
     {		
 		//added a magnetic field randomizer just for funzies
-		CircleCollider2D magnetRange = (CircleCollider2D)this.transform.collider2D;		
+		CircleCollider2D magnetRange = (CircleCollider2D)this.transform.GetComponent<Collider2D>();		
 		magnetRange.radius += Random.Range( 5, 30 ) * .01f;
 		Debug.Log( "radius: " + magnetRange.radius );
         
@@ -60,14 +60,14 @@ public class MagnetCollision : MonoBehaviour
 					{
 						//Vector3 tempEnd = GameObject.Find ("LeftMagnetPosition").transform.position;
 						Vector3 tempEnd = this.transform.position;
-						tempEnd.y -= this.renderer.bounds.size.y;
+						tempEnd.y -= this.GetComponent<Renderer>().bounds.size.y;
 						endMark = tempEnd;						
                         target = playerControlRef.transform;
 						inMagnet = true;
                         startMarker = playerControlRef.transform;				
 						startTime = Time.time;				
-                        playerControlRef.transform.rigidbody2D.gravityScale = 0;
-                        playerControlRef.transform.rigidbody2D.velocity = Vector2.zero;
+                        playerControlRef.transform.GetComponent<Rigidbody2D>().gravityScale = 0;
+                        playerControlRef.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 						journeyLength = Vector3.Distance( startMarker.position, endMark );		
 					}
 					catch( UnityException ex )
