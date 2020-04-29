@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public SpriteRenderer bodySpriteRenderer;
     public float maxHealth = 100f;
 
-    private float currentHealth     = 0.0f;
+    public float currentHealth     = 0.0f;
     private float lastHit           = 0.0f;
     private float invinvibilityTime = 3f;
     private int flashCount          = 20;

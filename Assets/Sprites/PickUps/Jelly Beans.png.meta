@@ -1,19 +1,39 @@
 fileFormatVersion: 2
 guid: c89cf49aab1ed2c43a7aa71684d651a3
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Jelly Beans_0
-    21300002: Jelly Beans_1
-    21300004: Jelly Beans_2
-    21300006: Jelly Beans_3
-    21300008: Jelly Beans_4
-    21300010: Jelly Beans_5
-    21300012: Jelly Beans_6
-    21300014: Jelly Beans_7
-    21300016: Jelly Beans_8
-    21300018: Jelly Beans_9
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Jelly Beans_0
+  - first:
+      213: 21300002
+    second: Jelly Beans_1
+  - first:
+      213: 21300004
+    second: Jelly Beans_2
+  - first:
+      213: 21300006
+    second: Jelly Beans_3
+  - first:
+      213: 21300008
+    second: Jelly Beans_4
+  - first:
+      213: 21300010
+    second: Jelly Beans_5
+  - first:
+      213: 21300012
+    second: Jelly Beans_6
+  - first:
+      213: 21300014
+    second: Jelly Beans_7
+  - first:
+      213: 21300016
+    second: Jelly Beans_8
+  - first:
+      213: 21300018
+    second: Jelly Beans_9
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -67,8 +87,9 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 1024
     resizeAlgorithm: 0
@@ -79,6 +100,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -98,6 +120,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: 7ae06222292ea40cd96f8a9d30034b65
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -118,6 +141,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: 5c70de8f3dae54f438097b84c1f1740e
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -138,6 +162,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: 7d8aa963c7cfa4eb0bd0398cad2a5f44
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -158,6 +183,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: ee243570b85314c62a5ecdff4390b714
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -178,6 +204,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: 4cc07ace4e2f24a959f3aa9f08cb0da1
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -198,6 +225,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: 64cb1e006f1944b4d8ebcd4d2d8521dc
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -218,6 +246,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: dd05da2cdf6ce4f10b8d80c0984c6e56
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -238,6 +267,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: b270f55b6311d4b7fab5971f735c5ef1
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -258,6 +288,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: 8fc000c0cf0fe4056ae38ed4138c8074
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -278,6 +309,7 @@ TextureImporter:
       tessellationDetail: -1
       bones: []
       spriteID: f384be31319b54e87827742aab2da821
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -286,10 +318,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

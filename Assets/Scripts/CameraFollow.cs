@@ -56,7 +56,18 @@ public class CameraFollow : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
+		Debug.Log(playerGO.tag);
+		EnsureTarget("Player");
 		TrackPlayer();
+	}
+
+	public void EnsureTarget(string tag) {
+		if (playerGO.tag != tag) {
+			GameObject go = GameObject.FindGameObjectWithTag("Player");
+			if (go != null) {
+				SetPlayerGameObject (go);
+			}
+		}
 	}
 	
     public void SetPlayerGameObject (GameObject playerGameObject) {

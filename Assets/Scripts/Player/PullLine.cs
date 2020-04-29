@@ -82,6 +82,31 @@ public class PullLine : MonoBehaviour
         
         return pullEndPoint;
     }
+
+    public Vector3 GetEndPointStatic( Vector3 playerPos, Vector3 currentEndpointPosition )
+    {
+        Vector3 pullEndPoint    = playerPos;        
+        // Vector3 pullDir         = GetDirection( playerPos );
+        Vector3 pullDir = playerPos - currentEndpointPosition;
+        float lineLength        = 0.0f;
+        Vector3 launchDir       = new Vector3( 0.0f, 0.0f, 0.0f );
+        
+        pullFraction    = 0.0f;
+        pullDist        = pullDir.magnitude;
+        
+        if( pullDist >= minLineLength )
+        {
+            launchDir       = pullDir / pullDist;
+            lineLength      = Mathf.Min( pullDist, maxLineLength );         
+            pullFraction    = ( lineLength - minLineLength ) / ( maxLineLength - minLineLength );
+            pullEndPoint    = playerPos - ( launchDir * lineLength );
+        }
+        
+        launchControl.SetDir( new Vector2( launchDir.x, launchDir.y ) );
+        // playerControl.SetIsStopped( false );
+        
+        return pullEndPoint;
+    }
     
     public bool IsHolding()
     {

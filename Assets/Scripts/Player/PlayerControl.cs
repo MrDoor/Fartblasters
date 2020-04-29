@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+// using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour 
 {
@@ -7,6 +8,12 @@ public class PlayerControl : MonoBehaviour
 	private Transform groundCheck;
 	private Transform groundCheck2;
 
+	private Vector3 lastPullBackPosition = Vector3.zero;
+	private float lastAngle = 0.0f;
+	private float lastAngleChange = 0f;
+	private float angleChangeTimer = 0f;
+
+	private bool canScooch	= true;
 	private bool onGround	= false;
 	private bool isMoving	= false;
 	private bool isStuck	= false;
@@ -51,6 +58,7 @@ public class PlayerControl : MonoBehaviour
     // Food spawner
     public FoodSpawner foodSpawner;	
 	
+	public bool shouldDie = false;
 
 
 	void Start()
@@ -61,6 +69,7 @@ public class PlayerControl : MonoBehaviour
         }
         amplifyBounceCount = 0;
         StatsManager.Instance.Init();
+		// Debug.Log(string.Join("\n", Gamepad.all)); //Does not yet work apparently
 	}
 	
 	void Awake()
@@ -79,7 +88,12 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void Update () 
-	{				
+	{			
+		angleChangeTimer += Time.deltaTime;
+		if( shouldDie && isAlive) {
+			StartDying();
+		}
+
 		// The player is on the ground if a linecast from the player to the groundCheck hits a block.
         int layerMask = Constants.LayerMask_Ground;
 		onGround = Physics2D.Linecast( transform.position, groundCheck.position, layerMask ) | Physics2D.Linecast( transform.position, groundCheck2.position, layerMask );
@@ -87,6 +101,7 @@ public class PlayerControl : MonoBehaviour
 		if( !onGround )
 		{
 			onGround = isStuck;
+			// canHop = false;
 		}
 		else
 		{
@@ -103,50 +118,120 @@ public class PlayerControl : MonoBehaviour
 		{
 			bouncyBlockHitLast = false;
             amplifyBounceCount = 0;
+			canScooch = true;
 		}
 		
         launchControl.UpdatePermission( onGround, bouncyBlockHitLast );
 
 		foodSpawner.CheckSpawnFood();
-		
-		if (Input.GetKeyDown ("d") && onGround) 
-		{
-			//added for sticky block testing
-			if (this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
-            {
-                this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
-			}			
-			
-			SetRespawn();
-			this.transform.GetComponent<Rigidbody2D>().AddForce (new Vector2 (100, 500));//scooch!
-            fartControl.PlayScoochPoot();		
-		} 
-		else if (Input.GetKeyDown ("a") && onGround) 
-		{
-			//added for sticky block testing
-			if (this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
-            {
-				this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
-			}
-            this.transform.GetComponent<Rigidbody2D>().AddForce (new Vector2 (-100, 500));//scooch!
-            fartControl.PlayScoochPoot();
+
+		// Debug.Log("Horizontal: " + Input.GetAxis("Horizontal")); 
+		// Debug.Log("AButton: " + Input.GetButton("AButton"));
+		// Debug.Log("BButton: " + Input.GetButton("BButton"));
+		// Debug.Log("StartButton: " + Input.GetButton("StartButton"));
+		// Debug.Log("SelectButton: " + Input.GetButton("SelectButton"));
+
+		// Debug.Log("HorizontalDpadButton: " + Input.GetAxis("HorizontalDpad"));
+		// Debug.Log("VerticalDpadButton: " + Input.GetAxis("VerticalDpad"));
+
+		float horizontal = Input.GetAxis("HorizontalDpad");
+		Debug.Log("horizontal: " + horizontal + " onGround: " + onGround + " canScooch: " + canScooch);
+		// if (horizontal == 0) { canScooch = true; }
+
+		// if (canScooch && (Input.GetKeyDown ("d") || horizontal == 1.0)) 
+		if (Input.GetButtonDown("BButton")) {
+			Debug.Log("C: GetButtonDown BButton!");
+			PullBackLauncher(Vector2.zero);
 		}
-		else if ( Input.GetKeyDown ("w") )
+
+		if (Input.GetButton("BButton") && (horizontal == 1 || horizontal == -1)) {
+			Debug.Log("angleChangeTimer: " + angleChangeTimer);
+			if (angleChangeTimer < 0.25f) {
+				return; 
+			} else {
+				angleChangeTimer = 0f;
+			}
+
+			Debug.Log("C:GetButton BButton!");
+			float radius = 3f;
+			float angle = .09f;
+			float newAngle = 0.0f;
+			// var offset = new Vector2(Mathf.Sin(_angle), Mathf.Cos(_angle)) * Radius;
+			// transform.position = _centre + offset;	
+			if (horizontal == 1) { //Right
+				newAngle = newAngle > 360 ? 0.0f : lastAngle + angle;
+
+				// Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * radius;
+				// Vector2 newDirection = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * radius;
+				// Debug.Log("C: New Direction: " + newDirection);
+				// lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
+				// MovePullLineTo(lastPullBackPosition);
+				// lastAngle = newAngle;
+				// lastAngleChange = Time.deltaTime;
+				// Debug.Log("C: lastPullback: " + lastPullBackPosition);
+			} else { //Left
+				newAngle = newAngle < 0 ? 360 - angle : lastAngle - angle;
+				// Vector3 newDirection = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0) * radius;
+				// Debug.Log("C: New Direction: " + newDirection);
+				// lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position - newDirection);
+				// MovePullLineTo(lastPullBackPosition);
+				// Debug.Log("C: lastPullback: " + lastPullBackPosition);
+			}
+
+			Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * radius;			lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
+			Debug.Log("C: New Direction: " + newDirection);
+			MovePullLineTo(lastPullBackPosition);
+			Debug.Log("C: lastPullback: " + lastPullBackPosition);
+			lastAngle = newAngle;
+			lastAngleChange = Time.deltaTime;
+
+			return;
+		}
+
+		if (canScooch && horizontal == 1.0) {
+			canScooch = false;
+			// ScoochRight();
+			Scooch(10, 50);
+		} else if (canScooch && horizontal == -1.0) {
+			canScooch = false;
+			// ScoochLeft();
+			Scooch(-10, 50);
+		} else if (canHop && Input.GetButtonDown("AButton")) {
+			canHop = false;
+			Debug.Log("hopX: " + hopX + " hopY: " + hopY + " aplifyBounceCount: " + amplifyBounceCount);
+			Hop(hopX, hopY);
+			// Hop((hopX * 0.90f), (hopY * 0.90f));
+			// Hop(1000f, 2800f);
+		} else if (Input.GetButtonUp("BButton")) {
+			Launch();
+		}
+
+		if (canScooch && Input.GetKeyDown ("d")) 
+		{
+			canScooch = false;
+			ScoochRight();	
+		} 
+		else if (canScooch && Input.GetKeyDown ("a")) 
+		{
+			canScooch = false;
+			ScoochLeft();
+		}
+		else if ( Input.GetKeyDown ("w"))
 		{
 			if ( canHop )
 			{
-				canHop = false;
+				// canHop = false;
 				
-				if ( onGround )
-				{
-					SetRespawn();				
-				}
+				// if ( onGround )
+				// {
+				// 	SetRespawn();				
+				// }
 				
-				this.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;	
-                this.transform.GetComponent<Rigidbody2D>().AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
-                fartControl.PlayScoochPoot();
-				launchControl.DecrementCurrentJuice( 1 );
-								
+				// this.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;	
+                // this.transform.GetComponent<Rigidbody2D>().AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
+                // fartControl.PlayScoochPoot();
+				// launchControl.DecrementCurrentJuice( 1 );
+				Hop(hopX, hopY);
 			}
 		}
 		//Added to test dying transition menu
@@ -184,19 +269,14 @@ public class PlayerControl : MonoBehaviour
 			lastXPos = transform.position.x;
 		}		
 	}
-	
-	void OnMouseUp()
-	{
+
+	public void Launch() {
 		foreach( GameObject go in GameObject.FindGameObjectsWithTag( "TrajectoryDot" ))
 		{
 			Destroy( go );
 		}
 
-		//added for sticky block testing
-		if(this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
-		{
-			this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
-		}
+		this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
 		
 		SetRespawn();
 		launchControl.Launch( transform );
@@ -204,6 +284,28 @@ public class PlayerControl : MonoBehaviour
 		launchControl.Reset();
 		pullLine.Reset();
         trajectoryDots.Reset();
+	}
+	
+	void OnMouseUp()
+	{
+		// foreach( GameObject go in GameObject.FindGameObjectsWithTag( "TrajectoryDot" ))
+		// {
+		// 	Destroy( go );
+		// }
+
+		// //added for sticky block testing
+		// if(this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
+		// {
+		// 	this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
+		// }
+		
+		// SetRespawn();
+		// launchControl.Launch( transform );
+
+		// launchControl.Reset();
+		// pullLine.Reset();
+        // trajectoryDots.Reset();
+		Launch();
 	}
 
 	void OnMouseDrag()
@@ -370,6 +472,72 @@ public class PlayerControl : MonoBehaviour
     {
         return isStopped;
     }
+
+	public void Hop(float x, float y) {
+		canHop = false;
+				
+		if ( onGround )
+		{
+			SetRespawn();				
+		}
+		Rigidbody2D rb = this.transform.GetComponent<Rigidbody2D>();
+		// this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
+		// this.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;	
+		// this.transform.GetComponent<Rigidbody2D>().AddForce ( new Vector2 ( playerAnimation.isFacingRight ? hopX : -hopX, hopY ) ); //hop!	
+		rb.gravityScale = 1;
+		rb.velocity = Vector2.zero;	
+		rb.AddForce ( new Vector2 ( playerAnimation.isFacingRight ? x : -x, y ) ); //hop!	
+		fartControl.PlayScoochPoot();
+		launchControl.DecrementCurrentJuice( 1 );
+	}
+
+	public void MovePullLineTo(Vector3 direction) {
+		pullLine.PositionClouds( transform.position, direction );
+        trajectoryDots.Position( transform.position, direction );
+	}
+
+	public void PullBackLauncher(Vector3 positionModifier) {
+		float startPos = movingDir == Direction.RIGHT ? -5f : 5f;
+		Vector3 direction = new Vector3((transform.position.x + startPos), transform.position.y, 0);
+		lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, direction);
+		MovePullLineTo(direction);
+		Debug.Log("C: startPos: " + startPos + " lastPullBack: " + lastPullBackPosition + " direction: " + direction + " playerDir: " + movingDir);
+
+		// Debug.Log("Position: " + transform.position);
+		// Debug.Log("Direction: " + pullLine.GetDirection(transform.position));
+		// Debug.Log("Magnitude: " + direction.magnitude);
+	}
+
+	public void Scooch(int x, int y) {
+		//added for sticky block testing
+		// if (this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
+		// {
+		// 	this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
+		// }
+		this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
+		SetRespawn();
+		this.transform.GetComponent<Rigidbody2D>().AddForce (new Vector2 (x, y));//scooch!
+		fartControl.PlayScoochPoot();
+	}
+
+	public void ScoochRight() {
+		// //added for sticky block testing
+		// if (this.transform.GetComponent<Rigidbody2D>().gravityScale == 0) 
+		// {
+		// 	this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
+		// }			
+		
+		// SetRespawn();
+		// this.transform.GetComponent<Rigidbody2D>().AddForce (new Vector2 (100, 500));//scooch!
+		// fartControl.PlayScoochPoot();
+		Debug.Log("Scooching right.");
+		Scooch(100, 500);	
+	}
+
+	public void ScoochLeft() {
+		Debug.Log("Scooching left.");
+		Scooch(-100, 500);
+	}
     
     public void SetIsStopped(bool stopped)
     {

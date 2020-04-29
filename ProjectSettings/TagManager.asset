@@ -2,6 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
+  serializedVersion: 2
   tags:
   - Block
   - PickUp
@@ -12,61 +13,53 @@ TagManager:
   - Ground
   - Wall
   - Fartometer
+  - TrajectoryDot
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
   - 
   - 
+  - Player
+  - Enemies
+  - Pickups
+  - DefaultBlock
+  - SlipperyBlock
+  - BouncyBlock
+  - StickyBlock
+  - TeleportBlock1
+  - TeleportBlock2
+  - StopBlock
+  - MagnetBlock
+  - VortexBlock
+  - DisappearBlock
+  - MovingBlock
+  - FallingBlock
+  - BoostBlock
   - 
+  - Wall
+  - Ground
   - 
+  - Menu
   - 
   - 
   - TrajectoryDot
-  - 
-  - 
-  Builtin Layer 0: Default
-  Builtin Layer 1: TransparentFX
-  Builtin Layer 2: Ignore Raycast
-  Builtin Layer 3: 
-  Builtin Layer 4: Water
-  Builtin Layer 5: UI
-  Builtin Layer 6: 
-  Builtin Layer 7: 
-  User Layer 8: Player
-  User Layer 9: Enemies
-  User Layer 10: Pickups
-  User Layer 11: DefaultBlock
-  User Layer 12: SlipperyBlock
-  User Layer 13: BouncyBlock
-  User Layer 14: StickyBlock
-  User Layer 15: TeleportBlock1
-  User Layer 16: TeleportBlock2
-  User Layer 17: StopBlock
-  User Layer 18: MagnetBlock
-  User Layer 19: VortexBlock
-  User Layer 20: DisappearBlock
-  User Layer 21: MovingBlock
-  User Layer 22: FallingBlock
-  User Layer 23: BoostBlock
-  User Layer 24: 
-  User Layer 25: Wall
-  User Layer 26: Ground
-  User Layer 27: 
-  User Layer 28: Menu
-  User Layer 29: 
-  User Layer 30: 
-  User Layer 31: TrajectoryDot
   m_SortingLayers:
   - name: Default
-    userID: 0
     uniqueID: 0
     locked: 0
   - name: Background
-    userID: 1
     uniqueID: 352220229
     locked: 0
   - name: Midground
-    userID: 2
     uniqueID: 2751523873
     locked: 0
+  - name: Midground2
+    uniqueID: 728070801
+    locked: 0
   - name: Foreground
-    userID: 3
     uniqueID: 103654257
     locked: 0
