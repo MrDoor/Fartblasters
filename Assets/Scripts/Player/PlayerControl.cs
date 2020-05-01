@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     private Transform groundCheck2;
 
     // Controller Support
+    public bool inClaw;
     public Vector3 lastPullBackPosition = Vector3.zero;
     private float lastAngle = 0.0f;
     private float angleChangeTimer = 0f;
@@ -34,7 +35,7 @@ public class PlayerControl : MonoBehaviour
 
     // Hop  
     public float hopX = 1000f;
-    public float hopY = 3200f;
+    public float hopY = 2300f;
     public bool canHop = true;
 
     // Particle System
@@ -226,7 +227,7 @@ public class PlayerControl : MonoBehaviour
             // ScoochLeft();
             Scooch(-10, 50);
         }
-        else if (canHop && Input.GetButtonDown("AButton"))
+        else if (canHop && !inClaw && Input.GetButtonDown("AButton"))
         {
             canHop = false;
             //Debug.Log("hopX: " + hopX + " hopY: " + hopY + " aplifyBounceCount: " + amplifyBounceCount);
@@ -249,7 +250,7 @@ public class PlayerControl : MonoBehaviour
             initialPullBackSet = false;
             lastPullBackPosition = transform.position;
             lastAngle = 0f;
-            pullBackRadius = 5f;
+            pullBackRadius = 1.5f;
         }
 
         if (canScooch && Input.GetKeyDown("d"))

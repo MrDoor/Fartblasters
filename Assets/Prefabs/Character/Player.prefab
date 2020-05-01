@@ -518,9 +518,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01981e76030fc6f42a31e69299565f2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastPullBackPosition: {x: 0, y: 0, z: 0}
   amplifyBounceCount: 0
   hopX: 800
-  hopY: 1600
+  hopY: 2300
   canHop: 1
   particleSystem: {fileID: 19800000}
   pullLine: {fileID: 11400006}
@@ -530,6 +531,7 @@ MonoBehaviour:
   playerAnimation: {fileID: 11400002}
   fartControl: {fileID: 11456300}
   foodSpawner: {fileID: 11400014}
+  shouldDie: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +566,7 @@ MonoBehaviour:
   healthControl: {fileID: 0}
   bodySpriteRenderer: {fileID: 21200002}
   maxHealth: 100
+  currentHealth: 0
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 0
