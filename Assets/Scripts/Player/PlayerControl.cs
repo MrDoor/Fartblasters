@@ -162,7 +162,7 @@ public class PlayerControl : MonoBehaviour
             if ((vertical == 1 || vertical == -1))
             {
 
-                if (vertical == 1)
+                if (vertical == -1)
                 { // UP
                     pullBackRadius = pullBackRadius + 0.1f > 1.6f ? pullBackRadius : pullBackRadius + 0.1f;
                 }

@@ -63,3 +63,12 @@ TagManager:
   - name: Foreground
     uniqueID: 103654257
     locked: 0
+  - name: Effects
+    uniqueID: 1017226403
+    locked: 0
+  - name: Player
+    uniqueID: 2180150095
+    locked: 0
+  - name: OverPlayer
+    uniqueID: 810095111
+    locked: 0

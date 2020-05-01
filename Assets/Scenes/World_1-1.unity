@@ -1516,7 +1516,7 @@ MonoBehaviour:
   xSmooth: 4
   ySmooth: 4
   maxXAndY: {x: -1, y: 10}
-  minXAndY: {x: 0, y: 0}
+  minXAndY: {x: -11.5, y: -8}
   playerGO: {fileID: 0}
   shouldRefindPlayer: 0
 --- !u!1 &434137808
@@ -4906,11 +4906,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 400000, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: .617442131
+      value: 0.61744213
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -.0284852982
+      value: -0.028485298
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4940,6 +4940,10 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8200880, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
       propertyPath: shouldUseClassicBounce
       value: 1
@@ -4947,6 +4951,21 @@ PrefabInstance:
     - target: {fileID: 11400000, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939643810007573516, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+        type: 3}
+      propertyPath: bounceForce
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939643810007573516, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+        type: 3}
+      propertyPath: forceModeToUse
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939643810007573516, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
+        type: 3}
+      propertyPath: baseForce
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f93b735bd0127c4c964f4148ee4a3bf, type: 3}
@@ -7708,25 +7727,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60fb4790aaf5035418567e15cbc554be, type: 3}
---- !u!1 &2139223459 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 4f93b735bd0127c4c964f4148ee4a3bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 1288642970}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2139223464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139223459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bafcfbd491aaa9488f3b204ba73e750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bounceForce: 0
 --- !u!1001 &6240594971393929852
 PrefabInstance:
   m_ObjectHideFlags: 0
