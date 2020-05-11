@@ -53,7 +53,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void UpdateFacingDir()
     {
-        Debug.Log("A: pullLine.IsHolding: " + pullLine.IsHolding());
+        //Debug.Log("A: pullLine.IsHolding: " + pullLine.IsHolding());
         //Debug.Log("A: direction: " + pullLine.GetDirection(transform.position));
         if (pullLine.IsHolding())
         {

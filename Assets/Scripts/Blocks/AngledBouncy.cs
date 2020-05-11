@@ -4,7 +4,8 @@ using System.Collections;
 public class AngledBouncy : MonoBehaviour
 {
     public float bounceForce;
-    public int baseForce;
+    public int baseForceX;
+    public int baseForceY;
     public float SecondsBetweenBounces;
     public ForceMode2D forceModeToUse;
 
@@ -20,6 +21,9 @@ public class AngledBouncy : MonoBehaviour
             bounceForce = 8f;
             Debug.Log("Bounce Setting bounceForce to: " + bounceForce);
         }
+
+        baseForceX = baseForceX <= 0 ? 500 : baseForceX;
+        baseForceY = baseForceY <= 0 ? 500 : baseForceY;
     }
 
     // Update is called once per frame
@@ -40,7 +44,7 @@ public class AngledBouncy : MonoBehaviour
             PlayerControl pControl = coll.gameObject.GetComponent<PlayerControl>();
             Rigidbody2D rb = pControl.GetComponent<Rigidbody2D>();
 
-            Vector2 bounceForceVector = new Vector2((pControl.playerAnimation.isFacingRight ? baseForce : -baseForce), baseForce) * bounceForce;
+            Vector2 bounceForceVector = new Vector2((pControl.playerAnimation.isFacingRight ? baseForceX : -baseForceX), baseForceY) * bounceForce;
             Debug.Log("Bounce force: " + bounceForce + " vector: " + bounceForceVector);
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;

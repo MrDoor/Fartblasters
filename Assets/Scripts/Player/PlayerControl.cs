@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour
     public bool canHop = true;
 
     // Particle System
-    public ParticleSystem particleSystem;
+    public ParticleSystem fartParticles;
 
     // Pull Line
     public PullLine pullLine;
@@ -49,6 +49,11 @@ public class PlayerControl : MonoBehaviour
 
     // Launch Control
     public LaunchControl launchControl;
+    public bool shouldRegenerateFartJuice;
+    public int regenerationTrigger;
+    public int regenerateLevel;
+    public float regenerationPerTick;
+    private bool isRegenerating = false;
 
     // Health
     public PlayerHealth playerHealth;
@@ -89,6 +94,30 @@ public class PlayerControl : MonoBehaviour
         launchControl.Init();
         playerAnimation.Init();
         playerHealth.Init();
+
+        Init();
+    }
+
+    private void Init()
+    {
+        shouldRegenerateFartJuice = true;
+        regenerationTrigger = regenerationTrigger <= 0 ? 5 : regenerationTrigger;
+        regenerateLevel = regenerateLevel <= 0 ? 20 : regenerateLevel;
+        regenerationPerTick = regenerationPerTick <= 0 ? .7f : regenerationPerTick;
+
+        Debug.Log("Fart Particles: " + fartParticles);
+        if (fartParticles == null)
+        {
+            ParticleSystem ps = transform.GetComponentInChildren<ParticleSystem>();
+            if (ps == null)
+            {
+                Debug.Log("Instantiating Fart Particles");
+                GameObject fp = Instantiate(Resources.Load("Prefabs/fartParticles")) as GameObject;
+                ps = fp.GetComponent<ParticleSystem>();
+            }
+            fartParticles = ps;
+            Debug.Log("Fart Particles After Null: " + fartParticles);
+        }
     }
 
     void Update()
@@ -97,6 +126,11 @@ public class PlayerControl : MonoBehaviour
         if (shouldDie && isAlive)
         {
             StartDying();
+        }
+
+        if (shouldRegenerateFartJuice)
+        {
+            RegenerateFartJuiceTo(regenerateLevel);
         }
 
         // The player is on the ground if a linecast from the player to the groundCheck hits a block.
@@ -168,7 +202,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 { // DOWN
-                    //pullBackRadius -= 0.5f;
+                  //pullBackRadius -= 0.5f;
                     pullBackRadius = pullBackRadius - 0.1f < 0f ? pullBackRadius : pullBackRadius - 0.1f;
                 }
                 //newAngle = lastAngle;
@@ -209,25 +243,38 @@ public class PlayerControl : MonoBehaviour
             Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * pullBackRadius;
             lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
             MovePullLineTo(lastPullBackPosition);
-            Debug.Log("lastAngle: " + lastAngle);
+            //Debug.Log("lastAngle: " + lastAngle);
             lastAngle = newAngle;
 
             return;
         }
 
-        if (canScooch && horizontal == 1.0)
+        if (horizontal == 1.0)
         {
-            canScooch = false;
-            // ScoochRight();
-            Scooch(10, 50);
+            if (canScooch)
+            {
+                canScooch = false;
+                Scooch(10, 50);
+            }
+            else
+            {
+                Scooch(5, 5);
+            }
         }
-        else if (canScooch && horizontal == -1.0)
+        else if (horizontal == -1.0)
         {
-            canScooch = false;
-            // ScoochLeft();
-            Scooch(-10, 50);
+            if (canScooch)
+            {
+                canScooch = false;
+                Scooch(-10, 50);
+            }
+            else
+            {
+                Scooch(-5, 5);
+            }
         }
-        else if (canHop && !inClaw && Input.GetButtonDown("AButton"))
+
+        if (canHop && !inClaw && Input.GetButtonDown("AButton"))
         {
             canHop = false;
             //Debug.Log("hopX: " + hopX + " hopY: " + hopY + " aplifyBounceCount: " + amplifyBounceCount);
@@ -438,13 +485,13 @@ public class PlayerControl : MonoBehaviour
         Time.timeScale = 0;
         yield return new WaitForSeconds(4f);
         /*
-		GUIStyle textStyle = new GUIStyle();
-		textStyle.fontSize = 35;
-		GUI.color = Color.red;
-		GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);
-		Debug.Log ( "Dead" );		
-		yield return new WaitForSeconds(2f);
-		*/
+        GUIStyle textStyle = new GUIStyle();
+        textStyle.fontSize = 35;
+        GUI.color = Color.red;
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 ,Screen.width,Screen.height),"Game Over", textStyle);
+        Debug.Log ( "Dead" );		
+        yield return new WaitForSeconds(2f);
+        */
         //Application.LoadLevel(Application.loadedLevel);
 
         PlayerPrefs.SetString("death", "Dead");
@@ -547,6 +594,16 @@ public class PlayerControl : MonoBehaviour
         // Debug.Log("Position: " + transform.position);
         // Debug.Log("Direction: " + pullLine.GetDirection(transform.position));
         // Debug.Log("Magnitude: " + direction.magnitude);
+    }
+
+    public void RegenerateFartJuiceTo(int regenerateLevel)
+    {
+        if (!shouldRegenerateFartJuice) { return; }
+        if (launchControl.GetCurrentJuice() >= regenerateLevel) { isRegenerating = false; return; }
+        else if (launchControl.GetCurrentJuice() <= regenerationTrigger) { isRegenerating = true; }
+
+        if (!isRegenerating) { return; }
+        launchControl.IncrementCurrentJuice(.07f);
     }
 
     public void Scooch(int x, int y)

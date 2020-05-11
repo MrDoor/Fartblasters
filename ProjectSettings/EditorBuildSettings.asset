@@ -7,39 +7,59 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/test_menu_Nick.unity
+    guid: a9a365593362f9f4ba22dca94243b5bf
   - enabled: 1
     path: Assets/Scenes/test_winMenu_Nick.unity
+    guid: c86b5c0225752dd4aaf2cad1705f4c3a
   - enabled: 1
     path: Assets/Scenes/test_death_menu_Nick.unity
-  - enabled: 1
+    guid: 8b97a0c27550886459b48c8667d1d4b8
+  - enabled: 0
     path: Assets/Scenes/World_1_X-1.unity
+    guid: 0b7a04f58900f6b4cae8993b6fab55c3
   - enabled: 1
     path: Assets/Scenes/World_1-1.unity
+    guid: d989528dd69150d45819d3e9f22387f0
   - enabled: 1
     path: Assets/Scenes/World_1-2.unity
+    guid: 2d189b0dc22d8b14db9d619f89cbd2a6
   - enabled: 1
     path: Assets/Scenes/World_1-3.unity
+    guid: 4ca439e59a27f9f449486cf3015c64e5
   - enabled: 1
     path: Assets/Scenes/World_1-4.unity
+    guid: 8b1c98300a7338743ac97c0a2a64db40
   - enabled: 0
     path: Assets/Scenes/World_1-5.unity
+    guid: 04e54c2ce60422b4b93e7c8e573f3056
   - enabled: 0
     path: Assets/Scenes/World_1-6 Underground Puzzle level.unity
+    guid: 078504cc34f40d54484359e468fbeb90
   - enabled: 1
     path: Assets/Scenes/World_1-7.unity
+    guid: ac988a2214a09464bbb8a403e368e85f
   - enabled: 1
     path: Assets/Scenes/Demo_end.unity
+    guid: 1e036c56aa186ec4fbafa6f5218b4717
   - enabled: 1
     path: Assets/Scenes/World_1_Bonus.unity
+    guid: 546da1732eceafa49ad99d336149a173
   - enabled: 0
     path: Assets/Scenes/test_level_zack_lv_1.unity
+    guid: 4577a487c8bdf5a46a76e28738990d14
   - enabled: 0
     path: Assets/Scenes/test_level_zack_lv_2.unity
+    guid: 1664e56509003fc44bd3eaefd23010f5
   - enabled: 0
     path: Assets/Scenes/test_level_Nick.unity
+    guid: 80622c282a55561478004f5896ab94f2
   - enabled: 0
     path: Assets/Scenes/test_level_zack.unity
+    guid: a22beb693a23e7f4bb25a28887af9c31
   - enabled: 0
     path: Assets/Scenes/test_level_adam.unity
+    guid: c3c19653922d0ad45bb9ca2c39b730ff
   - enabled: 0
     path: Assets/Scenes/World_1-7.unity
+    guid: ac988a2214a09464bbb8a403e368e85f
+  m_configObjects: {}

@@ -1,51 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuItemClick : MonoBehaviour {
+public class MenuItemClick : MonoBehaviour
+{
+    void OnGUI()
+    {
 
-	// Use this for initialization
-	void Start () {
+        GUIStyle textStyle = new GUIStyle();
+        textStyle.fontSize = 35;
+        textStyle.fontStyle = FontStyle.BoldAndItalic;
+        textStyle.normal.textColor = Color.green;
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        float top = Screen.height / 2 + 140;
 
-	void OnGUI () {
-				
-		GUIStyle textStyle = new GUIStyle();
-		textStyle.fontSize = 35;
-		textStyle.fontStyle = FontStyle.BoldAndItalic;
-		textStyle.normal.textColor = Color.green;
+        GUI.Box(new Rect(700, top - 40, 250, 200), "");
 
-		float top = Screen.height / 2 + 140;
+        if (GUI.Button(new Rect(765, top - 20, 100, 50), "New Game"))
+        {
 
-		GUI.Box (new Rect (700, top-40, 250, 200),"");
+            Debug.Log("Load Level: " + Application.loadedLevelName);
+            Application.LoadLevel("World_1-1");
+        }
 
-		if (GUI.Button (new Rect (765, top-20, 100, 50), "New Game")) {
+        if (GUI.Button(new Rect(765, top + 40, 100, 50), "Continue"))
 
-			Debug.Log ("Load Level: " + Application.loadedLevelName);
-			Application.LoadLevel("World_1_X-1");
-			}
-				
-		if(GUI.Button (new Rect(765, top + 40, 100,50), "Continue"))
+        {
+            Debug.Log("Next Level: " + PlayerPrefs.GetInt("loaded level"));
+            if (DBFunctions.getLevelProgress() != -1)
+                Application.LoadLevel(DBFunctions.getLevelProgress());
+            else
+            {
+                Debug.Log("Error retreiving level from the database");
+                Application.LoadLevel(0);
+            }
+        }
 
-			{
-				Debug.Log ("Next Level: " + PlayerPrefs.GetInt ("loaded level"));
-				if(DBFunctions.getLevelProgress() != -1)
-					Application.LoadLevel(DBFunctions.getLevelProgress());
-				else {
-					Debug.Log ("Error retreiving level from the database");
-					Application.LoadLevel (0);
-				}
-			}
+        if (GUI.Button(new Rect(765, top + 100, 100, 50), "Quit Game"))
 
-		if(GUI.Button (new Rect(765, top + 100, 100,50), "Quit Game"))
-
-			{
-				Application.Quit();
-			}
-	}
+        {
+            Application.Quit();
+        }
+    }
 }

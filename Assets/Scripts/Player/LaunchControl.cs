@@ -130,9 +130,9 @@ public class LaunchControl : MonoBehaviour
         }
 
         //Particle Emitter test
-        if (playerControl.particleSystem != null)
+        if (playerControl.fartParticles != null)
         {
-            ParticleSystem particles = playerControl.particleSystem;
+            ParticleSystem particles = playerControl.fartParticles;
             try
             {
                 Debug.Log("Particles!");
@@ -142,6 +142,10 @@ public class LaunchControl : MonoBehaviour
             {
                 Debug.Log("No Particle System Found: " + ue.ToString());
             }
+        }
+        else
+        {
+            Debug.Log("No fart particles.");
         }
     }
 }
