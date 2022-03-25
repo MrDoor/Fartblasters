@@ -419,6 +419,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 28
       objectReference: {fileID: 0}
+    - target: {fileID: 3506333586564187894, guid: 3a4a8d5ad6d73f23b904d1017dc3fa75,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1959019803}
+    - target: {fileID: 3506333586564187894, guid: 3a4a8d5ad6d73f23b904d1017dc3fa75,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3506333586564187894, guid: 3a4a8d5ad6d73f23b904d1017dc3fa75,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1199343967
+      objectReference: {fileID: 0}
     - target: {fileID: 3506333586858080958, guid: 3a4a8d5ad6d73f23b904d1017dc3fa75,
         type: 3}
       propertyPath: m_Layer

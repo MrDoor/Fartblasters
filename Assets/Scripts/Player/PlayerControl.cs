@@ -35,6 +35,8 @@ public class PlayerControl : MonoBehaviour
     public int amplifyBounceCount = 0;
 
     // New Input Action Controller Support -------------
+    private bool controllsInitialized = false;
+
     private bool rightPressed = false;
     private bool leftPressed = false;
     private bool inLaunchMode = false;
@@ -83,6 +85,10 @@ public class PlayerControl : MonoBehaviour
     public FoodSpawner foodSpawner;
 
     public bool shouldDie = false;
+
+    // Spawn Support
+    private float safeSpotTimer = 0.0f;
+    private float safeSpotLimit = 0.5f;
 
 
     void Start()
@@ -155,6 +161,9 @@ public class PlayerControl : MonoBehaviour
 
         controls.Gameplay.LeftMouseClick.started += ctx => Debug.Log("Mouse down");
         controls.Gameplay.LeftMouseClick.canceled += ctx => Debug.Log("Mouse up");
+
+        controllsInitialized = true;
+        Debug.Log("Controller has been initialized.");
     }
 
     private void Init()
@@ -164,25 +173,34 @@ public class PlayerControl : MonoBehaviour
         regenerateLevel = regenerateLevel <= 0 ? 20 : regenerateLevel;
         regenerationPerTick = regenerationPerTick <= 0 ? .7f : regenerationPerTick;
 
-        Debug.Log("Fart Particles: " + fartParticles);
+        // Debug.Log("Fart Particles: " + fartParticles);
         if (fartParticles == null)
         {
             ParticleSystem ps = transform.GetComponentInChildren<ParticleSystem>();
             if (ps == null)
             {
-                Debug.Log("Instantiating Fart Particles");
+                // Debug.Log("Instantiating Fart Particles");
                 GameObject fp = Instantiate(Resources.Load("Prefabs/fartParticles")) as GameObject;
                 ps = fp.GetComponent<ParticleSystem>();
             }
             fartParticles = ps;
-            Debug.Log("Fart Particles After Null: " + fartParticles);
+            // Debug.Log("Fart Particles After Null: " + fartParticles);
         }
     }
 
     void Update()
     {
-        // ReadInputManager.PrintInputVals();
-        // ReadInputManager.CheckIsPressed();
+        if (!controllsInitialized)
+        {
+            initializeControlSupport();
+        }
+
+        safeSpotTimer += Time.deltaTime;
+        if (safeSpotTimer > safeSpotLimit && onGround)
+        {
+            setSafeSpot();
+        }
+
         if (leftMouseDown)
         {
             OnMouseDrag();
@@ -397,12 +415,12 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        Debug.Log($"shouldScoochLeft: {leftPressed} canScooch: {canScooch} isOnGround: {onGround}");
+        // Debug.Log($"shouldScoochLeft: {leftPressed} canScooch: {canScooch} isOnGround: {onGround}");
         if (leftPressed && canScooch && !inLaunchMode)
         {
             DoScoochLeft();
         }
-        Debug.Log($"shouldScoochRight: {rightPressed} canScooch: {canScooch} isOnGround: {onGround}");
+        // Debug.Log($"shouldScoochRight: {rightPressed} canScooch: {canScooch} isOnGround: {onGround}");
         if (rightPressed && canScooch && !inLaunchMode)
         {
             DoScoochRight();
@@ -473,9 +491,9 @@ public class PlayerControl : MonoBehaviour
 
     void OnMouseDrag()
     {
-        Debug.Log("Dragging...");
+        // Debug.Log("Dragging...");
         Vector3 pullEndPoint = pullLine.GetEndPoint(transform.position);
-        Debug.Log($"pullEndPoint: {pullEndPoint}");
+        // Debug.Log($"pullEndPoint: {pullEndPoint}");
         pullLine.PositionClouds(transform.position, pullEndPoint);
         trajectoryDots.Position(transform.position, pullEndPoint);
     }
@@ -520,7 +538,7 @@ public class PlayerControl : MonoBehaviour
                 Application.Quit();
             }
 
-            GUI.Label(new Rect(850, 500, Screen.width, Screen.height), "You have died " + DBFunctions.getTimesDied() + " Times.");
+            // GUI.Label(new Rect(850, 500, Screen.width, Screen.height), "You have died " + DBFunctions.getTimesDied() + " Times.");
 
         }
         //Just a temp spot for health
@@ -574,7 +592,7 @@ public class PlayerControl : MonoBehaviour
         PlayerPrefs.SetInt("currentLevel", Application.loadedLevel);
         StatsManager.Instance.StopLevelTime();
         isAlive = false;
-        DBFunctions.updateTimesDied(1);
+        // DBFunctions.updateTimesDied(1);
         Time.timeScale = 0;
         yield return new WaitForSeconds(4f);
         /*
@@ -715,6 +733,15 @@ public class PlayerControl : MonoBehaviour
         pullBackRadius = 1.5f;
     }
 
+    // -------------------------------------------------------------------------------------
+
+    // Spawn Support------------------------------------------------------------------------
+    void setSafeSpot()
+    {
+        PlayerPrefs.SetFloat("safeSpotX", transform.position.x);
+        PlayerPrefs.SetFloat("safeSpotY", transform.position.y);
+        safeSpotTimer = 0.0f;
+    }
     // -------------------------------------------------------------------------------------
 
     public bool GetOnGround()
