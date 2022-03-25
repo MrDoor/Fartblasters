@@ -37,61 +37,63 @@ public class ClawController : MonoBehaviour
     {
         if (!playerControl.inClaw) { return; }
 
-        horizontal = Input.GetAxis("HorizontalDpad");
-        vertical = Input.GetAxis("VerticalDpad");
+        // TODO: Replace with new controller support
 
-        if (Input.GetKey("left") || horizontal == -1) { leftPressed = true; } else { leftPressed = false; }
-        if (Input.GetKey("right") || horizontal == 1) { rightPressed = true; } else { rightPressed = false; }
-        if (Input.GetKey("up") || vertical == 1) { upPressed = true; } else { upPressed = false; }
-        if (Input.GetKey("down") || vertical == -1) { downPressed = true; } else { downPressed = false; }
+        // horizontal = Input.GetAxis("HorizontalDpad");
+        // vertical = Input.GetAxis("VerticalDpad");
 
-        if (leftPressed)
-        {
-            if (this.transform.position.x >= minDistance)
-            {
-                Vector2 newPosition = this.transform.position;
-                newPosition.x = newPosition.x - movementSpeed / 100;
+        // if (Input.GetKey("left") || horizontal == -1) { leftPressed = true; } else { leftPressed = false; }
+        // if (Input.GetKey("right") || horizontal == 1) { rightPressed = true; } else { rightPressed = false; }
+        // if (Input.GetKey("up") || vertical == 1) { upPressed = true; } else { upPressed = false; }
+        // if (Input.GetKey("down") || vertical == -1) { downPressed = true; } else { downPressed = false; }
 
-                this.transform.position = newPosition;
-            }
-        }
-        else if (rightPressed)
-        {
-            if (this.transform.position.x <= maxDistance)
-            {
-                Vector2 newPosition = this.transform.position;
-                newPosition.x = newPosition.x + movementSpeed / 100;
+        // if (leftPressed)
+        // {
+        //     if (this.transform.position.x >= minDistance)
+        //     {
+        //         Vector2 newPosition = this.transform.position;
+        //         newPosition.x = newPosition.x - movementSpeed / 100;
 
-                this.transform.position = newPosition;
-            }
-        }
-        else if (downPressed)
-        {
-            if (this.transform.position.y >= Camera.main.orthographicSize + 1)
-            {
-                Vector2 newPosition = this.transform.position;
-                newPosition.y = newPosition.y - movementSpeed / 100;
+        //         this.transform.position = newPosition;
+        //     }
+        // }
+        // else if (rightPressed)
+        // {
+        //     if (this.transform.position.x <= maxDistance)
+        //     {
+        //         Vector2 newPosition = this.transform.position;
+        //         newPosition.x = newPosition.x + movementSpeed / 100;
 
-                this.transform.position = newPosition;
-            }
-        }
-        else if (upPressed)
-        {
-            Vector2 newPosition = this.transform.position;
-            newPosition.y = newPosition.y + movementSpeed / 100;
+        //         this.transform.position = newPosition;
+        //     }
+        // }
+        // else if (downPressed)
+        // {
+        //     if (this.transform.position.y >= Camera.main.orthographicSize + 1)
+        //     {
+        //         Vector2 newPosition = this.transform.position;
+        //         newPosition.y = newPosition.y - movementSpeed / 100;
 
-            this.transform.position = newPosition;
-        }
+        //         this.transform.position = newPosition;
+        //     }
+        // }
+        // else if (upPressed)
+        // {
+        //     Vector2 newPosition = this.transform.position;
+        //     newPosition.y = newPosition.y + movementSpeed / 100;
+
+        //     this.transform.position = newPosition;
+        // }
 
         if (rightClaw && leftClaw)
         {
             JointMotor2D tempLeftJoint = leftClaw.GetComponent<HingeJoint2D>().motor;
             JointMotor2D tempRightJoint = rightClaw.GetComponent<HingeJoint2D>().motor;
 
-            bool shouldOpen = (Input.GetKey("right shift") || Input.GetButton("AButton"));
+            // bool shouldOpen = (Input.GetKey("right shift") || Input.GetButton("AButton"));
 
-            leftClaw.GetComponent<HingeJoint2D>().useMotor = shouldOpen;
-            rightClaw.GetComponent<HingeJoint2D>().useMotor = shouldOpen;
+            // leftClaw.GetComponent<HingeJoint2D>().useMotor = shouldOpen;
+            // rightClaw.GetComponent<HingeJoint2D>().useMotor = shouldOpen;
 
             //        if (shouldOpen)
             //        {

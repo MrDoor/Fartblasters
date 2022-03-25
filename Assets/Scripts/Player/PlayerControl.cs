@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-// using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
     // Player Control
     private Transform groundCheck;
     private Transform groundCheck2;
+    PlayerControls controls;
 
     // Controller Support
     public bool inClaw;
@@ -32,6 +33,20 @@ public class PlayerControl : MonoBehaviour
     private Direction movingDir = Direction.RIGHT;
 
     public int amplifyBounceCount = 0;
+
+    // New Input Action Controller Support -------------
+    private bool rightPressed = false;
+    private bool leftPressed = false;
+    private bool inLaunchMode = false;
+    private bool upPressed = false;
+    private bool downPressed = false;
+
+    private float scoochTimeLimit = 0.1f;
+    private float nextScoochTimer = 0f;
+
+    private bool leftMouseDown = false;
+
+    // -------------------------------------------------
 
     // Hop  
     public float hopX = 1000f;
@@ -79,6 +94,8 @@ public class PlayerControl : MonoBehaviour
         amplifyBounceCount = 0;
         StatsManager.Instance.Init();
         // Debug.Log(string.Join("\n", Gamepad.all)); //Does not yet work apparently
+        // ReadInputManager.ReadAxes();
+        // ReadInputManager.PrintInputVals();
     }
 
     void Awake()
@@ -95,7 +112,49 @@ public class PlayerControl : MonoBehaviour
         playerAnimation.Init();
         playerHealth.Init();
 
+        // NEW INPUT SYSTEM
+        initializeControlSupport();
+
         Init();
+    }
+
+    private void initializeControlSupport()
+    {
+        // B Button = South
+        controls = new PlayerControls();
+
+        // controls.Gameplay.ScoochRight.performed += DoScoochRight;
+        // controls.Gameplay.ScoochLeft.performed += DoScoochLeft;
+
+        controls.Gameplay.ScoochLeft.started += ctx => leftPressed = true;
+        controls.Gameplay.ScoochLeft.canceled += ctx => leftPressed = false;
+
+        controls.Gameplay.ScoochRight.started += ctx => rightPressed = true;
+        controls.Gameplay.ScoochRight.canceled += ctx => rightPressed = false;
+
+        controls.Gameplay.Launch.started += ctx => inLaunchMode = true;
+        controls.Gameplay.Launch.canceled += ctx => { inLaunchMode = false; DoLaunch(); };
+
+        controls.Gameplay.Up.started += ctx => upPressed = true;
+        controls.Gameplay.Up.canceled += ctx => upPressed = false;
+
+        controls.Gameplay.Down.started += ctx => downPressed = true;
+        controls.Gameplay.Down.canceled += ctx => downPressed = false;
+
+        controls.Gameplay.Hop.performed += DoHop;
+
+
+        controls.Gameplay.LeftMouseClick.started += ctx => { leftMouseDown = true; };
+        controls.Gameplay.LeftMouseClick.canceled += ctx => { leftMouseDown = false; OnMouseUp(); };
+
+        // var hopAction = new InputAction("Hop");
+        // hopAction.AddBinding("<Gamepad>/dPadUp").WithInteraction("press;pressOnly");
+
+        // hopAction.performed += DoHop;
+
+
+        controls.Gameplay.LeftMouseClick.started += ctx => Debug.Log("Mouse down");
+        controls.Gameplay.LeftMouseClick.canceled += ctx => Debug.Log("Mouse up");
     }
 
     private void Init()
@@ -122,7 +181,15 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+        // ReadInputManager.PrintInputVals();
+        // ReadInputManager.CheckIsPressed();
+        if (leftMouseDown)
+        {
+            OnMouseDrag();
+        }
+
         angleChangeTimer += Time.deltaTime;
+        nextScoochTimer += Time.deltaTime;
         if (shouldDie && isAlive)
         {
             StartDying();
@@ -164,164 +231,188 @@ public class PlayerControl : MonoBehaviour
 
         foodSpawner.CheckSpawnFood();
 
-        float horizontal = Input.GetAxis("HorizontalDpad");
-        float vertical = Input.GetAxis("VerticalDpad");
-        //Debug.Log("horizontal: " + horizontal + " onGround: " + onGround + " canScooch: " + canScooch);
-        if (Input.GetButtonDown("BButton"))
-        {
-            Debug.Log("C: GetButtonDown BButton!");
-            if (!initialPullBackSet)
-            {
-                PullBackLauncher(Vector2.zero);
-                initialPullBackSet = true;
-            }
-        }
+        // Checking for controller/keyboard input ===============================================================
+
+        // float horizontal = Input.GetAxis("HorizontalDpad");
+        // float vertical = Input.GetAxis("VerticalDpad");
+        // Debug.Log("horizontal: " + horizontal + " onGround: " + onGround + " canScooch: " + canScooch);
+
+        // if (Input.GetButtonDown("BButton"))
+        // {
+        //     Debug.Log("C: GetButtonDown BButton!");
+        //     if (!initialPullBackSet)
+        //     {
+        //         PullBackLauncher(Vector2.zero);
+        //         initialPullBackSet = true;
+        //     }
+        // }
 
         //https://answers.unity.com/questions/1164022/move-a-2d-item-in-a-circle-around-a-fixed-point.html
-        if (Input.GetButton("BButton"))
+        // if (Input.GetButton("BButton"))
+        // {
+        //     //Debug.Log("angleChangeTimer: " + angleChangeTimer);
+        //     if (angleChangeTimer < 0.05f)
+        //     {
+        //         return;
+        //     }
+        //     else
+        //     {
+        //         angleChangeTimer = 0f;
+        //     }
+
+        //     //float newAngle = 0.0f;
+        //     float newAngle = lastAngle;
+
+        //     if ((vertical == 1 || vertical == -1))
+        //     {
+
+        //         if (vertical == -1)
+        //         { // UP
+        //             pullBackRadius = pullBackRadius + 0.1f > 1.6f ? pullBackRadius : pullBackRadius + 0.1f;
+        //         }
+        //         else
+        //         { // DOWN
+        //           //pullBackRadius -= 0.5f;
+        //             pullBackRadius = pullBackRadius - 0.1f < 0f ? pullBackRadius : pullBackRadius - 0.1f;
+        //         }
+        //         //newAngle = lastAngle;
+        //         Debug.Log("Changing Radius: " + pullBackRadius);
+        //     }
+
+        //     if ((horizontal == 1 || horizontal == -1))
+        //     {
+        //         //Debug.Log("C:GetButton BButton!");
+
+        //         if (horizontal == 1)
+        //         { //Right
+        //             if (!initialPullBackSet)
+        //             {
+        //                 newAngle = 180f;
+        //                 initialPullBackSet = true;
+        //             }
+        //             else
+        //             {
+        //                 newAngle = lastAngle + pullBackAngle > 360 ? 0.0f : lastAngle + pullBackAngle;
+        //             }
+        //         }
+        //         else
+        //         { //Left
+        //             if (!initialPullBackSet)
+        //             {
+        //                 newAngle = 90f;
+        //                 initialPullBackSet = true;
+        //             }
+        //             else
+        //             {
+        //                 newAngle = lastAngle - pullBackAngle < 0 ? 360 - pullBackAngle : lastAngle - pullBackAngle;
+        //             }
+        //         }
+        //     }
+
+
+        //     Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * pullBackRadius;
+        //     lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
+        //     MovePullLineTo(lastPullBackPosition);
+        //     //Debug.Log("lastAngle: " + lastAngle);
+        //     lastAngle = newAngle;
+
+        //     return;
+        // }
+
+        // if (horizontal == 1.0)
+        // {
+        //     if (canScooch)
+        //     {
+        //         canScooch = false;
+        //         Scooch(10, 50);
+        //     }
+        //     else
+        //     {
+        //         Scooch(5, 5);
+        //     }
+        // }
+        // else if (horizontal == -1.0)
+        // {
+        //     if (canScooch)
+        //     {
+        //         canScooch = false;
+        //         Scooch(-10, 50);
+        //     }
+        //     else
+        //     {
+        //         Scooch(-5, 5);
+        //     }
+        // }
+
+        // if (canHop && !inClaw && Input.GetButtonDown("AButton"))
+        // {
+        //     canHop = false;
+        //     //Debug.Log("hopX: " + hopX + " hopY: " + hopY + " aplifyBounceCount: " + amplifyBounceCount);
+        //     Hop(hopX, hopY);
+        //     // Hop((hopX * 0.90f), (hopY * 0.90f));
+        //     // Hop(1000f, 2800f);
+        // }
+        // else if (Input.GetButtonUp("BButton"))
+        // {
+        //     if (launchControl.GetAllowed())
+        //     {
+        //         Launch();
+        //     }
+        //     else
+        //     {
+        //         // Do something maybe?
+        //         ResetLaunch();
+        //     }
+        //     Debug.Log("Launch Allowed: " + launchControl.GetAllowed());
+        //     initialPullBackSet = false;
+        //     lastPullBackPosition = transform.position;
+        //     lastAngle = 0f;
+        //     pullBackRadius = 1.5f;
+        // }
+
+
+        // if (canScooch && Input.GetKeyDown("d"))
+        // {
+        //     canScooch = false;
+        //     ScoochRight();
+        // }
+        // else if (canScooch && Input.GetKeyDown("a"))
+        // {
+        //     canScooch = false;
+        //     ScoochLeft();
+        // }
+        // else if (Input.GetKeyDown("w"))
+        // {
+        //     if (canHop)
+        //     {
+        //         Hop(hopX, hopY);
+        //     }
+        // }
+
+        if (inLaunchMode)
         {
-            //Debug.Log("angleChangeTimer: " + angleChangeTimer);
-            if (angleChangeTimer < 0.05f)
+            if (handleLaunchMode())
             {
                 return;
             }
-            else
-            {
-                angleChangeTimer = 0f;
-            }
-
-            //float newAngle = 0.0f;
-            float newAngle = lastAngle;
-
-            if ((vertical == 1 || vertical == -1))
-            {
-
-                if (vertical == -1)
-                { // UP
-                    pullBackRadius = pullBackRadius + 0.1f > 1.6f ? pullBackRadius : pullBackRadius + 0.1f;
-                }
-                else
-                { // DOWN
-                  //pullBackRadius -= 0.5f;
-                    pullBackRadius = pullBackRadius - 0.1f < 0f ? pullBackRadius : pullBackRadius - 0.1f;
-                }
-                //newAngle = lastAngle;
-                Debug.Log("Changing Radius: " + pullBackRadius);
-            }
-
-            if ((horizontal == 1 || horizontal == -1))
-            {
-                //Debug.Log("C:GetButton BButton!");
-
-                if (horizontal == 1)
-                { //Right
-                    if (!initialPullBackSet)
-                    {
-                        newAngle = 180f;
-                        initialPullBackSet = true;
-                    }
-                    else
-                    {
-                        newAngle = lastAngle + pullBackAngle > 360 ? 0.0f : lastAngle + pullBackAngle;
-                    }
-                }
-                else
-                { //Left
-                    if (!initialPullBackSet)
-                    {
-                        newAngle = 90f;
-                        initialPullBackSet = true;
-                    }
-                    else
-                    {
-                        newAngle = lastAngle - pullBackAngle < 0 ? 360 - pullBackAngle : lastAngle - pullBackAngle;
-                    }
-                }
-            }
-
-
-            Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * pullBackRadius;
-            lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
-            MovePullLineTo(lastPullBackPosition);
-            //Debug.Log("lastAngle: " + lastAngle);
-            lastAngle = newAngle;
-
-            return;
         }
 
-        if (horizontal == 1.0)
+        Debug.Log($"shouldScoochLeft: {leftPressed} canScooch: {canScooch} isOnGround: {onGround}");
+        if (leftPressed && canScooch && !inLaunchMode)
         {
-            if (canScooch)
-            {
-                canScooch = false;
-                Scooch(10, 50);
-            }
-            else
-            {
-                Scooch(5, 5);
-            }
+            DoScoochLeft();
         }
-        else if (horizontal == -1.0)
+        Debug.Log($"shouldScoochRight: {rightPressed} canScooch: {canScooch} isOnGround: {onGround}");
+        if (rightPressed && canScooch && !inLaunchMode)
         {
-            if (canScooch)
-            {
-                canScooch = false;
-                Scooch(-10, 50);
-            }
-            else
-            {
-                Scooch(-5, 5);
-            }
+            DoScoochRight();
         }
 
-        if (canHop && !inClaw && Input.GetButtonDown("AButton"))
-        {
-            canHop = false;
-            //Debug.Log("hopX: " + hopX + " hopY: " + hopY + " aplifyBounceCount: " + amplifyBounceCount);
-            Hop(hopX, hopY);
-            // Hop((hopX * 0.90f), (hopY * 0.90f));
-            // Hop(1000f, 2800f);
-        }
-        else if (Input.GetButtonUp("BButton"))
-        {
-            if (launchControl.GetAllowed())
-            {
-                Launch();
-            }
-            else
-            {
-                // Do something maybe?
-                ResetLaunch();
-            }
-            Debug.Log("Launch Allowed: " + launchControl.GetAllowed());
-            initialPullBackSet = false;
-            lastPullBackPosition = transform.position;
-            lastAngle = 0f;
-            pullBackRadius = 1.5f;
-        }
-
-        if (canScooch && Input.GetKeyDown("d"))
-        {
-            canScooch = false;
-            ScoochRight();
-        }
-        else if (canScooch && Input.GetKeyDown("a"))
-        {
-            canScooch = false;
-            ScoochLeft();
-        }
-        else if (Input.GetKeyDown("w"))
-        {
-            if (canHop)
-            {
-                Hop(hopX, hopY);
-            }
-        }
         //Added to test dying transition menu
-        else if (Input.GetKeyDown("x"))
-        {
-            playerHealth.DecHealth(100.0f);
-        }
+        // else if (Input.GetKeyDown("x"))
+        // {
+        //     playerHealth.DecHealth(100.0f);
+        // }
     }
 
     void FixedUpdate()
@@ -382,7 +473,9 @@ public class PlayerControl : MonoBehaviour
 
     void OnMouseDrag()
     {
+        Debug.Log("Dragging...");
         Vector3 pullEndPoint = pullLine.GetEndPoint(transform.position);
+        Debug.Log($"pullEndPoint: {pullEndPoint}");
         pullLine.PositionClouds(transform.position, pullEndPoint);
         trajectoryDots.Position(transform.position, pullEndPoint);
     }
@@ -503,6 +596,127 @@ public class PlayerControl : MonoBehaviour
 
     // Player Control
     // -------------------------------------------------------------------------------------
+
+    // New Controller Support --------------------------------------------------------------
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
+    }
+
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    void DoHop(InputAction.CallbackContext context)
+    {
+        if (canHop)
+        {
+            Hop(hopX, hopY);
+        }
+    }
+
+    // void DoScoochRight(InputAction.CallbackContext context)
+    void DoScoochRight()
+    {
+        if (nextScoochTimer < scoochTimeLimit) { return; }
+        canScooch = false;
+        ScoochRight();
+    }
+
+    // void DoScoochLeft(InputAction.CallbackContext context)
+    void DoScoochLeft()
+    {
+        if (nextScoochTimer < scoochTimeLimit) { return; }
+        canScooch = false;
+        ScoochLeft();
+    }
+
+    bool handleLaunchMode()
+    {
+        int vertical = 0;
+        int horizontal = 0;
+        if (!initialPullBackSet)
+        {
+            PullBackLauncher(Vector2.zero);
+            initialPullBackSet = true;
+        }
+
+        //https://answers.unity.com/questions/1164022/move-a-2d-item-in-a-circle-around-a-fixed-point.html
+        if (angleChangeTimer < 0.05f)
+        {
+            return true;
+        }
+        else
+        {
+            angleChangeTimer = 0f;
+        }
+
+        float newAngle = lastAngle;
+
+        if (upPressed)
+        {
+            pullBackRadius = pullBackRadius + 0.1f > 1.6f ? pullBackRadius : pullBackRadius + 0.1f;
+        }
+        else if (downPressed)
+        {
+            pullBackRadius = pullBackRadius - 0.1f < 0f ? pullBackRadius : pullBackRadius - 0.1f;
+        }
+        else if (rightPressed)
+        {
+            // movingDir = Direction.LEFT;
+            if (!initialPullBackSet)
+            {
+                newAngle = 180f;
+                initialPullBackSet = true;
+            }
+            else
+            {
+                newAngle = lastAngle + pullBackAngle > 360 ? 0.0f : lastAngle + pullBackAngle;
+            }
+        }
+        else if (leftPressed)
+        {
+            // movingDir = Direction.RIGHT;
+            if (!initialPullBackSet)
+            {
+                newAngle = 90f;
+                initialPullBackSet = true;
+            }
+            else
+            {
+                newAngle = lastAngle - pullBackAngle < 0 ? 360 - pullBackAngle : lastAngle - pullBackAngle;
+            }
+        }
+
+        Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * pullBackRadius;
+        lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
+        MovePullLineTo(lastPullBackPosition);
+        lastAngle = newAngle;
+
+        return true;
+    }
+
+    void DoLaunch()
+    {
+        if (launchControl.GetAllowed())
+        {
+            Launch();
+        }
+        else
+        {
+            // Do something maybe?
+            ResetLaunch();
+        }
+        // Debug.Log("Launch Allowed: " + launchControl.GetAllowed());
+        initialPullBackSet = false;
+        lastPullBackPosition = transform.position;
+        lastAngle = 0f;
+        pullBackRadius = 1.5f;
+    }
+
+    // -------------------------------------------------------------------------------------
+
     public bool GetOnGround()
     {
         return onGround;
@@ -616,6 +830,7 @@ public class PlayerControl : MonoBehaviour
         this.transform.GetComponent<Rigidbody2D>().gravityScale = 1;
         SetRespawn();
         this.transform.GetComponent<Rigidbody2D>().AddForce(new Vector2(x, y));//scooch!
+        nextScoochTimer = 0f;
         fartControl.PlayScoochPoot();
     }
 

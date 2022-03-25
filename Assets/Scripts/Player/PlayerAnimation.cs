@@ -57,7 +57,10 @@ public class PlayerAnimation : MonoBehaviour
         //Debug.Log("A: direction: " + pullLine.GetDirection(transform.position));
         if (pullLine.IsHolding())
         {
-            Vector3 pullDir = Input.GetButton("BButton") ? pullLine.GetDirectionStatic(transform.position) : pullLine.GetDirection(transform.position);
+            // TODO: Replace with new controller support
+
+            // Vector3 pullDir = Input.GetButton("BButton") ? pullLine.GetDirectionStatic(transform.position) : pullLine.GetDirection(transform.position);
+            Vector3 pullDir = pullLine.GetDirection(transform.position);
 
             if (isFacingRight)
             {

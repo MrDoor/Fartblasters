@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class PullLine : MonoBehaviour
 {
@@ -44,10 +45,14 @@ public class PullLine : MonoBehaviour
 
         if (launchControl.GetAllowed())
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            // Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log($"Mouse Pos: {Mouse.current.position.ReadValue()}");
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             playerPos.z = 0.0f;
             mouseWorldPos.z = 0.0f;
+            Debug.Log($"mouseWorldPos: {mouseWorldPos}");
             pullDir = playerPos - mouseWorldPos;
+            Debug.Log($"pullDir: {pullDir}");
         }
 
         return pullDir;
