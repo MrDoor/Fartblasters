@@ -46,13 +46,13 @@ public class PullLine : MonoBehaviour
         if (launchControl.GetAllowed())
         {
             // Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log($"Mouse Pos: {Mouse.current.position.ReadValue()}");
+            // Debug.Log($"Mouse Pos: {Mouse.current.position.ReadValue()}");
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             playerPos.z = 0.0f;
             mouseWorldPos.z = 0.0f;
-            Debug.Log($"mouseWorldPos: {mouseWorldPos}");
+            // Debug.Log($"mouseWorldPos: {mouseWorldPos}");
             pullDir = playerPos - mouseWorldPos;
-            Debug.Log($"pullDir: {pullDir}");
+            // Debug.Log($"pullDir: {pullDir}");
         }
 
         return pullDir;
@@ -69,6 +69,28 @@ public class PullLine : MonoBehaviour
             //mouseWorldPos.z = 0.0f;
 
             pullDir = playerPos - playerControl.lastPullBackPosition;
+        }
+
+        return pullDir;
+    }
+
+    public Vector3 GetDirectionTouch(Vector3 playerPos)
+    {
+        Vector3 pullDir = new Vector3(0, 0, 0);
+
+        if (launchControl.GetAllowed())
+        {
+            // Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            // Debug.Log($"Mouse Pos: {Mouse.current.position.ReadValue()}");
+            // Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector2 touchPos = playerControl.GetTouchPosition();
+            Vector3 touchWorldPos = new Vector3(touchPos.x, touchPos.y, 0);
+
+            playerPos.z = 0.0f;
+            touchWorldPos.z = 0.0f;
+            // Debug.Log($"mouseWorldPos: {mouseWorldPos}");
+            pullDir = playerPos - touchWorldPos;
+            // Debug.Log($"pullDir: {pullDir}");
         }
 
         return pullDir;
@@ -125,6 +147,30 @@ public class PullLine : MonoBehaviour
         // playerControl.SetIsStopped( false );
 
         //Debug.Log("P: pullDir: " + pullDir + " pullDist: " + pullDist + " pullEndPoint: " + pullEndPoint);
+
+        return pullEndPoint;
+    }
+
+    public Vector3 GetEndPointTouch(Vector3 playerPos)
+    {
+        Vector3 pullEndPoint = playerPos;
+        Vector3 pullDir = GetDirectionTouch(playerPos);
+        float lineLength = 0.0f;
+        Vector3 launchDir = new Vector3(0.0f, 0.0f, 0.0f);
+
+        pullFraction = 0.0f;
+        pullDist = pullDir.magnitude;
+
+        if (pullDist >= minLineLength)
+        {
+            launchDir = pullDir / pullDist;
+            lineLength = Mathf.Min(pullDist, maxLineLength);
+            pullFraction = (lineLength - minLineLength) / (maxLineLength - minLineLength);
+            pullEndPoint = playerPos - (launchDir * lineLength);
+        }
+
+        launchControl.SetDir(new Vector2(launchDir.x, launchDir.y));
+        playerControl.SetIsStopped(false);
 
         return pullEndPoint;
     }

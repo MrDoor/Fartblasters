@@ -48,6 +48,11 @@ public class PlayerControl : MonoBehaviour
 
     private bool leftMouseDown = false;
 
+    private bool inTouchLaunchMode = false;
+    private bool touchHeld = false;
+    private Vector2 touchPosition;
+    private Vector2 startTouchPosition;
+
     // -------------------------------------------------
 
     // Hop  
@@ -99,9 +104,6 @@ public class PlayerControl : MonoBehaviour
         }
         amplifyBounceCount = 0;
         StatsManager.Instance.Init();
-        // Debug.Log(string.Join("\n", Gamepad.all)); //Does not yet work apparently
-        // ReadInputManager.ReadAxes();
-        // ReadInputManager.PrintInputVals();
     }
 
     void Awake()
@@ -120,18 +122,22 @@ public class PlayerControl : MonoBehaviour
 
         // NEW INPUT SYSTEM
         initializeControlSupport();
+        initializeTouchSupport();
 
         Init();
     }
 
+    // void OnEnable()
+    // {
+    //     TouchSimulation.Enable();
+    // }
+
     private void initializeControlSupport()
     {
         // B Button = South
-        controls = new PlayerControls();
+        controls = GetControls();
 
-        // controls.Gameplay.ScoochRight.performed += DoScoochRight;
-        // controls.Gameplay.ScoochLeft.performed += DoScoochLeft;
-
+        // Controller
         controls.Gameplay.ScoochLeft.started += ctx => leftPressed = true;
         controls.Gameplay.ScoochLeft.canceled += ctx => leftPressed = false;
 
@@ -149,9 +155,12 @@ public class PlayerControl : MonoBehaviour
 
         controls.Gameplay.Hop.performed += DoHop;
 
-
+        // Mouse
         controls.Gameplay.LeftMouseClick.started += ctx => { leftMouseDown = true; };
         controls.Gameplay.LeftMouseClick.canceled += ctx => { leftMouseDown = false; OnMouseUp(); };
+
+        // Touchscreen
+        // controls.Gameplay.TouchOccurred.performed += ctx => { touchPosition = ctx.ReadValue<Vector2>(); };
 
         // var hopAction = new InputAction("Hop");
         // hopAction.AddBinding("<Gamepad>/dPadUp").WithInteraction("press;pressOnly");
@@ -159,11 +168,47 @@ public class PlayerControl : MonoBehaviour
         // hopAction.performed += DoHop;
 
 
-        controls.Gameplay.LeftMouseClick.started += ctx => Debug.Log("Mouse down");
-        controls.Gameplay.LeftMouseClick.canceled += ctx => Debug.Log("Mouse up");
+        // controls.Gameplay.TouchOccurred.performed += ctx => Debug.Log($"Touched: {touchPosition.x}, {touchPosition.y}");
+        // controls.Gameplay.LeftMouseClick.canceled += ctx => Debug.Log("Mouse up");
+
+        //  void Awake()
+        //     {
+        //         controller = new TestController();
+        //         controller.Player.TouchPoint.performed += x => CallSomething(x.ReadValue<Vector2>());
+        //     }
+        //     private void CallSomething(Vector2 touch) {
+        //         Debug.Log($"Touch Screen Position: {touch}");
+        //         var world = Camera.main.ScreenToWorldPoint(touch);
+        //         Debug.Log($"Touch World Position: {world}");
+        //         Debug.DrawLine(world,world + Vector3.one,Color.magenta,5f);
+        //     }
+
+        // controls.Enable();able();
 
         controllsInitialized = true;
         Debug.Log("Controller has been initialized.");
+    }
+
+    private void initializeTouchSupport()
+    {
+        // controls = GetControls();
+        EnsureControls();
+
+        // controls.Touch.TouchPress.started += ctx => { Debug.Log("Touch occurred."); touchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>()); handleTouchInput(); };
+        controls.Touch.TouchPress.performed += ctx => { Debug.Log("Touch occurred."); touchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>()); handleTouchPressInput(); };
+
+        controls.Touch.TouchHold.started += ctx =>
+        {
+            Debug.Log("Hold occurred.");
+            touchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>());
+            startTouchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>());
+            touchHeld = true; handleTouchHoldInput();
+        };
+        controls.Touch.TouchHold.canceled += ctx => { Debug.Log("Hold stopped."); touchHeld = false; handleTouchLaunch(); };
+
+        // controls.Touch.TouchHold.performed += ctx => { Debug.Log("Hold occurred."); touchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>()); touchHeld = true; };
+
+        touchPosition = new Vector2(transform.position.x, transform.position.y);
     }
 
     private void Init()
@@ -193,6 +238,31 @@ public class PlayerControl : MonoBehaviour
         if (!controllsInitialized)
         {
             initializeControlSupport();
+        }
+
+        if (touchHeld)
+        {
+            touchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>());
+        }
+
+        if (touchHeld && canScooch && !inLaunchMode)
+        {
+            handleTouchHoldInput();
+        }
+
+        Debug.Log($"touchHeld: {touchHeld} inTouchLaunchMode: {inTouchLaunchMode}");
+        if (touchHeld && inTouchLaunchMode)
+        {
+            handleTouchLaunchMode();
+        }
+
+        if (touchPosition != null)
+        {
+            Debug.Log($"touchPosition: {touchPosition.x}, {touchPosition.y}");
+        }
+        else
+        {
+            Debug.Log("no touch position set.");
         }
 
         safeSpotTimer += Time.deltaTime;
@@ -251,161 +321,6 @@ public class PlayerControl : MonoBehaviour
 
         // Checking for controller/keyboard input ===============================================================
 
-        // float horizontal = Input.GetAxis("HorizontalDpad");
-        // float vertical = Input.GetAxis("VerticalDpad");
-        // Debug.Log("horizontal: " + horizontal + " onGround: " + onGround + " canScooch: " + canScooch);
-
-        // if (Input.GetButtonDown("BButton"))
-        // {
-        //     Debug.Log("C: GetButtonDown BButton!");
-        //     if (!initialPullBackSet)
-        //     {
-        //         PullBackLauncher(Vector2.zero);
-        //         initialPullBackSet = true;
-        //     }
-        // }
-
-        //https://answers.unity.com/questions/1164022/move-a-2d-item-in-a-circle-around-a-fixed-point.html
-        // if (Input.GetButton("BButton"))
-        // {
-        //     //Debug.Log("angleChangeTimer: " + angleChangeTimer);
-        //     if (angleChangeTimer < 0.05f)
-        //     {
-        //         return;
-        //     }
-        //     else
-        //     {
-        //         angleChangeTimer = 0f;
-        //     }
-
-        //     //float newAngle = 0.0f;
-        //     float newAngle = lastAngle;
-
-        //     if ((vertical == 1 || vertical == -1))
-        //     {
-
-        //         if (vertical == -1)
-        //         { // UP
-        //             pullBackRadius = pullBackRadius + 0.1f > 1.6f ? pullBackRadius : pullBackRadius + 0.1f;
-        //         }
-        //         else
-        //         { // DOWN
-        //           //pullBackRadius -= 0.5f;
-        //             pullBackRadius = pullBackRadius - 0.1f < 0f ? pullBackRadius : pullBackRadius - 0.1f;
-        //         }
-        //         //newAngle = lastAngle;
-        //         Debug.Log("Changing Radius: " + pullBackRadius);
-        //     }
-
-        //     if ((horizontal == 1 || horizontal == -1))
-        //     {
-        //         //Debug.Log("C:GetButton BButton!");
-
-        //         if (horizontal == 1)
-        //         { //Right
-        //             if (!initialPullBackSet)
-        //             {
-        //                 newAngle = 180f;
-        //                 initialPullBackSet = true;
-        //             }
-        //             else
-        //             {
-        //                 newAngle = lastAngle + pullBackAngle > 360 ? 0.0f : lastAngle + pullBackAngle;
-        //             }
-        //         }
-        //         else
-        //         { //Left
-        //             if (!initialPullBackSet)
-        //             {
-        //                 newAngle = 90f;
-        //                 initialPullBackSet = true;
-        //             }
-        //             else
-        //             {
-        //                 newAngle = lastAngle - pullBackAngle < 0 ? 360 - pullBackAngle : lastAngle - pullBackAngle;
-        //             }
-        //         }
-        //     }
-
-
-        //     Vector3 newDirection = new Vector3(Mathf.Sin(newAngle), Mathf.Cos(newAngle), 0) * pullBackRadius;
-        //     lastPullBackPosition = pullLine.GetEndPointStatic(transform.position, transform.position + newDirection);
-        //     MovePullLineTo(lastPullBackPosition);
-        //     //Debug.Log("lastAngle: " + lastAngle);
-        //     lastAngle = newAngle;
-
-        //     return;
-        // }
-
-        // if (horizontal == 1.0)
-        // {
-        //     if (canScooch)
-        //     {
-        //         canScooch = false;
-        //         Scooch(10, 50);
-        //     }
-        //     else
-        //     {
-        //         Scooch(5, 5);
-        //     }
-        // }
-        // else if (horizontal == -1.0)
-        // {
-        //     if (canScooch)
-        //     {
-        //         canScooch = false;
-        //         Scooch(-10, 50);
-        //     }
-        //     else
-        //     {
-        //         Scooch(-5, 5);
-        //     }
-        // }
-
-        // if (canHop && !inClaw && Input.GetButtonDown("AButton"))
-        // {
-        //     canHop = false;
-        //     //Debug.Log("hopX: " + hopX + " hopY: " + hopY + " aplifyBounceCount: " + amplifyBounceCount);
-        //     Hop(hopX, hopY);
-        //     // Hop((hopX * 0.90f), (hopY * 0.90f));
-        //     // Hop(1000f, 2800f);
-        // }
-        // else if (Input.GetButtonUp("BButton"))
-        // {
-        //     if (launchControl.GetAllowed())
-        //     {
-        //         Launch();
-        //     }
-        //     else
-        //     {
-        //         // Do something maybe?
-        //         ResetLaunch();
-        //     }
-        //     Debug.Log("Launch Allowed: " + launchControl.GetAllowed());
-        //     initialPullBackSet = false;
-        //     lastPullBackPosition = transform.position;
-        //     lastAngle = 0f;
-        //     pullBackRadius = 1.5f;
-        // }
-
-
-        // if (canScooch && Input.GetKeyDown("d"))
-        // {
-        //     canScooch = false;
-        //     ScoochRight();
-        // }
-        // else if (canScooch && Input.GetKeyDown("a"))
-        // {
-        //     canScooch = false;
-        //     ScoochLeft();
-        // }
-        // else if (Input.GetKeyDown("w"))
-        // {
-        //     if (canHop)
-        //     {
-        //         Hop(hopX, hopY);
-        //     }
-        // }
 
         if (inLaunchMode)
         {
@@ -619,19 +534,39 @@ public class PlayerControl : MonoBehaviour
     private void OnDisable()
     {
         controls.Gameplay.Disable();
+        controls.Touch.Disable();
     }
 
     private void OnEnable()
     {
         controls.Gameplay.Enable();
+        controls.Touch.Enable();
     }
 
-    void DoHop(InputAction.CallbackContext context)
+    void DoHop(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
         if (canHop)
         {
             Hop(hopX, hopY);
         }
+    }
+
+    void DoLaunch()
+    {
+        if (launchControl.GetAllowed())
+        {
+            Launch();
+        }
+        else
+        {
+            // Do something maybe?
+            ResetLaunch();
+        }
+        // Debug.Log("Launch Allowed: " + launchControl.GetAllowed());
+        initialPullBackSet = false;
+        lastPullBackPosition = transform.position;
+        lastAngle = 0f;
+        pullBackRadius = 1.5f;
     }
 
     // void DoScoochRight(InputAction.CallbackContext context)
@@ -648,6 +583,30 @@ public class PlayerControl : MonoBehaviour
         if (nextScoochTimer < scoochTimeLimit) { return; }
         canScooch = false;
         ScoochLeft();
+    }
+
+    public void EnsureControls()
+    {
+        if (controls == null)
+        {
+            controls = new PlayerControls();
+        }
+    }
+
+    public PlayerControls GetControls()
+    {
+        EnsureControls();
+        return controls;
+    }
+
+    public bool GetInLaunchMode()
+    {
+        return inLaunchMode;
+    }
+
+    public Vector2 GetTouchPosition()
+    {
+        return touchPosition;
     }
 
     bool handleLaunchMode()
@@ -715,22 +674,67 @@ public class PlayerControl : MonoBehaviour
         return true;
     }
 
-    void DoLaunch()
+    void handleTouchHoldInput()
     {
-        if (launchControl.GetAllowed())
+        Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
+        Vector2 touchOffset = startTouchPosition - playerPos;
+        float touchOffsetValue = 0.75f;
+
+        if (Mathf.Abs(touchOffset.x) < touchOffsetValue && Mathf.Abs(touchOffset.y) < touchOffsetValue)
         {
-            Launch();
+            // Hit!
+            Debug.Log("Touched Player.");
+            inTouchLaunchMode = true;
+            return;
+        }
+
+        // isMoving = false;
+        // Get Direction of input
+        if (touchPosition.x > transform.position.x)
+        {
+            movingDir = Direction.RIGHT;
+            playerAnimation.UpdateFacingDir();
+            DoScoochRight();
         }
         else
         {
-            // Do something maybe?
-            ResetLaunch();
+            movingDir = Direction.LEFT;
+            playerAnimation.UpdateFacingDir();
+            DoScoochLeft();
         }
-        // Debug.Log("Launch Allowed: " + launchControl.GetAllowed());
-        initialPullBackSet = false;
-        lastPullBackPosition = transform.position;
-        lastAngle = 0f;
-        pullBackRadius = 1.5f;
+        touchPosition = Camera.main.ScreenToWorldPoint(controls.Touch.TouchPosition.ReadValue<Vector2>());
+    }
+
+    void handleTouchLaunch()
+    {
+        DoLaunch();
+        inTouchLaunchMode = false;
+    }
+
+    void handleTouchLaunchMode()
+    {
+        Vector3 pullEndPoint = pullLine.GetEndPointTouch(transform.position);
+        Debug.Log($"pullEndPoint: {pullEndPoint}");
+        pullLine.PositionClouds(transform.position, pullEndPoint);
+        trajectoryDots.Position(transform.position, pullEndPoint);
+        MovePullLineTo(pullEndPoint);
+    }
+
+    void handleTouchPressInput()
+    {
+        isMoving = false;
+        // Get Direction of input
+        if (touchPosition.x > transform.position.x)
+        {
+            movingDir = Direction.RIGHT;
+        }
+        else
+        {
+            movingDir = Direction.LEFT;
+        }
+
+        playerAnimation.UpdateFacingDir();
+        DoHop();
     }
 
     // -------------------------------------------------------------------------------------
