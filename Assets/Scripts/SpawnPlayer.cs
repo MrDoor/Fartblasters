@@ -14,6 +14,7 @@ public class SpawnPlayer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Debug.Log("STARTING SPAWN PLAYER");
         int tempSpawnCheck = PlayerPrefs.GetInt("died");
         Vector3 lastSafeSpot = new Vector3(PlayerPrefs.GetFloat("safeSpotX"), PlayerPrefs.GetFloat("safeSpotY"), 0);
         Vector3 deathSpot = new Vector3(PlayerPrefs.GetFloat("deathSpotX"), PlayerPrefs.GetFloat("deathSpotY"), 0);
@@ -26,8 +27,17 @@ public class SpawnPlayer : MonoBehaviour
             PlayerPrefs.SetInt("died", 0);
         }
 
-        newPlayer = (GameObject)Instantiate(player, spawnSpot, Quaternion.identity);
-        newPlayer.name = newPlayer.name.Replace("(Clone)", "");
+        GameObject tempPlayer = Util.FindByTagName("Player");
+        if (tempPlayer != null)
+        {
+            newPlayer = tempPlayer;
+            newPlayer.transform.position = spawnSpot;
+        }
+        else
+        {
+            newPlayer = (GameObject)Instantiate(player, spawnSpot, Quaternion.identity);
+            newPlayer.name = newPlayer.name.Replace("(Clone)", "");
+        }
 
         if ((newPlayer != null) && (fartometer != null))
         {

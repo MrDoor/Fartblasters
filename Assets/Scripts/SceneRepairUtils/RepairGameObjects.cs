@@ -18,7 +18,6 @@ public class Fixable
     public bool ShouldOrganize;
     public string SortLayer;
     public bool StartsWith = false;
-
 }
 
 public class RepairGameObjects : MonoBehaviour
@@ -93,6 +92,42 @@ public class RepairGameObjects : MonoBehaviour
         }
     }
 
+    public void DoOrganize()
+    {
+        InitializeOrganization();
+
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        foreach (GameObject go in allObjects)
+        {
+            string suggestedSortingLayer = CalculateSortingLayer(go);
+            if (suggestedSortingLayer == "Default")
+            {
+                Debug.Log($"{suggestedSortingLayer} found for {go.name}, cannot determine a reasonable sorting location, skipping...");
+                continue;
+            }
+
+            GameObject topParent = FindTopLevelParent(go);
+            if (go.name == topParent.name)
+            {
+                Debug.Log($"Adding to Organize list: {go.name} into {suggestedSortingLayer}...");
+                Organizer[suggestedSortingLayer].Add(go);
+            }
+        }
+
+        Organize();
+    }
+
+    private GameObject FindTopLevelParent(GameObject go)
+    {
+        GameObject temp = go;
+        if (temp.transform.parent != null)
+        {
+            Debug.Log($"{go.name} has a parent: {temp.transform.parent.name} and root is: {go.transform.root}...");
+            temp = go.transform.root.gameObject;
+        }
+        return temp;
+    }
+
     private GameObject FindFirstParentWhoIsContainer(GameObject go)
     {
         GameObject temp = go;
@@ -119,12 +154,12 @@ public class RepairGameObjects : MonoBehaviour
 
         if (IsContainer(temp))
         {
-            Debug.Log("Found " + temp.name);
+            // Debug.Log("Found " + temp.name);
             return temp;
         }
         else
         {
-            Debug.Log("Not found.");
+            // Debug.Log("Not found.");
             return null;
         }
     }
@@ -196,8 +231,11 @@ public class RepairGameObjects : MonoBehaviour
         Organizer = new Dictionary<string, List<GameObject>>();
         foreach (SortingLayer layer in SortingLayer.layers)
         {
-            //Debug.Log("Sorting layer " + layer.name);
+            // Debug.Log("Sorting layer " + layer.name);
+
             Organizer.Add(layer.name, new List<GameObject>());
+
+            GameObject container = Util.FindOrCreateNew(layer.name + " Container", "Container");
         }
     }
 
@@ -212,6 +250,7 @@ public class RepairGameObjects : MonoBehaviour
     {
         foreach (string containerName in Organizer.Keys)
         {
+            Debug.Log($"Working on {containerName}, count: {Organizer[containerName].Count}");
             if (Organizer[containerName].Count <= 0) { continue; }
             GameObject container = Util.FindOrCreateNew(containerName + " Container", "Container");
             foreach (GameObject go in Organizer[containerName])

@@ -15,6 +15,11 @@ public class SceneDoctor : Editor
         {
             repairer.FixGameObjects();
         }
+
+        if (GUILayout.Button("Organize Game Objects"))
+        {
+            repairer.DoOrganize();
+        }
     }
 
 }
