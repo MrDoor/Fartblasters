@@ -51,6 +51,12 @@ public class MenuHandler : MonoBehaviour
 
     public void QuitGame()
     {
+        var scene = SceneManager.GetActiveScene();
+        if (scene.name != Constants.MAIN_MENU)
+        {
+            SceneManager.LoadScene(Constants.MAIN_MENU);
+        }
+
         Application.Quit();
     }
 }
