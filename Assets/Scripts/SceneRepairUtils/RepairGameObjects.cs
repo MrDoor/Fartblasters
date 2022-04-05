@@ -112,6 +112,11 @@ public class RepairGameObjects : MonoBehaviour
                 Debug.Log($"Adding to Organize list: {go.name} into {suggestedSortingLayer}...");
                 Organizer[suggestedSortingLayer].Add(go);
             }
+
+            if (CleanUpNames)
+            {
+                CleanUpName(go);
+            }
         }
 
         Organize();
@@ -232,6 +237,7 @@ public class RepairGameObjects : MonoBehaviour
         foreach (SortingLayer layer in SortingLayer.layers)
         {
             // Debug.Log("Sorting layer " + layer.name);
+            if (layer.name == "Default") { continue; }
 
             Organizer.Add(layer.name, new List<GameObject>());
 

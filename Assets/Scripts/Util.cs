@@ -1,7 +1,10 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+
+using UnityEngine;
+using UnityEditor;
 
 public class Util
 {
@@ -67,6 +70,32 @@ public class Util
         }
 
         return go;
+    }
+
+    public static List<GameObject> GetAllPrefabs()
+    {
+        List<GameObject> objects = new List<GameObject>();
+
+        string sAssetFolderPath = "Assets/Resources/Prefabs";
+        // Construct the system path of the asset folder 
+        string sDataPath = Application.dataPath;
+        string sFolderPath = sDataPath.Substring(0, sDataPath.Length - 6) + sAssetFolderPath;
+        // get the system file paths of all the files in the asset folder
+        string[] aFilePaths = Directory.GetFiles(sFolderPath, searchPattern: "*.prefab", searchOption: SearchOption.AllDirectories);
+        // enumerate through the list of files loading the assets they represent and getting their type
+
+        foreach (string sFilePath in aFilePaths)
+        {
+            if (sFilePath.EndsWith(".meta")) continue;
+            string sAssetPath = sFilePath.Substring(sDataPath.Length - 6);
+            // Debug.Log(sAssetPath);
+
+            GameObject objAsset = AssetDatabase.LoadAssetAtPath(sAssetPath, typeof(UnityEngine.Object)) as GameObject;
+
+            // Debug.Log(objAsset.GetType().Name);
+            objects.Add(objAsset);
+        }
+        return objects;
     }
 
     public static GameObject SafeGameObjectFind(string name)
