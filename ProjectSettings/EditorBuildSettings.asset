@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/World_1-3.unity
     guid: 4ca439e59a27f9f449486cf3015c64e5
   - enabled: 1
-    path: Assets/Scenes/World_1-4.unity
+    path: Assets/Scenes/World_1_Test_4.unity
     guid: 8b1c98300a7338743ac97c0a2a64db40
   - enabled: 0
     path: Assets/Scenes/World_1-5.unity

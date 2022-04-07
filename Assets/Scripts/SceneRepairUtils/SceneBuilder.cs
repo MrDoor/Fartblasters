@@ -29,6 +29,24 @@ public class SceneBuilder : MonoBehaviour
     [Space(5)]
     public Searchable search;
 
+    public List<Vector3> positions = new List<Vector3>();
+
+    private void OnDrawGizmos()
+    {
+        // Draw X on each Game Object position that is in the list 
+        foreach (Vector3 pos in positions)
+        {
+            Vector3 topLeft = pos + new Vector3(-1, 1, 0);
+            Vector3 topRight = pos + new Vector3(1, 1, 0);
+            Vector3 bottomLeft = pos + new Vector3(-1, -1, 0);
+            Vector3 bottomRight = pos + new Vector3(1, -1, 0);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(topLeft, bottomRight);
+            Gizmos.DrawLine(topRight, bottomLeft);
+        }
+    }
+
     public void SearchAndAdd()
     {
         string strToFind = search.searchString;
@@ -131,6 +149,7 @@ public class SceneBuilder : MonoBehaviour
 
     public void SwapObjects()
     {
+        positions.Clear();
         if (items.Count < 1)
         {
             Debug.LogWarning("No items added to Scene Builder.");
@@ -156,11 +175,44 @@ public class SceneBuilder : MonoBehaviour
             go.transform.localScale = scale;
 
             SpriteRenderer newSr = go.GetComponent<SpriteRenderer>();
-            newSr.sortingLayerName = sr.sortingLayerName;
+            if (sr != null && newSr != null)
+            {
+                newSr.sortingLayerName = sr.sortingLayerName;
+            }
 
             // Remove Original
-            Debug.Log($"Destroying {s.originalType.name}...");
-            DestroyImmediate(s.originalType);
+            if (PrefabUtility.IsPartOfAnyPrefab(s.originalType))
+            {
+                Debug.Log($"{s.originalType.name} is or is part of a Prefab...");
+
+                GameObject prefabParent = PrefabUtility.GetOutermostPrefabInstanceRoot(s.originalType);
+                PrefabUtility.UnpackPrefabInstance(prefabParent, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+
+                try
+                {
+                    DestroyImmediate(s.originalType);
+                }
+                catch (Exception ex)
+                {
+                    Vector3 pos = s.originalType.transform.position;
+                    positions.Add(pos);
+                }
+
+                // Vector3 topLeft = pos + new Vector3(-1, 1, 0);
+                // Vector3 topRight = pos + new Vector3(1, 1, 0);
+                // Vector3 bottomLeft = pos + new Vector3(-1, -1, 0);
+                // Vector3 bottomRight = pos + new Vector3(1, -1, 0);
+
+                // Gizmos.color = Color.red;
+                // Gizmos.DrawLine(topLeft, bottomRight);
+                // Gizmos.DrawLine(topRight, bottomLeft);
+                continue;
+            }
+            else
+            {
+                Debug.Log($"Destroying {s.originalType.name}...");
+                DestroyImmediate(s.originalType);
+            }
         }
     }
 }

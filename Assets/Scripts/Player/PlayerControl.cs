@@ -250,20 +250,20 @@ public class PlayerControl : MonoBehaviour
             handleTouchHoldInput();
         }
 
-        Debug.Log($"touchHeld: {touchHeld} inTouchLaunchMode: {inTouchLaunchMode}");
+        // Debug.Log($"touchHeld: {touchHeld} inTouchLaunchMode: {inTouchLaunchMode}");
         if (touchHeld && inTouchLaunchMode)
         {
             handleTouchLaunchMode();
         }
 
-        if (touchPosition != null)
-        {
-            Debug.Log($"touchPosition: {touchPosition.x}, {touchPosition.y}");
-        }
-        else
-        {
-            Debug.Log("no touch position set.");
-        }
+        // if (touchPosition != null)
+        // {
+        //     Debug.Log($"touchPosition: {touchPosition.x}, {touchPosition.y}");
+        // }
+        // else
+        // {
+        //     Debug.Log("no touch position set.");
+        // }
 
         safeSpotTimer += Time.deltaTime;
         if (safeSpotTimer > safeSpotLimit && onGround)
