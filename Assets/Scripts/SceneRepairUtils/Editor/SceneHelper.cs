@@ -11,17 +11,24 @@ public class SceneHelper : Editor
         base.OnInspectorGUI();
         SceneBuilder builder = (SceneBuilder)target;
 
+        if (GUILayout.Button("Clear Items"))
+        {
+            builder.ClearItems();
+        }
+
         GUILayout.FlexibleSpace();
-        EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Add To Item Array"))
+        // EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginVertical();
+        if (GUILayout.Button("Add Scene GameObjects To Array"))
         {
             builder.SearchAndAdd();
         }
-        EditorGUILayout.EndHorizontal();
+        // EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndVertical();
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Find New Objects"))
+        if (GUILayout.Button("Find Matching Prefabs"))
         {
             builder.SearchAndAddReplacements();
         }
@@ -32,10 +39,11 @@ public class SceneHelper : Editor
             builder.SwapObjects();
         }
 
-        // if (GUILayout.Button("Organize Game Objects"))
-        // {
-        //     repairer.DoOrganize();
-        // }
+        if (GUILayout.Button("Perform Swap on Entire Scene"))
+        {
+            builder.SwapAllSceneObjects();
+        }
+
     }
 
 }

@@ -24,7 +24,7 @@ public class RepairGameObjects : MonoBehaviour
 {
     public List<Fixable> ThingsToFix;
 
-    public string ChangeAllLayersTo = ""; // If blank it will not be used
+    public string ChangeAllChildLayersTo = ""; // If blank it will not be used
     public bool CleanUpNames;
     public bool OrganizeScene;
 
@@ -94,7 +94,7 @@ public class RepairGameObjects : MonoBehaviour
 
     public void DoOrganize()
     {
-        InitializeOrganization();
+        InitializeOrganization(true);
 
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects)
@@ -171,10 +171,12 @@ public class RepairGameObjects : MonoBehaviour
 
     public void FixGameObjects()
     {
-        if (OrganizeScene)
-        {
-            InitializeOrganization();
-        }
+        // if (OrganizeScene)
+        // {
+        //     InitializeOrganization();
+        // }
+
+        InitializeOrganization(OrganizeScene);
 
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects)
@@ -231,7 +233,7 @@ public class RepairGameObjects : MonoBehaviour
         }
     }
 
-    public void InitializeOrganization()
+    public void InitializeOrganization(bool shouldCreateDirectories = false)
     {
         Organizer = new Dictionary<string, List<GameObject>>();
         foreach (SortingLayer layer in SortingLayer.layers)
@@ -240,8 +242,10 @@ public class RepairGameObjects : MonoBehaviour
             if (layer.name == "Default") { continue; }
 
             Organizer.Add(layer.name, new List<GameObject>());
-
-            GameObject container = Util.FindOrCreateNew(layer.name + " Container", "Container");
+            if (shouldCreateDirectories)
+            {
+                GameObject container = Util.FindOrCreateNew(layer.name + " Container", "Container");
+            }
         }
     }
 
@@ -308,6 +312,12 @@ public class RepairGameObjects : MonoBehaviour
             {
                 organizationLayer = sr.sortingLayerName;
             }
+
+            if (organizationLayer == null || organizationLayer == "")
+            {
+                Debug.Log($"Could not set layer for {go.name}.");
+                return;
+            }
             //if (Organizer.ContainsKey(sr.sortingLayerName))
             if (Organizer.ContainsKey(organizationLayer))
             {
@@ -364,8 +374,8 @@ public class RepairGameObjects : MonoBehaviour
     private void SetLayerName(GameObject go, Fixable thing, SpriteRenderer sr)
     {
         string oldSortLayerName = sr.sortingLayerName;
-        string newSortLayerName = ChangeAllLayersTo;
-        if (ChangeAllLayersTo == "")
+        string newSortLayerName = ChangeAllChildLayersTo;
+        if (ChangeAllChildLayersTo == "")
         {
             newSortLayerName = thing.SortLayer;
         }

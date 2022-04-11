@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Util
 {
@@ -72,6 +75,7 @@ public class Util
         return go;
     }
 
+#if UNITY_EDITOR
     public static List<GameObject> GetAllPrefabs()
     {
         List<GameObject> objects = new List<GameObject>();
@@ -97,6 +101,7 @@ public class Util
         }
         return objects;
     }
+#endif    
 
     public static GameObject SafeGameObjectFind(string name)
     {

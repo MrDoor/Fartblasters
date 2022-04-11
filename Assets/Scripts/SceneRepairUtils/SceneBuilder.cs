@@ -1,9 +1,11 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
+
+using UnityEditor;
 
 [System.Serializable]
 public class Swapable
@@ -12,7 +14,7 @@ public class Swapable
     public GameObject newType;
 }
 
-[System.Serializable]
+// [System.Serializable]
 public class Searchable
 {
     public GameObject typeToFind;
@@ -22,12 +24,29 @@ public class Searchable
     public bool startsWith;
 }
 
+[System.Serializable]
+public class SceneSearch : Searchable
+{
+
+}
+
+[System.Serializable]
+public class PrefabSearch : Searchable 
+{
+
+}
+
 public class SceneBuilder : MonoBehaviour
 {
     [Header("Search for game objects within scene.", order = 0)]
     [Header("If text is supplied, the 'typeToFind' will be ignored.", order = 1)]
-    [Space(5)]
-    public Searchable search;
+    public SceneSearch sceneSearch;
+    // [Space(5)]
+
+    [Header("Search for game objects within scene.", order = 0)]
+    [Header("If text is supplied, the 'typeToFind' will be ignored.", order = 1)]
+    public PrefabSearch prefabSearch;
+    // [Space(5)]
 
     public List<Vector3> positions = new List<Vector3>();
 
@@ -49,22 +68,22 @@ public class SceneBuilder : MonoBehaviour
 
     public void SearchAndAdd()
     {
-        string strToFind = search.searchString;
-        if (search.typeToFind != null)
+        string strToFind = sceneSearch.searchString;
+        if (sceneSearch.typeToFind != null)
         {
-            Debug.Log($"Searching for {search.typeToFind.name}...");
-            strToFind = search.typeToFind.name;
+            Debug.Log($"Searching for {sceneSearch.typeToFind.name}...");
+            strToFind = sceneSearch.typeToFind.name;
             // return;
         }
 
-        Debug.Log($"Search String: {search.searchString} startsWith: {search.startsWith} endsWith: {search.endsWith}");
+        Debug.Log($"Search String: {sceneSearch.searchString} startsWith: {sceneSearch.startsWith} endsWith: {sceneSearch.endsWith}");
 
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects)
         {
             if (go.activeInHierarchy)
             {
-                if (search.startsWith)
+                if (sceneSearch.startsWith)
                 {
                     if (go.name.StartsWith(strToFind))
                     {
@@ -73,7 +92,7 @@ public class SceneBuilder : MonoBehaviour
                         items.Add(s);
                     }
                 }
-                else if (search.endsWith)
+                else if (sceneSearch.endsWith)
                 {
                     if (go.name.EndsWith(strToFind))
                     {
@@ -97,14 +116,14 @@ public class SceneBuilder : MonoBehaviour
 
     public void SearchAndAddReplacements()
     {
-        string strToFind = search.searchString;
-        if (search.typeToFind != null)
+        string strToFind = prefabSearch.searchString;
+        if (prefabSearch.typeToFind != null)
         {
-            // Debug.Log($"Searching for {search.typeToFind.name}...");
-            strToFind = search.typeToFind.name;
+            // Debug.Log($"Searching for {prefabSearch.typeToFind.name}...");
+            strToFind = prefabSearch.typeToFind.name;
         }
 
-        // Debug.Log($"Search String: {search.searchString} startsWith: {search.startsWith} endsWith: {search.endsWith}");
+        // Debug.Log($"Search String: {prefabSearch.searchString} startsWith: {prefabSearch.startsWith} endsWith: {prefabSearch.endsWith}");
 
         List<GameObject> prefabs = Util.GetAllPrefabs();
         if (prefabs.Count < 1)
@@ -120,11 +139,11 @@ public class SceneBuilder : MonoBehaviour
         {
             foreach (Swapable s in items)
             {
-                if (search.startsWith)
+                if (prefabSearch.startsWith)
                 {
                     str = strToFind + s.originalType.name;
                 }
-                else if (search.endsWith)
+                else if (prefabSearch.endsWith)
                 {
                     str = s.originalType.name + strToFind;
                 }
@@ -146,6 +165,10 @@ public class SceneBuilder : MonoBehaviour
     [Header("The Search can be used to populate this list.", order = 5)]
     [Space(5)]
     public List<Swapable> items;
+
+    public void ClearItems() {
+        items.Clear();
+    }
 
     public void SwapObjects()
     {
@@ -197,15 +220,6 @@ public class SceneBuilder : MonoBehaviour
                     Vector3 pos = s.originalType.transform.position;
                     positions.Add(pos);
                 }
-
-                // Vector3 topLeft = pos + new Vector3(-1, 1, 0);
-                // Vector3 topRight = pos + new Vector3(1, 1, 0);
-                // Vector3 bottomLeft = pos + new Vector3(-1, -1, 0);
-                // Vector3 bottomRight = pos + new Vector3(1, -1, 0);
-
-                // Gizmos.color = Color.red;
-                // Gizmos.DrawLine(topLeft, bottomRight);
-                // Gizmos.DrawLine(topRight, bottomLeft);
                 continue;
             }
             else
@@ -215,4 +229,33 @@ public class SceneBuilder : MonoBehaviour
             }
         }
     }
+
+    public void SwapAllSceneObjects() {
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        foreach (GameObject go in allObjects)
+        {
+            if (go.activeInHierarchy)
+            {
+                Swapable s = new Swapable();
+                s.originalType = go;
+                items.Add(s);
+            }
+        }
+
+        SearchAndAddReplacements();
+
+        List<Swapable> toRemove = new List<Swapable>();
+        foreach (Swapable item in items) {
+            if (item.originalType == null || item.newType == null) {
+                toRemove.Add(item);
+            }
+        }
+        
+        foreach (Swapable item in toRemove) {
+            items.Remove(item);            
+        }
+
+        SwapObjects();
+    }
 }
+#endif

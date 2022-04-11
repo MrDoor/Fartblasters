@@ -1650,7 +1650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad17b274cf8a5f05be3fb66613efaa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstLevel: World_1-1
+  firstLevel: World_1_Test
 --- !u!4 &1971573448
 Transform:
   m_ObjectHideFlags: 0

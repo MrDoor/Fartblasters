@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-    public string firstLevel = "World_1-1";
+    // public string firstLevel = "World_1-1";
+    public string firstLevel = "World_1_Test";
 
     public void NextLevel()
     {
