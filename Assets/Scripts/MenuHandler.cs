@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,28 @@ public class MenuHandler : MonoBehaviour
 {
     // public string firstLevel = "World_1-1";
     public string firstLevel = "World_1_Test";
+    public string nextLevel = "";
 
     public void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // Debug.Log($"Next level is '{nextLevel}'");
+        if (nextLevel != "")
+        {
+            try
+            {
+                SceneManager.LoadScene(nextLevel);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Could not load scene {nextLevel}: {ex}");
+                nextLevel = "";
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
 
         PlayerPrefs.SetInt("died", 0);
         Time.timeScale = 1;

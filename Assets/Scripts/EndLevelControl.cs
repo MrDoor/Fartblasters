@@ -10,7 +10,7 @@ public class EndLevelControl : MonoBehaviour
     //If this is a secret exit set to true and give the name of the bonus level to go to 
     //If this is the end block IN the secret level set to true and give the name of the next level to go to .
     public bool secretLevel = false;
-    public string nextLevel = " ";
+    public string nextLevel = "";
 
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -35,8 +35,42 @@ public class EndLevelControl : MonoBehaviour
                 return;
             }
 
-            Instantiate(menu);
+            // MenuHandler mh = menu.GetComponent<MenuHandler>();
+            MenuHandler mh = menu.GetComponentInChildren(typeof(MenuHandler)) as MenuHandler;
+            if (mh != null)
+            {
+                // Debug.Log($"Setting next level to: '{nextLevel}'");
+                mh.nextLevel = nextLevel;
+            }
+            else
+            {
+                Debug.Log($"Could not find MenuHandler. nextLevel = '{nextLevel}'");
 
+                // var comps = menu.GetComponents(typeof(Component));
+                // Debug.Log($"{menu.name} has components: ");
+                // foreach (var o in comps)
+                // {
+                //     Debug.Log($"component: {o.name}");
+                //     if (o.name == "WinMenu")
+                //     {
+
+                //         var go = o.gameObject.GetComponentInChildren<MenuHandler>();
+                //         Debug.Log($"EndLevel has next level of: '{nextLevel}'");
+                //         // var objComponents = o.GetComponents(typeof(Component));
+                //         // foreach (var ob in objComponents)
+                //         // {
+                //         //     Debug.Log($"child component: {ob.name}");
+                //         //     // mh = gameObject.GetComponent(typeof(MenuHandler)) as MenuHandler;
+                //         //     // if (mh != null)
+                //         //     // {
+                //         //     //     Debug.Log($"Setting next level to: '{nextLevel}'");
+                //         //     //     mh.nextLevel = nextLevel;
+                //         //     // }
+                //         // }
+                //     }
+                // }
+            }
+            Instantiate(menu);
         }
     }
 
