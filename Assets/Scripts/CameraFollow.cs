@@ -129,7 +129,7 @@ public class CameraFollow : MonoBehaviour
         targetX = Mathf.Clamp(targetX, minXAndY.x, maxXAndY.x);
         targetY = Mathf.Clamp(targetY, minXAndY.y, maxXAndY.y);
 
-        //Debug.Log("Moving camera to: " + targetX + ", " + targetY);
+        Debug.Log("Moving camera to: " + targetX + ", " + targetY);
         // Set the camera's position to the target position with the same z component.
         transform.position = new Vector3(targetX, targetY, transform.position.z);
     }
