@@ -123,7 +123,7 @@ public class Util
         GameObject newGameObject = FindByTagName("Player");
         if (newGameObject == null)
         {
-            Debug.LogWarning("Could not find GameObject '" + name + "' with safe game object find.");
+            Debug.LogWarning("Could not find GameObject '" + tagName + "' with safe game object find.");
             return null;
         }
         else
