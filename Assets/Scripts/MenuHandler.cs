@@ -13,7 +13,7 @@ public class MenuHandler : MonoBehaviour
     public void NextLevel()
     {
         // Debug.Log($"Next level is '{nextLevel}'");
-        if (nextLevel != "")
+        if (nextLevel.Trim() != "")
         {
             try
             {

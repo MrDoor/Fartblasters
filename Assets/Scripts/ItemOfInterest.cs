@@ -32,7 +32,10 @@ public class ItemOfInterest : MonoBehaviour
         if (light == null)
         {
             Debug.LogWarning($"Could not find Light2D on {gameObject.name}");
+            return;
         }
+
+        light.pointLightInnerRadius = smallestSize;
     }
 
     // Update is called once per frame

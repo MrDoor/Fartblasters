@@ -55,6 +55,9 @@ TagManager:
   - name: Background
     uniqueID: 352220229
     locked: 0
+  - name: Lighting
+    uniqueID: 2994231095
+    locked: 0
   - name: Midground
     uniqueID: 2751523873
     locked: 0

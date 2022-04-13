@@ -63,6 +63,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Demo_end.unity
     guid: 1e036c56aa186ec4fbafa6f5218b4717
   - enabled: 1
+    path: Assets/Scenes/World_1_Test_Bonus.unity
+    guid: d30bca0462b9d045aa0c5b459b5980eb
+  - enabled: 0
     path: Assets/Scenes/World_1_Bonus.unity
     guid: 546da1732eceafa49ad99d336149a173
   - enabled: 0
